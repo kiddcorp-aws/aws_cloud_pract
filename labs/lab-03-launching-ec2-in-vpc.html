@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 3: Launching an EC2 Instance in a VPC</title>
+    <style>
+        :root {
+            --heading-color: #1a365d;
+            --accent-color: #2b6cb0;
+            --success-color: #2f855a;
+            --warning-color: #c05621;
+            --danger-color: #c53030;
+            --text-color: #2d3748;
+            --light-bg: #f7fafc;
+            --border-color: #e2e8f0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.7;
+        }
+        h1 { color: var(--heading-color); border-bottom: 3px solid var(--accent-color); padding-bottom: 12px; font-size: 2em; }
+        h2 { color: var(--accent-color); margin-top: 2em; font-size: 1.4em; }
+        h3 { color: var(--heading-color); font-size: 1.15em; }
+        .lab-meta {
+            background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+            border-left: 5px solid var(--accent-color);
+            padding: 16px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        .lab-meta p { margin: 4px 0; }
+        .objective-box {
+            background: var(--light-bg);
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 20px 0;
+        }
+        .warning-box {
+            background: linear-gradient(135deg, #fffaf0 0%, #feebc8 100%);
+            border-left: 5px solid var(--warning-color);
+            padding: 16px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        .success-box {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border-left: 5px solid var(--success-color);
+            padding: 16px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        .step {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 12px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .step-number {
+            display: inline-block;
+            background: var(--accent-color);
+            color: #ffffff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: 700;
+            font-size: 0.85em;
+            margin-right: 8px;
+        }
+        code {
+            background: #edf2f7;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 16px 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.85em;
+            line-height: 1.5;
+        }
+        ol li, ul li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Lab 3: Launching an EC2 Instance in a VPC</h1>
+
+    <div class="lab-meta">
+        <p><strong>Duration:</strong> 15 minutes</p>
+        <p><strong>Level:</strong> Introductory</p>
+        <p><strong>Prerequisites:</strong> Completed Labs 1-2; AWS console access with EC2 and VPC permissions</p>
+    </div>
+
+    <div class="objective-box">
+        <h3>Lab Objectives</h3>
+        <ul>
+            <li>Explore the default VPC and its components</li>
+            <li>Review subnets, route tables, and internet gateways</li>
+            <li>Launch an EC2 instance with a security group</li>
+            <li>Connect to the instance using EC2 Instance Connect</li>
+            <li>Terminate the instance and clean up</li>
+        </ul>
+    </div>
+
+    <div class="warning-box">
+        <strong>Important:</strong> Use the <code>us-east-1</code> region for this lab. Ensure you terminate all resources at the end to avoid charges.
+    </div>
+
+    <h2>Part A: Explore the Default VPC</h2>
+
+    <div class="step">
+        <p><span class="step-number">1</span> Navigate to <strong>VPC</strong> in the AWS Management Console. Ensure you are in <code>us-east-1</code>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">2</span> In the left navigation, click <strong>Your VPCs</strong>. You should see a default VPC. Note its:</p>
+        <ul>
+            <li><strong>VPC ID</strong></li>
+            <li><strong>IPv4 CIDR block</strong> (typically 172.31.0.0/16)</li>
+            <li><strong>State</strong> (Available)</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">3</span> Click <strong>Subnets</strong> in the left navigation. Note that the default VPC has one subnet per Availability Zone. Each is a <strong>public subnet</strong> by default.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">4</span> Click <strong>Internet gateways</strong>. Note that the default VPC has an internet gateway attached, which is what makes the subnets public.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">5</span> Click <strong>Route tables</strong>. Select the main route table for the default VPC. In the <strong>Routes</strong> tab, note:</p>
+        <ul>
+            <li>A local route for the VPC CIDR (172.31.0.0/16)</li>
+            <li>A route to <code>0.0.0.0/0</code> pointing to the internet gateway</li>
+        </ul>
+    </div>
+
+    <h2>Part B: Launch an EC2 Instance</h2>
+
+    <div class="step">
+        <p><span class="step-number">6</span> Navigate to <strong>EC2</strong> and click <strong>Launch instance</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">7</span> Configure the instance:</p>
+        <ul>
+            <li><strong>Name:</strong> <code>lab-web-server</code></li>
+            <li><strong>AMI:</strong> Amazon Linux 2023 (Free tier eligible)</li>
+            <li><strong>Instance type:</strong> <code>t2.micro</code> (Free tier eligible)</li>
+            <li><strong>Key pair:</strong> Select <strong>Proceed without a key pair</strong> (we will use EC2 Instance Connect)</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">8</span> Under <strong>Network settings</strong>, click <strong>Edit</strong>:</p>
+        <ul>
+            <li><strong>VPC:</strong> Select the default VPC</li>
+            <li><strong>Subnet:</strong> Select any available subnet</li>
+            <li><strong>Auto-assign public IP:</strong> Enable</li>
+            <li><strong>Security group:</strong> Create a new security group named <code>lab-web-sg</code></li>
+            <li>Add an inbound rule: <strong>Type:</strong> HTTP, <strong>Source:</strong> 0.0.0.0/0</li>
+            <li>Keep the default SSH rule (port 22) from anywhere</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">9</span> Expand <strong>Advanced details</strong> and paste the following in the <strong>User data</strong> field:</p>
+        <pre>#!/bin/bash
+yum update -y
+yum install -y httpd
+systemctl start httpd
+systemctl enable httpd
+echo "&lt;h1&gt;Hello from $(hostname -f)&lt;/h1&gt;&lt;p&gt;AWS Cloud Practitioner Lab 3&lt;/p&gt;" &gt; /var/www/html/index.html</pre>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">10</span> Leave all other settings as default and click <strong>Launch instance</strong>.</p>
+    </div>
+
+    <h2>Part C: Verify and Connect</h2>
+
+    <div class="step">
+        <p><span class="step-number">11</span> Wait for the instance state to change to <strong>Running</strong> and the status checks to show <strong>2/2 checks passed</strong> (this may take 1-2 minutes).</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">12</span> Select the instance and note its <strong>Public IPv4 address</strong>. Open a new browser tab and navigate to <code>http://&lt;public-ip&gt;</code>. You should see the "Hello from..." web page.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">13</span> Back in the EC2 console, select the instance, click <strong>Connect</strong>, and use <strong>EC2 Instance Connect</strong> to open a browser-based terminal. Run:</p>
+        <pre>curl http://169.254.169.254/latest/meta-data/instance-type
+curl http://169.254.169.254/latest/meta-data/placement/availability-zone</pre>
+    </div>
+
+    <h2>Part D: Clean Up</h2>
+
+    <div class="step">
+        <p><span class="step-number">14</span> Select the instance, click <strong>Instance state</strong> &gt; <strong>Terminate instance</strong>. Confirm the termination.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">15</span> Navigate to <strong>Security Groups</strong>, select <code>lab-web-sg</code>, and delete it (you may need to wait until the instance is fully terminated).</p>
+    </div>
+
+    <div class="success-box">
+        <h3>Lab Complete</h3>
+        <p>You have explored VPC components, launched an EC2 instance with a user data script, verified web server connectivity, connected via EC2 Instance Connect, and cleaned up all resources.</p>
+    </div>
+
+    <h2>Discussion Questions</h2>
+    <ol>
+        <li>What role does the security group play in controlling access to your instance?</li>
+        <li>Why did we need an internet gateway and a public IP for the web server to be accessible?</li>
+        <li>What would happen if you removed the HTTP inbound rule from the security group?</li>
+        <li>How is the user data script useful for automating instance configuration?</li>
+    </ol>
+</body>
+</html>

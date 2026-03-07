@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 5: Databases, Monitoring &amp; Additional Services</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/white.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/monokai.css">
+    <style>
+        :root {
+            --heading-color: #1a365d;
+            --accent-color: #2b6cb0;
+            --success-color: #2f855a;
+            --warning-color: #c05621;
+            --danger-color: #c53030;
+            --text-color: #2d3748;
+        }
+
+        .reveal {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            font-size: 32px;
+        }
+
+        .reveal h1 {
+            color: var(--heading-color);
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 0.5em;
+        }
+
+        .reveal h2 {
+            color: var(--heading-color);
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 0.4em;
+        }
+
+        .reveal h3 {
+            color: var(--accent-color);
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 0.3em;
+        }
+
+        .reveal h4 {
+            color: var(--accent-color);
+            font-size: 0.95em;
+            font-weight: 600;
+            margin-bottom: 0.2em;
+        }
+
+        /* Title Slide */
+        .title-slide h1 {
+            color: #ffffff;
+            font-size: 2.0em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .title-slide h2 {
+            color: #bee3f8;
+            font-size: 1.3em;
+            font-weight: 400;
+        }
+
+        .title-slide h3 {
+            color: #90cdf4;
+            font-size: 1.0em;
+            font-weight: 300;
+        }
+
+        .course-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 25px;
+            padding: 8px 24px;
+            color: #ffffff;
+            font-size: 0.7em;
+            margin-top: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Highlight Boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+            border-left: 4px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 20px 24px;
+            margin: 15px 0;
+            text-align: left;
+            font-size: 0.85em;
+        }
+
+        .highlight-box.success {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border-left-color: var(--success-color);
+        }
+
+        .highlight-box.warning {
+            background: linear-gradient(135deg, #fffaf0 0%, #feebc8 100%);
+            border-left-color: var(--warning-color);
+        }
+
+        .highlight-box.danger {
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+            border-left-color: var(--danger-color);
+        }
+
+        /* Two Columns */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* Three Columns */
+        .three-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* Card */
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+            border: 1px solid #e2e8f0;
+            padding: 24px;
+            text-align: left;
+        }
+
+        .card h3, .card h4 {
+            margin-top: 0;
+        }
+
+        /* Concept Box */
+        .concept-box {
+            background: #ffffff;
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        /* Key Point */
+        .key-point {
+            text-align: center;
+            font-style: italic;
+            color: var(--accent-color);
+            font-size: 1.15em;
+            margin: 20px 0;
+        }
+
+        /* Lab Callout */
+        .lab-callout h2 {
+            color: #ffffff;
+        }
+
+        .lab-callout p {
+            color: #e2e8f0;
+        }
+
+        .lab-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.25);
+            border-radius: 25px;
+            padding: 8px 28px;
+            color: #ffffff;
+            font-size: 0.75em;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .lab-description {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 24px;
+            color: #ffffff;
+            text-align: left;
+            font-size: 0.85em;
+            margin-top: 15px;
+        }
+
+        .lab-description ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .lab-description ul li::before {
+            content: ">> ";
+            color: #90cdf4;
+            font-weight: bold;
+        }
+
+        /* Section Divider */
+        .section-divider h2 {
+            color: #ffffff;
+            font-size: 1.8em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .section-divider h3 {
+            color: #bee3f8;
+            font-weight: 300;
+        }
+
+        /* Questions Slide */
+        .questions-slide h2 {
+            color: #ffffff;
+            font-size: 2.0em;
+        }
+
+        .questions-slide p {
+            color: #bee3f8;
+            font-size: 1.1em;
+        }
+
+        /* Takeaway List */
+        .takeaway-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .takeaway-list ul li {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px 20px;
+            margin: 8px 0;
+            background: #ffffff;
+            text-align: left;
+            font-size: 0.85em;
+        }
+
+        /* Module Progress */
+        .module-progress {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(43, 108, 176, 0.9);
+            color: #ffffff;
+            border-radius: 25px;
+            padding: 6px 20px;
+            font-size: 0.5em;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Tables */
+        .reveal table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 0.7em;
+            margin: 15px 0;
+        }
+
+        .reveal table th {
+            background: var(--heading-color);
+            color: #ffffff;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .reveal table td {
+            padding: 10px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+        }
+
+        .reveal table tr:nth-child(even) {
+            background: #f7fafc;
+        }
+
+        .reveal table tr:hover {
+            background: #ebf8ff;
+        }
+
+        /* Lists */
+        .reveal ul, .reveal ol {
+            font-size: 0.85em;
+            text-align: left;
+        }
+
+        .reveal li {
+            margin: 8px 0;
+            line-height: 1.4;
+        }
+
+        /* Blockquote */
+        .reveal blockquote {
+            background: #f7fafc;
+            border-left: 4px solid var(--accent-color);
+            padding: 20px 24px;
+            margin: 20px 0;
+            font-style: italic;
+            color: var(--text-color);
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Slide Number */
+        .reveal .slide-number {
+            background: rgba(26, 54, 93, 0.8);
+            color: #ffffff;
+            font-size: 14px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            right: 10px;
+            bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="title-slide">
+                <h1>Databases, Monitoring &amp; Additional Services</h1>
+                <h2>Module 5</h2>
+                <h3>AWS Cloud Practitioner -- 1-Day Course</h3>
+                <div class="course-badge">Module 5 of 6</div>
+                <aside class="notes">
+                    Welcome to Module 5. We will cover AWS database services, content delivery and DNS, monitoring and management tools, and orchestration services. This module consolidates several important service categories that are frequently tested on the Cloud Practitioner exam.
+                </aside>
+            </section>
+
+            <!-- Module Objectives -->
+            <section>
+                <h2>Module Objectives</h2>
+                <div class="highlight-box">
+                    <p><strong>By the end of this module, you will be able to:</strong></p>
+                </div>
+                <ul>
+                    <li class="fragment">Identify and differentiate AWS database services (RDS, Aurora, DynamoDB, Redshift, ElastiCache)</li>
+                    <li class="fragment">Explain content delivery with CloudFront and DNS management with Route 53</li>
+                    <li class="fragment">Describe monitoring and governance tools: CloudWatch, CloudTrail, Trusted Advisor, AWS Config</li>
+                    <li class="fragment">Understand the AWS Well-Architected Framework and its six pillars</li>
+                    <li class="fragment">Compare orchestration and deployment services: CloudFormation and Elastic Beanstalk</li>
+                </ul>
+                <aside class="notes">
+                    Walk through each objective. Emphasize that these services appear heavily on the Cloud Practitioner exam. Students should understand when to use each service and how they differ.
+                </aside>
+            </section>
+
+            <!-- Section: AWS Database Services -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>AWS Database Services</h2>
+                <h3>Managed databases for every workload</h3>
+                <aside class="notes">
+                    We begin with AWS database services. AWS offers purpose-built databases for different use cases. Understanding when to use which database is a key exam topic.
+                </aside>
+            </section>
+
+            <!-- Database Overview -->
+            <section>
+                <h2>AWS Database Offerings</h2>
+                <p class="key-point">AWS provides purpose-built databases optimized for specific use cases rather than a one-size-fits-all approach.</p>
+                <div class="three-columns">
+                    <div class="card fragment">
+                        <h4>Relational</h4>
+                        <ul>
+                            <li>Amazon RDS</li>
+                            <li>Amazon Aurora</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment">
+                        <h4>NoSQL / In-Memory</h4>
+                        <ul>
+                            <li>Amazon DynamoDB</li>
+                            <li>Amazon ElastiCache</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment">
+                        <h4>Analytics</h4>
+                        <ul>
+                            <li>Amazon Redshift</li>
+                            <li>Amazon Athena</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    AWS offers more than 15 purpose-built database engines. For the Cloud Practitioner exam, focus on RDS, Aurora, DynamoDB, Redshift, and ElastiCache. Each is designed for a specific access pattern and data model.
+                </aside>
+            </section>
+
+            <!-- Relational vs NoSQL -->
+            <section>
+                <h2>Relational vs NoSQL Databases</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Relational (SQL)</th>
+                            <th>NoSQL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment">
+                            <td><strong>Data Model</strong></td>
+                            <td>Tables with rows and columns</td>
+                            <td>Key-value, document, graph, wide-column</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Schema</strong></td>
+                            <td>Fixed schema, predefined</td>
+                            <td>Flexible, schema-on-read</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Scaling</strong></td>
+                            <td>Vertical (scale up)</td>
+                            <td>Horizontal (scale out)</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Transactions</strong></td>
+                            <td>Strong ACID compliance</td>
+                            <td>Varies; eventual consistency common</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Use Cases</strong></td>
+                            <td>ERP, CRM, financial systems</td>
+                            <td>Gaming, IoT, real-time apps</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>AWS Service</strong></td>
+                            <td>Amazon RDS, Aurora</td>
+                            <td>Amazon DynamoDB</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <aside class="notes">
+                    This comparison helps students decide which database type to recommend. Relational databases enforce structure and are ideal for complex queries and transactions. NoSQL databases offer flexibility and horizontal scalability for high-throughput workloads.
+                </aside>
+            </section>
+
+            <!-- Amazon RDS -->
+            <section>
+                <h2>Amazon RDS</h2>
+                <h3>Relational Database Service</h3>
+                <div class="concept-box">
+                    <p><strong>Amazon RDS</strong> is a managed relational database service that handles provisioning, patching, backups, and recovery -- freeing you to focus on your application.</p>
+                </div>
+                <div class="two-columns fragment">
+                    <div class="card">
+                        <h4>Supported Engines</h4>
+                        <ul>
+                            <li>MySQL</li>
+                            <li>PostgreSQL</li>
+                            <li>MariaDB</li>
+                            <li>Oracle</li>
+                            <li>SQL Server</li>
+                            <li>Amazon Aurora</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Key Features</h4>
+                        <ul>
+                            <li>Automated backups</li>
+                            <li>Multi-AZ deployments</li>
+                            <li>Read Replicas</li>
+                            <li>Encryption at rest and in transit</li>
+                            <li>Automated patching</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    RDS removes the undifferentiated heavy lifting of database administration. You choose the engine and instance size; AWS handles the rest. Six engines are supported, with Aurora being AWS's own cloud-native option.
+                </aside>
+            </section>
+
+            <!-- Amazon Aurora -->
+            <section>
+                <h2>Amazon Aurora</h2>
+                <h3>Cloud-Native Relational Database</h3>
+                <div class="highlight-box success">
+                    <p><strong>Amazon Aurora</strong> is MySQL and PostgreSQL compatible, offering up to 5x the throughput of MySQL and 3x the throughput of PostgreSQL -- at a fraction of the cost of commercial databases.</p>
+                </div>
+                <div class="two-columns fragment">
+                    <div class="card">
+                        <h4>Performance and Reliability</h4>
+                        <ul>
+                            <li>Storage auto-scales up to 128 TB</li>
+                            <li>6 copies of data across 3 AZs</li>
+                            <li>Continuous backups to S3</li>
+                            <li>Sub-10ms read replica lag</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Aurora Serverless</h4>
+                        <ul>
+                            <li>On-demand, auto-scaling configuration</li>
+                            <li>Pay per second of usage</li>
+                            <li>Ideal for variable workloads</li>
+                            <li>No capacity planning required</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Aurora is AWS's flagship relational database. It is fully managed and compatible with MySQL and PostgreSQL, so existing applications can migrate with minimal changes. Aurora Serverless v2 is particularly useful for dev/test environments and variable workloads.
+                </aside>
+            </section>
+
+            <!-- Multi-AZ and Read Replicas -->
+            <section>
+                <h2>Multi-AZ Deployments and Read Replicas</h2>
+                <div class="two-columns">
+                    <div class="card fragment">
+                        <h4>Multi-AZ Deployments</h4>
+                        <div class="highlight-box warning">
+                            <p><strong>Purpose:</strong> High availability and failover</p>
+                        </div>
+                        <ul>
+                            <li>Synchronous replication to standby</li>
+                            <li>Automatic failover on failure</li>
+                            <li>Same endpoint after failover</li>
+                            <li>Standby is NOT used for reads</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment">
+                        <h4>Read Replicas</h4>
+                        <div class="highlight-box success">
+                            <p><strong>Purpose:</strong> Performance and scalability</p>
+                        </div>
+                        <ul>
+                            <li>Asynchronous replication</li>
+                            <li>Up to 15 replicas (Aurora)</li>
+                            <li>Can be in different regions</li>
+                            <li>Offloads read traffic from primary</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="key-point fragment">Multi-AZ is for availability. Read Replicas are for performance.</p>
+                <aside class="notes">
+                    This is a commonly tested distinction. Multi-AZ provides a standby instance for automatic failover -- it does not serve read traffic. Read Replicas handle read-heavy workloads by distributing queries. You can use both together.
+                </aside>
+            </section>
+
+            <!-- Amazon DynamoDB -->
+            <section>
+                <h2>Amazon DynamoDB</h2>
+                <h3>Managed NoSQL Database</h3>
+                <div class="concept-box">
+                    <p><strong>Amazon DynamoDB</strong> is a fully managed, serverless, key-value and document database delivering single-digit millisecond performance at any scale.</p>
+                </div>
+                <div class="three-columns fragment">
+                    <div class="card">
+                        <h4>Serverless</h4>
+                        <p>No servers to provision or manage. Automatically scales throughput capacity.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Performance</h4>
+                        <p>Single-digit millisecond latency. Built-in caching with DAX.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Reliability</h4>
+                        <p>Data replicated across 3 AZs. 99.999% SLA with Global Tables.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    DynamoDB is one of AWS's most popular services. It is fully serverless -- you simply create a table and start writing data. It handles capacity management, patching, and replication automatically. Global Tables enable multi-region, multi-active replication.
+                </aside>
+            </section>
+
+            <!-- DynamoDB Core Concepts -->
+            <section>
+                <h2>DynamoDB Core Concepts</h2>
+                <div class="two-columns">
+                    <div class="card fragment">
+                        <h4>Data Model</h4>
+                        <ul>
+                            <li><strong>Tables</strong> -- collection of items</li>
+                            <li><strong>Items</strong> -- collection of attributes (like a row)</li>
+                            <li><strong>Attributes</strong> -- fundamental data elements (like a column)</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment">
+                        <h4>Primary Keys</h4>
+                        <ul>
+                            <li><strong>Partition Key</strong> -- single attribute; determines data distribution</li>
+                            <li><strong>Composite Key</strong> -- partition key + sort key; enables range queries</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box fragment">
+                    <p><strong>Capacity Modes:</strong> On-Demand (pay-per-request, no planning) or Provisioned (predictable workloads, cost-effective with auto-scaling).</p>
+                </div>
+                <aside class="notes">
+                    Understanding DynamoDB's data model is essential. Unlike relational databases, DynamoDB does not require a fixed schema beyond the primary key. Each item can have different attributes. The partition key determines which physical partition stores the data.
+                </aside>
+            </section>
+
+            <!-- Amazon Redshift -->
+            <section>
+                <h2>Amazon Redshift</h2>
+                <h3>Cloud Data Warehouse</h3>
+                <div class="concept-box">
+                    <p><strong>Amazon Redshift</strong> is a fast, fully managed, petabyte-scale data warehouse that makes it simple and cost-effective to analyze all your data using standard SQL.</p>
+                </div>
+                <div class="two-columns fragment">
+                    <div class="card">
+                        <h4>Key Characteristics</h4>
+                        <ul>
+                            <li>Columnar storage format</li>
+                            <li>Massively parallel processing (MPP)</li>
+                            <li>Scales to petabytes</li>
+                            <li>Standard SQL queries</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Use Cases</h4>
+                        <ul>
+                            <li>Business intelligence</li>
+                            <li>Historical data analytics</li>
+                            <li>Reporting dashboards</li>
+                            <li>Data lake integration</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Redshift is purpose-built for analytics, not transactional workloads. It uses columnar storage for efficient aggregation queries. Redshift Serverless removes the need to manage clusters. Redshift Spectrum can query data directly in S3 without loading it.
+                </aside>
+            </section>
+
+            <!-- Amazon ElastiCache -->
+            <section>
+                <h2>Amazon ElastiCache</h2>
+                <h3>In-Memory Caching</h3>
+                <div class="highlight-box success">
+                    <p><strong>Amazon ElastiCache</strong> provides a fully managed in-memory data store compatible with Redis or Memcached, delivering sub-millisecond response times.</p>
+                </div>
+                <div class="two-columns fragment">
+                    <div class="card">
+                        <h4>Redis</h4>
+                        <ul>
+                            <li>Rich data structures</li>
+                            <li>Persistence and replication</li>
+                            <li>Pub/Sub messaging</li>
+                            <li>Multi-AZ with auto-failover</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Memcached</h4>
+                        <ul>
+                            <li>Simple key-value caching</li>
+                            <li>Multi-threaded architecture</li>
+                            <li>No persistence</li>
+                            <li>Horizontal scaling</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="key-point fragment">Use ElastiCache to reduce database load and accelerate application performance.</p>
+                <aside class="notes">
+                    ElastiCache sits between your application and database, caching frequently accessed data. Redis is the more feature-rich option with persistence and replication. Memcached is simpler and better for pure caching scenarios. Common use cases include session stores, leaderboards, and real-time analytics.
+                </aside>
+            </section>
+
+            <!-- Section: Content Delivery & DNS -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>Content Delivery and DNS</h2>
+                <h3>Accelerating content and managing domains</h3>
+                <aside class="notes">
+                    Now we move to content delivery and DNS services. CloudFront and Route 53 work together to deliver content fast and route users to the right resources.
+                </aside>
+            </section>
+
+            <!-- Amazon CloudFront -->
+            <section>
+                <h2>Amazon CloudFront</h2>
+                <h3>Content Delivery Network</h3>
+                <div class="concept-box">
+                    <p><strong>Amazon CloudFront</strong> is a global CDN that securely delivers data, videos, applications, and APIs to users with low latency and high transfer speeds.</p>
+                </div>
+                <div class="two-columns fragment">
+                    <div class="card">
+                        <h4>How It Works</h4>
+                        <ul>
+                            <li>Content cached at 450+ edge locations worldwide</li>
+                            <li>Users routed to nearest edge location</li>
+                            <li>Origin can be S3, EC2, ALB, or custom</li>
+                            <li>Supports static and dynamic content</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Key Benefits</h4>
+                        <ul>
+                            <li>Reduced latency globally</li>
+                            <li>DDoS protection via AWS Shield</li>
+                            <li>HTTPS and custom SSL certificates</li>
+                            <li>Real-time metrics and logging</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    CloudFront caches content at edge locations close to users. When a user requests content, CloudFront serves it from the nearest edge location. If the content is not cached, CloudFront retrieves it from the origin and caches it for subsequent requests. This dramatically reduces latency.
+                </aside>
+            </section>
+
+            <!-- Amazon Route 53 -->
+            <section>
+                <h2>Amazon Route 53</h2>
+                <h3>DNS and Domain Management</h3>
+                <div class="highlight-box">
+                    <p><strong>Amazon Route 53</strong> is a highly available, scalable DNS web service that provides domain registration, DNS routing, and health checking.</p>
+                </div>
+                <table class="fragment">
+                    <thead>
+                        <tr>
+                            <th>Routing Policy</th>
+                            <th>Description</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Simple</strong></td>
+                            <td>Route to a single resource</td>
+                            <td>Basic websites</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Weighted</strong></td>
+                            <td>Distribute traffic by percentage</td>
+                            <td>A/B testing, blue/green</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Latency</strong></td>
+                            <td>Route to lowest-latency region</td>
+                            <td>Global applications</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Failover</strong></td>
+                            <td>Active-passive failover</td>
+                            <td>Disaster recovery</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Geolocation</strong></td>
+                            <td>Route based on user location</td>
+                            <td>Localized content, compliance</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <aside class="notes">
+                    Route 53 is named after TCP/UDP port 53, the DNS port. It offers 100% availability SLA. Each routing policy serves a specific purpose. Weighted routing is great for canary deployments. Failover routing integrates with health checks for automatic DR.
+                </aside>
+            </section>
+
+            <!-- Route 53 Health Checks -->
+            <section>
+                <h2>Route 53 Health Checks</h2>
+                <div class="two-columns">
+                    <div class="card fragment">
+                        <h4>Health Check Types</h4>
+                        <ul>
+                            <li><strong>Endpoint</strong> -- monitor an IP or domain</li>
+                            <li><strong>Calculated</strong> -- combine multiple health checks</li>
+                            <li><strong>CloudWatch Alarm</strong> -- based on CloudWatch metric status</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment">
+                        <h4>How It Works</h4>
+                        <ul>
+                            <li>Health checkers in multiple regions</li>
+                            <li>Configurable intervals (10s or 30s)</li>
+                            <li>Threshold-based pass/fail</li>
+                            <li>Integrates with failover routing</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box warning fragment">
+                    <p><strong>Key Concept:</strong> Health checks enable automatic DNS failover. If a primary endpoint becomes unhealthy, Route 53 automatically routes traffic to a healthy secondary endpoint.</p>
+                </div>
+                <aside class="notes">
+                    Health checks are critical for building resilient architectures. They monitor endpoints at regular intervals from distributed locations. If an endpoint fails the health check threshold, Route 53 stops routing traffic to it. This is foundational for active-passive DR patterns.
+                </aside>
+            </section>
+
+            <!-- Section: Monitoring & Management -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>Monitoring and Management</h2>
+                <h3>Visibility, governance, and operational excellence</h3>
+                <aside class="notes">
+                    Monitoring and management services are essential for operating workloads in the cloud. AWS provides a comprehensive set of tools for observability, auditing, and optimization.
+                </aside>
+            </section>
+
+            <!-- Well-Architected Framework -->
+            <section>
+                <h2>AWS Well-Architected Framework</h2>
+                <p class="key-point">A set of best practices and strategies for designing and operating reliable, secure, efficient, and cost-effective systems in the cloud.</p>
+                <div class="three-columns">
+                    <div class="card fragment">
+                        <h4>Operational Excellence</h4>
+                        <p>Run and monitor systems to deliver business value and continually improve.</p>
+                    </div>
+                    <div class="card fragment">
+                        <h4>Security</h4>
+                        <p>Protect information, systems, and assets through risk assessment and mitigation.</p>
+                    </div>
+                    <div class="card fragment">
+                        <h4>Reliability</h4>
+                        <p>Ensure workloads perform correctly and consistently when expected.</p>
+                    </div>
+                </div>
+                <div class="three-columns" style="margin-top: 20px;">
+                    <div class="card fragment">
+                        <h4>Performance Efficiency</h4>
+                        <p>Use computing resources efficiently to meet requirements and maintain efficiency as demand changes.</p>
+                    </div>
+                    <div class="card fragment">
+                        <h4>Cost Optimization</h4>
+                        <p>Avoid unnecessary costs and run systems at the lowest price point.</p>
+                    </div>
+                    <div class="card fragment">
+                        <h4>Sustainability</h4>
+                        <p>Minimize environmental impacts of running cloud workloads.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    The Well-Architected Framework has six pillars as of 2024 -- Sustainability was the most recent addition. The exam tests knowledge of all six pillars and their key principles. AWS offers a Well-Architected Tool in the console to review workloads against these pillars.
+                </aside>
+            </section>
+
+            <!-- Amazon CloudWatch -->
+            <section>
+                <h2>Amazon CloudWatch</h2>
+                <h3>Monitoring and Observability</h3>
+                <div class="concept-box">
+                    <p><strong>Amazon CloudWatch</strong> collects and tracks metrics, collects and monitors log files, and sets alarms -- providing system-wide visibility into resource utilization, application performance, and operational health.</p>
+                </div>
+                <div class="two-columns fragment">
+                    <div class="card">
+                        <h4>Core Capabilities</h4>
+                        <ul>
+                            <li><strong>Metrics</strong> -- CPU, network, disk, custom</li>
+                            <li><strong>Logs</strong> -- centralized log collection</li>
+                            <li><strong>Alarms</strong> -- threshold-based notifications</li>
+                            <li><strong>Dashboards</strong> -- visual monitoring</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Advanced Features</h4>
+                        <ul>
+                            <li>CloudWatch Events / EventBridge</li>
+                            <li>Anomaly Detection (ML-based)</li>
+                            <li>Container Insights</li>
+                            <li>Application Insights</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    CloudWatch is the central monitoring service for AWS. Every AWS service sends metrics to CloudWatch. You can create alarms that trigger SNS notifications or Auto Scaling actions. Dashboards provide a single pane of glass for operational monitoring. CloudWatch Logs Insights allows querying log data with a purpose-built query language.
+                </aside>
+            </section>
+
+            <!-- CloudWatch Alarms -->
+            <section>
+                <h2>CloudWatch Alarms in Action</h2>
+                <div class="highlight-box">
+                    <p><strong>CloudWatch Alarms</strong> watch a single metric over a specified time period and perform one or more actions based on the metric value relative to a threshold.</p>
+                </div>
+                <div class="two-columns fragment">
+                    <div class="card">
+                        <h4>Alarm States</h4>
+                        <ul>
+                            <li><strong>OK</strong> -- metric within threshold</li>
+                            <li><strong>ALARM</strong> -- metric breached threshold</li>
+                            <li><strong>INSUFFICIENT_DATA</strong> -- not enough data</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Alarm Actions</h4>
+                        <ul>
+                            <li>Send SNS notification</li>
+                            <li>Trigger Auto Scaling policy</li>
+                            <li>Stop, terminate, or reboot EC2</li>
+                            <li>Execute Systems Manager action</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="key-point fragment">Alarms are the bridge between monitoring and automated remediation.</p>
+                <aside class="notes">
+                    CloudWatch Alarms are essential for proactive operations. A common pattern is setting a CPU utilization alarm that triggers Auto Scaling to add instances when demand spikes. You can also create composite alarms that combine multiple alarm states.
+                </aside>
+            </section>
+
+            <!-- AWS CloudTrail -->
+            <section>
+                <h2>AWS CloudTrail</h2>
+                <h3>API Activity Logging</h3>
+                <div class="concept-box">
+                    <p><strong>AWS CloudTrail</strong> records API calls made on your account, providing a complete audit trail of who did what, when, and from where.</p>
+                </div>
+                <div class="two-columns fragment">
+                    <div class="card">
+                        <h4>What It Captures</h4>
+                        <ul>
+                            <li>Identity of the API caller</li>
+                            <li>Time of the API call</li>
+                            <li>Source IP address</li>
+                            <li>Request and response details</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Use Cases</h4>
+                        <ul>
+                            <li>Security analysis and auditing</li>
+                            <li>Compliance and governance</li>
+                            <li>Operational troubleshooting</li>
+                            <li>Incident investigation</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box danger fragment">
+                    <p><strong>Exam Tip:</strong> CloudTrail answers "who did what?" while CloudWatch answers "how is the system performing?" These are distinct but complementary services.</p>
+                </div>
+                <aside class="notes">
+                    CloudTrail is enabled by default on all AWS accounts, recording the last 90 days of management events at no charge. For long-term retention, you create a trail that delivers logs to an S3 bucket. CloudTrail is essential for compliance frameworks like PCI DSS, HIPAA, and SOC.
+                </aside>
+            </section>
+
+            <!-- AWS Trusted Advisor -->
+            <section>
+                <h2>AWS Trusted Advisor</h2>
+                <h3>Best Practice Recommendations</h3>
+                <div class="highlight-box success">
+                    <p><strong>AWS Trusted Advisor</strong> inspects your AWS environment and provides real-time recommendations across five categories to help you follow AWS best practices.</p>
+                </div>
+                <div class="three-columns fragment" style="font-size: 0.85em;">
+                    <div class="card">
+                        <h4>Cost Optimization</h4>
+                        <p>Identify idle resources, underutilized instances, unused EBS volumes.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Performance</h4>
+                        <p>Improve speed and responsiveness with service limit checks and overutilized resources.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Security</h4>
+                        <p>Close security gaps: open ports, MFA on root, IAM usage, S3 bucket permissions.</p>
+                    </div>
+                </div>
+                <div class="two-columns fragment" style="margin-top: 15px; font-size: 0.85em;">
+                    <div class="card">
+                        <h4>Fault Tolerance</h4>
+                        <p>Increase availability with Multi-AZ, backup checks, and redundancy recommendations.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Service Limits</h4>
+                        <p>Monitor usage against service quotas to prevent hitting limits unexpectedly.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Trusted Advisor is like having an AWS expert review your account. Basic checks are available to all accounts. Business and Enterprise Support plans unlock the full set of checks. Common exam questions ask about which category a specific recommendation falls into.
+                </aside>
+            </section>
+
+            <!-- AWS Config -->
+            <section>
+                <h2>AWS Config</h2>
+                <h3>Resource Configuration Tracking</h3>
+                <div class="concept-box">
+                    <p><strong>AWS Config</strong> continuously monitors and records your AWS resource configurations, enabling you to assess, audit, and evaluate compliance against desired configurations.</p>
+                </div>
+                <div class="two-columns fragment">
+                    <div class="card">
+                        <h4>Key Capabilities</h4>
+                        <ul>
+                            <li>Configuration history for resources</li>
+                            <li>Configuration snapshots</li>
+                            <li>Change notifications via SNS</li>
+                            <li>Relationships between resources</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Config Rules</h4>
+                        <ul>
+                            <li>Managed rules (pre-built by AWS)</li>
+                            <li>Custom rules (Lambda-based)</li>
+                            <li>Automatic compliance evaluation</li>
+                            <li>Remediation actions</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box warning fragment">
+                    <p><strong>Key Distinction:</strong> CloudTrail records API activity (who did what). Config records resource state (what changed and whether it is compliant).</p>
+                </div>
+                <aside class="notes">
+                    AWS Config provides a detailed view of the configuration of AWS resources. It enables compliance-as-code through Config Rules. For example, you can create a rule that checks whether all S3 buckets have encryption enabled and automatically remediate non-compliant resources.
+                </aside>
+            </section>
+
+            <!-- Section: Orchestration & Deployment -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>Orchestration and Deployment</h2>
+                <h3>Infrastructure as Code and managed platforms</h3>
+                <aside class="notes">
+                    The final section covers how to deploy and manage infrastructure at scale. CloudFormation and Elastic Beanstalk represent two different approaches to deployment automation.
+                </aside>
+            </section>
+
+            <!-- AWS CloudFormation -->
+            <section>
+                <h2>AWS CloudFormation</h2>
+                <h3>Infrastructure as Code</h3>
+                <div class="concept-box">
+                    <p><strong>AWS CloudFormation</strong> lets you model and provision your entire cloud infrastructure using JSON or YAML templates. Resources are deployed as a stack that can be created, updated, and deleted as a single unit.</p>
+                </div>
+                <div class="two-columns fragment">
+                    <div class="card">
+                        <h4>Core Concepts</h4>
+                        <ul>
+                            <li><strong>Templates</strong> -- define resources in JSON/YAML</li>
+                            <li><strong>Stacks</strong> -- deployed instance of a template</li>
+                            <li><strong>Change Sets</strong> -- preview changes before applying</li>
+                            <li><strong>Drift Detection</strong> -- detect manual changes</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Benefits</h4>
+                        <ul>
+                            <li>Repeatable, consistent deployments</li>
+                            <li>Version-controlled infrastructure</li>
+                            <li>Automatic rollback on failure</li>
+                            <li>Dependency management</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    CloudFormation is the foundational IaC service on AWS. You describe your desired state in a template, and CloudFormation figures out how to create or update resources to match. If a stack creation fails, CloudFormation automatically rolls back all resources to prevent partial deployments.
+                </aside>
+            </section>
+
+            <!-- AWS Elastic Beanstalk -->
+            <section>
+                <h2>AWS Elastic Beanstalk</h2>
+                <h3>Platform as a Service</h3>
+                <div class="highlight-box success">
+                    <p><strong>AWS Elastic Beanstalk</strong> is a PaaS that deploys and manages applications automatically -- handling capacity provisioning, load balancing, auto-scaling, and health monitoring.</p>
+                </div>
+                <div class="two-columns fragment">
+                    <div class="card">
+                        <h4>Supported Platforms</h4>
+                        <ul>
+                            <li>Java, .NET, Node.js, Python</li>
+                            <li>Ruby, Go, PHP</li>
+                            <li>Docker containers</li>
+                            <li>Custom platforms</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>What Beanstalk Manages</h4>
+                        <ul>
+                            <li>EC2 instances and Auto Scaling</li>
+                            <li>Load balancer configuration</li>
+                            <li>Health monitoring</li>
+                            <li>Platform updates and patching</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="key-point fragment">You upload your code; Beanstalk handles everything else. You retain full control of the underlying resources.</p>
+                <aside class="notes">
+                    Elastic Beanstalk is the fastest way to deploy a web application on AWS. It creates and manages the underlying infrastructure for you. Unlike a true PaaS where you cannot access the underlying resources, Beanstalk gives you full access to the EC2 instances, load balancers, and other resources it creates.
+                </aside>
+            </section>
+
+            <!-- Comparison: CloudFormation vs Beanstalk -->
+            <section>
+                <h2>CloudFormation vs Elastic Beanstalk</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>CloudFormation</th>
+                            <th>Elastic Beanstalk</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment">
+                            <td><strong>Approach</strong></td>
+                            <td>Infrastructure as Code</td>
+                            <td>Platform as a Service</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Scope</strong></td>
+                            <td>Any AWS resource</td>
+                            <td>Web applications</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Control</strong></td>
+                            <td>Full granular control</td>
+                            <td>Managed with some customization</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Audience</strong></td>
+                            <td>DevOps, infrastructure teams</td>
+                            <td>Developers focused on code</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Learning Curve</strong></td>
+                            <td>Steeper -- requires template knowledge</td>
+                            <td>Gentler -- upload code and go</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Cost</strong></td>
+                            <td>No additional charge</td>
+                            <td>No additional charge</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="highlight-box fragment">
+                    <p><strong>Note:</strong> Elastic Beanstalk actually uses CloudFormation behind the scenes to provision its resources.</p>
+                </div>
+                <aside class="notes">
+                    This is a useful comparison for the exam. CloudFormation gives you complete control but requires more expertise. Beanstalk abstracts away infrastructure concerns for web developers. Both services are free -- you only pay for the underlying resources they create. An interesting detail: Beanstalk uses CloudFormation under the hood.
+                </aside>
+            </section>
+
+            <!-- Lab Callout -->
+            <section data-background-color="#1a365d" class="lab-callout">
+                <div class="lab-badge">Hands-On Lab</div>
+                <h2>Lab 5: CloudWatch Dashboards and Alarms</h2>
+                <div class="lab-description">
+                    <p>In this lab, you will:</p>
+                    <ul>
+                        <li>Explore CloudWatch metrics for AWS services including Billing</li>
+                        <li>Create a custom CloudWatch dashboard with metric widgets</li>
+                        <li>Create a billing alarm with SNS email notification</li>
+                        <li>Explore CloudTrail event history to review recent API calls</li>
+                    </ul>
+                </div>
+                <aside class="notes">
+                    This lab gives students hands-on experience with CloudWatch. Walk through creating a dashboard first, then demonstrate alarm creation. Ensure students understand the three alarm states. If time permits, show CloudTrail event history in the console.
+                </aside>
+            </section>
+
+            <!-- Key Takeaways -->
+            <section class="takeaway-list">
+                <h2>Key Takeaways</h2>
+                <ul>
+                    <li class="fragment"><strong>RDS and Aurora</strong> provide managed relational databases; DynamoDB is the go-to managed NoSQL service; Redshift handles data warehousing; ElastiCache provides in-memory caching.</li>
+                    <li class="fragment"><strong>CloudFront</strong> accelerates content delivery via edge locations; <strong>Route 53</strong> provides DNS routing with multiple policies and health checks.</li>
+                    <li class="fragment"><strong>The Well-Architected Framework</strong> defines six pillars: Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, and Sustainability.</li>
+                    <li class="fragment"><strong>CloudWatch</strong> monitors performance; <strong>CloudTrail</strong> audits API activity; <strong>Config</strong> tracks resource state; <strong>Trusted Advisor</strong> recommends best practices.</li>
+                    <li class="fragment"><strong>CloudFormation</strong> provides IaC for any AWS resource; <strong>Elastic Beanstalk</strong> provides a PaaS experience for web applications.</li>
+                </ul>
+                <aside class="notes">
+                    Review each takeaway and connect them back to the module objectives. Reinforce the distinctions between CloudWatch, CloudTrail, and Config as these are commonly confused on the exam. Ask students if they have any questions before moving on.
+                </aside>
+            </section>
+
+            <!-- Questions Slide -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="questions-slide">
+                <h2>Questions?</h2>
+                <p>Module 5: Databases, Monitoring and Additional Services</p>
+                <div class="course-badge">Up Next: Module 6</div>
+                <aside class="notes">
+                    Open the floor for questions. Common questions at this point include the differences between Multi-AZ and Read Replicas, when to use CloudFormation vs Beanstalk, and how CloudWatch Alarms trigger actions.
+                </aside>
+            </section>
+
+        </div>
+    </div>
+
+    <div class="module-progress">Module 5: Databases, Monitoring &amp; Additional Services</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/notes/notes.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide',
+            plugins: [RevealHighlight, RevealNotes]
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 1: Exploring the AWS Management Console</title>
+    <style>
+        :root {
+            --heading-color: #1a365d;
+            --accent-color: #2b6cb0;
+            --success-color: #2f855a;
+            --warning-color: #c05621;
+            --danger-color: #c53030;
+            --text-color: #2d3748;
+            --light-bg: #f7fafc;
+            --border-color: #e2e8f0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.7;
+        }
+        h1 {
+            color: var(--heading-color);
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 12px;
+            font-size: 2em;
+        }
+        h2 {
+            color: var(--accent-color);
+            margin-top: 2em;
+            font-size: 1.4em;
+        }
+        h3 {
+            color: var(--heading-color);
+            font-size: 1.15em;
+        }
+        .lab-meta {
+            background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+            border-left: 5px solid var(--accent-color);
+            padding: 16px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        .lab-meta p { margin: 4px 0; }
+        .objective-box {
+            background: var(--light-bg);
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 20px 0;
+        }
+        .warning-box {
+            background: linear-gradient(135deg, #fffaf0 0%, #feebc8 100%);
+            border-left: 5px solid var(--warning-color);
+            padding: 16px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        .success-box {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border-left: 5px solid var(--success-color);
+            padding: 16px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        .step {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 12px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .step-number {
+            display: inline-block;
+            background: var(--accent-color);
+            color: #ffffff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: 700;
+            font-size: 0.85em;
+            margin-right: 8px;
+        }
+        code {
+            background: #edf2f7;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        ol li, ul li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Lab 1: Exploring the AWS Management Console</h1>
+
+    <div class="lab-meta">
+        <p><strong>Duration:</strong> 15 minutes</p>
+        <p><strong>Level:</strong> Introductory</p>
+        <p><strong>Prerequisites:</strong> AWS account credentials provided by your instructor</p>
+    </div>
+
+    <div class="objective-box">
+        <h3>Lab Objectives</h3>
+        <ul>
+            <li>Sign in to the AWS Management Console</li>
+            <li>Navigate the console and locate key services</li>
+            <li>Explore the Region selector and understand service availability</li>
+
+            <li>Review your account's billing dashboard</li>
+        </ul>
+    </div>
+
+    <div class="warning-box">
+        <strong>Important:</strong> Use only the credentials provided by your instructor. Do not create resources outside the scope of this lab to avoid unexpected charges.
+    </div>
+
+    <h2>Part A: Signing In and Console Overview</h2>
+
+    <div class="step">
+        <p><span class="step-number">1</span> Open your web browser and navigate to the AWS Management Console sign-in page. Your instructor will provide the URL and credentials.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">2</span> Sign in using the IAM user credentials provided (Account ID, Username, Password).</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">3</span> Once signed in, take a moment to explore the console home page. Note the following areas:</p>
+        <ul>
+            <li><strong>Search bar</strong> at the top — type a service name to quickly navigate</li>
+            <li><strong>Recently visited services</strong> — shows your most-used services</li>
+            <li><strong>Favorites</strong> — pin services you use frequently (star icon)</li>
+            <li><strong>Region selector</strong> — dropdown in the top-right navigation bar</li>
+            <li><strong>Account menu</strong> — top-right corner with your account info</li>
+        </ul>
+    </div>
+
+    <h2>Part B: Navigating Services and Regions</h2>
+
+    <div class="step">
+        <p><span class="step-number">4</span> Click the <strong>Region selector</strong> dropdown. Note the available regions. Switch to <code>us-east-1 (N. Virginia)</code> — this is the most commonly used region for learning.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">5</span> Use the search bar to find and navigate to each of the following services. For each one, briefly note what it does:</p>
+        <ul>
+            <li><strong>EC2</strong> — Elastic Compute Cloud</li>
+            <li><strong>S3</strong> — Simple Storage Service</li>
+            <li><strong>IAM</strong> — Identity and Access Management</li>
+            <li><strong>VPC</strong> — Virtual Private Cloud</li>
+            <li><strong>CloudWatch</strong> — Monitoring and Observability</li>
+            <li><strong>RDS</strong> — Relational Database Service</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">6</span> Navigate to <strong>IAM</strong>. Notice that IAM is a <strong>Global</strong> service — the region selector shows "Global" instead of a specific region. This means IAM resources are not region-specific.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">7</span> Navigate to <strong>S3</strong>. Notice that S3 also shows as a global console, though buckets are created in specific regions.</p>
+    </div>
+
+    <h2>Part C: Exploring Account and Billing</h2>
+
+    <div class="step">
+        <p><span class="step-number">8</span> Click on your <strong>Account name</strong> in the top-right corner and select <strong>Billing and Cost Management</strong> (if your permissions allow).</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">9</span> Explore the Billing Dashboard. Note:</p>
+        <ul>
+            <li>Month-to-date costs</li>
+            <li>Cost breakdown by service</li>
+            <li>Free Tier usage tracking</li>
+        </ul>
+    </div>
+
+    <h2>Part D: Using CloudShell</h2>
+
+    <div class="step">
+        <p><span class="step-number">10</span> Click the <strong>CloudShell</strong> icon in the top navigation bar (terminal icon). Wait for it to initialize.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">11</span> In the CloudShell terminal, run the following commands:</p>
+        <ul>
+            <li><code>aws sts get-caller-identity</code> — shows your current IAM identity</li>
+            <li><code>aws s3 ls</code> — lists S3 buckets in the account</li>
+            <li><code>aws ec2 describe-regions --output table</code> — lists all available regions</li>
+        </ul>
+    </div>
+
+    <div class="success-box">
+        <h3>Lab Complete</h3>
+        <p>You have successfully navigated the AWS Management Console, explored key services, reviewed regions, and used CloudShell. These skills form the foundation for all subsequent labs in this course.</p>
+    </div>
+
+    <h2>Discussion Questions</h2>
+    <ol>
+        <li>Why is it important to check which region you are working in before creating resources?</li>
+        <li>What is the difference between a global service (like IAM) and a regional service (like EC2)?</li>
+        <li>When would you use CloudShell vs. the graphical console?</li>
+    </ol>
+</body>
+</html>

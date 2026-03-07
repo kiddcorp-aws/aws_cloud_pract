@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 6: Billing, Pricing &amp; Exam Preparation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/white.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/monokai.css">
+    <style>
+        :root {
+            --heading-color: #1a365d;
+            --accent-color: #2b6cb0;
+            --success-color: #2f855a;
+            --warning-color: #c05621;
+            --danger-color: #c53030;
+            --text-color: #2d3748;
+        }
+
+        .reveal {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            font-size: 32px;
+        }
+
+        .reveal h1 {
+            color: var(--heading-color);
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 0.5em;
+        }
+
+        .reveal h2 {
+            color: var(--heading-color);
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 0.4em;
+        }
+
+        .reveal h3 {
+            color: var(--accent-color);
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 0.3em;
+        }
+
+        .reveal h4 {
+            color: var(--accent-color);
+            font-size: 0.95em;
+            font-weight: 600;
+            margin-bottom: 0.2em;
+        }
+
+        /* Title Slide */
+        .title-slide h1 {
+            color: white;
+            font-size: 2.0em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .title-slide h2 {
+            color: #bee3f8;
+            font-size: 1.3em;
+            font-weight: 400;
+        }
+        .title-slide h3 {
+            color: #90cdf4;
+            font-size: 1.0em;
+            font-weight: 400;
+        }
+        .title-slide .course-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 25px;
+            padding: 8px 24px;
+            color: white;
+            font-size: 0.7em;
+            margin-top: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Highlight Boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+            border-left: 4px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 20px 24px;
+            margin: 15px 0;
+            text-align: left;
+            font-size: 0.85em;
+        }
+        .highlight-box.success {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border-left-color: var(--success-color);
+        }
+        .highlight-box.warning {
+            background: linear-gradient(135deg, #fffaf0 0%, #feebc8 100%);
+            border-left-color: var(--warning-color);
+        }
+        .highlight-box.danger {
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+            border-left-color: var(--danger-color);
+        }
+
+        /* Two Columns */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* Three Columns */
+        .three-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* Card */
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+            padding: 24px;
+            text-align: left;
+        }
+        .card h3, .card h4 {
+            margin-top: 0;
+        }
+
+        /* Concept Box */
+        .concept-box {
+            background: white;
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        /* Key Point */
+        .key-point {
+            text-align: center;
+            font-style: italic;
+            color: var(--accent-color);
+            font-size: 1.15em;
+            padding: 10px 20px;
+        }
+
+        /* Lab Callout */
+        .lab-callout h2 {
+            color: white;
+            font-size: 1.6em;
+        }
+        .lab-callout .lab-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.25);
+            border-radius: 25px;
+            padding: 8px 28px;
+            color: white;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+        .lab-callout .lab-description {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 24px;
+            color: white;
+            font-size: 0.85em;
+            text-align: left;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .lab-callout .lab-description ul {
+            margin: 10px 0;
+        }
+        .lab-callout .lab-description li {
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        /* Section Divider */
+        .section-divider h2 {
+            color: white;
+            font-size: 1.8em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .section-divider h3 {
+            color: #bee3f8;
+            font-weight: 400;
+            font-size: 1.0em;
+        }
+
+        /* Questions Slide */
+        .questions-slide h2 {
+            color: white;
+            font-size: 1.8em;
+        }
+        .questions-slide p {
+            color: #bee3f8;
+            font-size: 1.0em;
+        }
+
+        /* Takeaway List */
+        .takeaway-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        .takeaway-list ul li {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px 18px;
+            margin-bottom: 10px;
+            background: white;
+            font-size: 0.8em;
+            text-align: left;
+        }
+
+        /* Module Progress */
+        .module-progress {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-color);
+            color: white;
+            border-radius: 25px;
+            padding: 6px 20px;
+            font-size: 0.55em;
+            font-weight: 600;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Tables */
+        .reveal table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 0.65em;
+            margin: 15px 0;
+        }
+        .reveal table th {
+            background: var(--heading-color);
+            color: white;
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        .reveal table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+        .reveal table tr:nth-child(even) {
+            background: #f7fafc;
+        }
+        .reveal table tr:hover {
+            background: #ebf8ff;
+        }
+
+        /* Lists */
+        .reveal ul, .reveal ol {
+            font-size: 0.85em;
+            text-align: left;
+        }
+        .reveal li {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        /* Blockquote */
+        .reveal blockquote {
+            background: #f7fafc;
+            border-left: 4px solid var(--accent-color);
+            padding: 15px 20px;
+            margin: 15px 0;
+            font-style: italic;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9em;
+        }
+
+        /* Slide Number */
+        .reveal .slide-number {
+            background: var(--accent-color);
+            color: white;
+            font-size: 14px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            right: 15px;
+            bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="title-slide">
+                <h1>Billing, Pricing &amp; Exam Preparation</h1>
+                <h2>Module 6</h2>
+                <h3>AWS Cloud Practitioner -- 1-Day Course</h3>
+                <div class="course-badge">CLF-C02 Certification Prep</div>
+                <div class="module-progress">Module 6 of 6</div>
+                <aside class="notes">Welcome to the final module of the AWS Cloud Practitioner course. We will cover AWS billing and pricing models, cost management tools, support plans, and wrap up with comprehensive exam preparation for the CLF-C02 certification.</aside>
+            </section>
+
+            <!-- Module Objectives -->
+            <section>
+                <h2>Module Objectives</h2>
+                <div class="two-columns">
+                    <div class="card">
+                        <h4>Billing and Pricing</h4>
+                        <ul>
+                            <li class="fragment">Understand AWS pricing philosophy</li>
+                            <li class="fragment">Identify key pricing models for core services</li>
+                            <li class="fragment">Use AWS billing and cost management tools</li>
+                            <li class="fragment">Compare AWS Support plan tiers</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Exam Preparation</h4>
+                        <ul>
+                            <li class="fragment">Review CLF-C02 exam structure and domains</li>
+                            <li class="fragment">Apply effective exam strategies</li>
+                            <li class="fragment">Identify key services per domain</li>
+                            <li class="fragment">Practice with sample questions</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">This module has two major sections. First, we cover everything related to billing, pricing, and support. Then we shift to dedicated exam preparation for the CLF-C02 certification. Both are critical for the exam.</aside>
+            </section>
+
+            <!-- Section Divider: Pricing Fundamentals -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>AWS Pricing Fundamentals</h2>
+                <h3>Understanding how AWS charges for services</h3>
+                <aside class="notes">Let us start with the foundational pricing concepts. Understanding these principles will help you both manage costs in real-world scenarios and answer exam questions.</aside>
+            </section>
+
+            <!-- Pricing Philosophy -->
+            <section>
+                <h2>AWS Pricing Philosophy</h2>
+                <div class="three-columns">
+                    <div class="card fragment">
+                        <h4>Pay-As-You-Go</h4>
+                        <p style="font-size:0.75em;">Pay only for the resources you actually consume. No upfront commitments or long-term contracts required.</p>
+                    </div>
+                    <div class="card fragment">
+                        <h4>Save When You Reserve</h4>
+                        <p style="font-size:0.75em;">Commit to a certain level of usage (1 or 3 years) and receive significant discounts compared to On-Demand pricing.</p>
+                    </div>
+                    <div class="card fragment">
+                        <h4>Pay Less as You Use More</h4>
+                        <p style="font-size:0.75em;">Volume-based discounts are applied automatically. The more you use, the lower the per-unit cost becomes.</p>
+                    </div>
+                </div>
+                <p class="key-point fragment">These three pillars define the AWS pricing model and are frequently tested on the exam.</p>
+                <aside class="notes">AWS pricing is built on three pillars. Pay-as-you-go removes the need for large upfront investments. Reservations reward predictable workloads. Volume discounts reward scale. Candidates should know all three for the exam.</aside>
+            </section>
+
+            <!-- Free Tier -->
+            <section>
+                <h2>AWS Free Tier</h2>
+                <div class="three-columns">
+                    <div class="card fragment">
+                        <h4>Always Free</h4>
+                        <ul style="font-size:0.7em;">
+                            <li>Lambda: 1M requests/month</li>
+                            <li>DynamoDB: 25 GB storage</li>
+                            <li>CloudWatch: 10 custom metrics</li>
+                            <li>SNS: 1M publishes</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment">
+                        <h4>12 Months Free</h4>
+                        <ul style="font-size:0.7em;">
+                            <li>EC2: 750 hrs/month (t2.micro or t3.micro)</li>
+                            <li>S3: 5 GB standard storage</li>
+                            <li>RDS: 750 hrs/month (db.t2.micro)</li>
+                            <li>CloudFront: 1 TB data transfer out</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment">
+                        <h4>Trials</h4>
+                        <ul style="font-size:0.7em;">
+                            <li>Short-term free trial offers</li>
+                            <li>Start from activation date</li>
+                            <li>Examples: Amazon SageMaker, Inspector, GuardDuty</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box warning fragment" style="font-size:0.75em;">
+                    <strong>Important:</strong> The 12 Months Free tier begins from the date your AWS account is created, not from the date you first use the service.
+                </div>
+                <aside class="notes">The Free Tier is a common exam topic. Always Free offers never expire. The 12 Months Free category starts from account creation date, which is an important distinction. Trials are service-specific and vary in duration.</aside>
+            </section>
+
+            <!-- Key Pricing Drivers -->
+            <section>
+                <h2>Key Pricing Drivers</h2>
+                <div class="concept-box">
+                    <div class="two-columns">
+                        <div>
+                            <h4>Compute</h4>
+                            <ul style="font-size:0.75em;">
+                                <li>Charged per hour or per second</li>
+                                <li>Varies by instance type and size</li>
+                                <li>OS licensing may add cost</li>
+                            </ul>
+                            <h4>Storage</h4>
+                            <ul style="font-size:0.75em;">
+                                <li>Charged per GB stored per month</li>
+                                <li>Varies by storage class/type</li>
+                                <li>Provisioned IOPS costs extra</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Data Transfer</h4>
+                            <ul style="font-size:0.75em;">
+                                <li class="fragment"><strong>Inbound data transfer:</strong> FREE</li>
+                                <li class="fragment"><strong>Outbound data transfer:</strong> Charged per GB</li>
+                                <li class="fragment"><strong>Between Regions:</strong> Charged both directions</li>
+                                <li class="fragment"><strong>Same AZ:</strong> Free (using private IPs)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <p class="key-point fragment">Data transfer IN to AWS is always free. Data transfer OUT is charged.</p>
+                <aside class="notes">There are three key pricing drivers: compute, storage, and data transfer. The most important rule to remember is that inbound data transfer is free, but outbound is charged. Data transfer between Availability Zones and Regions also incurs charges. This is a frequent exam topic.</aside>
+            </section>
+
+            <!-- EC2 Pricing Models -->
+            <section>
+                <h2>EC2 Pricing Models</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Commitment</th>
+                            <th>Discount</th>
+                            <th>Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment">
+                            <td><strong>On-Demand</strong></td>
+                            <td>None</td>
+                            <td>None (baseline)</td>
+                            <td>Short-term, unpredictable workloads</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Reserved Instances</strong></td>
+                            <td>1 or 3 years</td>
+                            <td>Up to 72%</td>
+                            <td>Steady-state, predictable usage</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Savings Plans</strong></td>
+                            <td>1 or 3 years ($/hr)</td>
+                            <td>Up to 72%</td>
+                            <td>Flexible across instance families</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Spot Instances</strong></td>
+                            <td>None</td>
+                            <td>Up to 90%</td>
+                            <td>Fault-tolerant, flexible workloads</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Dedicated Hosts</strong></td>
+                            <td>On-Demand or Reserved</td>
+                            <td>Varies</td>
+                            <td>Compliance, licensing requirements</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <aside class="notes">EC2 pricing models are a must-know for the exam. On-Demand is the most flexible but most expensive. Reserved Instances and Savings Plans offer significant discounts for commitments. Spot offers the deepest discounts but instances can be interrupted. Dedicated Hosts are for compliance or licensing needs.</aside>
+            </section>
+
+            <!-- S3 and Lambda Pricing -->
+            <section>
+                <h2>S3 and Lambda Pricing</h2>
+                <div class="two-columns">
+                    <div class="card">
+                        <h4>S3 Pricing Factors</h4>
+                        <ul style="font-size:0.72em;">
+                            <li class="fragment"><strong>Storage class:</strong> Standard, IA, Glacier, etc.</li>
+                            <li class="fragment"><strong>Amount of data stored</strong> (per GB/month)</li>
+                            <li class="fragment"><strong>Number of requests:</strong> PUT, GET, LIST</li>
+                            <li class="fragment"><strong>Data transfer out</strong> of S3</li>
+                            <li class="fragment"><strong>Lifecycle transitions</strong> between classes</li>
+                        </ul>
+                        <div class="highlight-box success fragment" style="font-size:0.7em;">
+                            S3 Intelligent-Tiering automatically moves data to the most cost-effective tier.
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Lambda Pricing</h4>
+                        <ul style="font-size:0.72em;">
+                            <li class="fragment"><strong>Number of requests:</strong> First 1M free/month</li>
+                            <li class="fragment"><strong>Duration:</strong> Measured in ms</li>
+                            <li class="fragment"><strong>Memory allocated:</strong> Affects cost per ms</li>
+                        </ul>
+                        <div class="highlight-box fragment" style="font-size:0.7em;">
+                            <strong>Lambda pricing formula:</strong><br>
+                            Cost = (Requests x $0.20/1M) + (GB-seconds x $0.0000166667)
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">S3 pricing depends on storage class, the volume of data, requests, and data transfer. Lambda pricing is based on the number of requests and duration, measured in milliseconds. Both services have generous free tier allocations. Understand these pricing components for the exam.</aside>
+            </section>
+
+            <!-- Section Divider: Billing Tools -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>Billing &amp; Cost Management Tools</h2>
+                <h3>Monitor, analyze, and optimize your AWS spending</h3>
+                <aside class="notes">Now let us look at the tools AWS provides for managing and optimizing costs. These tools are frequently tested on the exam and are essential for real-world AWS usage.</aside>
+            </section>
+
+            <!-- Billing Dashboard and Cost Explorer -->
+            <section>
+                <h2>AWS Billing Dashboard &amp; Cost Explorer</h2>
+                <div class="two-columns">
+                    <div class="card">
+                        <h4>Billing Dashboard</h4>
+                        <ul style="font-size:0.72em;">
+                            <li class="fragment">High-level overview of month-to-date spending</li>
+                            <li class="fragment">Summary of charges by service</li>
+                            <li class="fragment">Forecasted end-of-month charges</li>
+                            <li class="fragment">Access to all billing and cost tools</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>AWS Cost Explorer</h4>
+                        <ul style="font-size:0.72em;">
+                            <li class="fragment">Visualize and understand costs over time</li>
+                            <li class="fragment">Filter by service, Region, tag, or account</li>
+                            <li class="fragment">Forecast future costs (up to 12 months)</li>
+                            <li class="fragment">Identify cost trends and anomalies</li>
+                            <li class="fragment">Provides Reserved Instance recommendations</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="key-point fragment">Cost Explorer is your primary tool for analyzing historical spending and forecasting future costs.</p>
+                <aside class="notes">The Billing Dashboard gives a quick snapshot of current spending. Cost Explorer is the more powerful tool for visualizing costs over time, filtering by dimensions, and getting RI purchase recommendations. The exam often asks about which tool to use for specific scenarios.</aside>
+            </section>
+
+            <!-- AWS Budgets -->
+            <section>
+                <h2>AWS Budgets</h2>
+                <div class="concept-box">
+                    <h4>Set Custom Budgets and Get Alerts</h4>
+                    <div class="two-columns">
+                        <div>
+                            <ul style="font-size:0.72em;">
+                                <li class="fragment"><strong>Cost Budgets:</strong> Track spending against a dollar amount</li>
+                                <li class="fragment"><strong>Usage Budgets:</strong> Track usage of specific services</li>
+                                <li class="fragment"><strong>Reservation Budgets:</strong> Track RI/Savings Plan utilization</li>
+                                <li class="fragment"><strong>Savings Plans Budgets:</strong> Track coverage and utilization</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div class="highlight-box warning fragment" style="font-size:0.72em;">
+                                <strong>Alert Thresholds:</strong>
+                                <ul>
+                                    <li>Set alerts at actual or forecasted amounts</li>
+                                    <li>Notify via email or SNS topic</li>
+                                    <li>Trigger automated actions (e.g., apply IAM policy to restrict launches)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="key-point fragment">AWS Budgets is the tool for setting proactive spending limits and alerts.</p>
+                <aside class="notes">AWS Budgets allows you to set custom budgets and receive alerts when actual or forecasted spending exceeds your thresholds. You can set up cost, usage, reservation, and savings plans budgets. Alerts can trigger emails, SNS notifications, or automated actions. This is distinct from Cost Explorer, which is for analysis.</aside>
+            </section>
+
+            <!-- Cost and Usage Reports, Pricing Calculator -->
+            <section>
+                <h2>More Cost Management Tools</h2>
+                <div class="two-columns">
+                    <div class="card">
+                        <h4>AWS Cost and Usage Reports (CUR)</h4>
+                        <ul style="font-size:0.72em;">
+                            <li class="fragment">Most comprehensive cost and usage data</li>
+                            <li class="fragment">Granular, line-item billing data</li>
+                            <li class="fragment">Delivered to S3 bucket</li>
+                            <li class="fragment">Can be analyzed with Athena, QuickSight, or Redshift</li>
+                            <li class="fragment">Includes resource-level detail</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>AWS Pricing Calculator</h4>
+                        <ul style="font-size:0.72em;">
+                            <li class="fragment">Estimate costs before deploying</li>
+                            <li class="fragment">Build cost estimates for solutions</li>
+                            <li class="fragment">Compare pricing across Regions</li>
+                            <li class="fragment">Generate shareable estimate links</li>
+                            <li class="fragment">Available at calculator.aws</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box fragment" style="font-size:0.75em;">
+                    <strong>Exam tip:</strong> CUR is the most detailed billing report. Pricing Calculator is for pre-deployment cost estimation. Know the difference.
+                </div>
+                <aside class="notes">The Cost and Usage Reports provide the most detailed billing data, delivered to an S3 bucket for analysis. The Pricing Calculator at calculator.aws is used to estimate costs before deploying workloads. The exam will test whether you know which tool is appropriate for pre-deployment estimates versus post-deployment analysis.</aside>
+            </section>
+
+            <!-- Consolidated Billing and Tags -->
+            <section>
+                <h2>Consolidated Billing &amp; Cost Allocation Tags</h2>
+                <div class="two-columns">
+                    <div class="card">
+                        <h4>Consolidated Billing (AWS Organizations)</h4>
+                        <ul style="font-size:0.72em;">
+                            <li class="fragment">Single payment method for all accounts</li>
+                            <li class="fragment">Combined usage across accounts</li>
+                            <li class="fragment">Volume pricing discounts applied to aggregate</li>
+                            <li class="fragment">Detailed billing reports per account</li>
+                            <li class="fragment">Free feature of AWS Organizations</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Cost Allocation Tags</h4>
+                        <ul style="font-size:0.72em;">
+                            <li class="fragment">Label resources for cost tracking</li>
+                            <li class="fragment"><strong>AWS-generated tags:</strong> Automatically applied (e.g., aws:createdBy)</li>
+                            <li class="fragment"><strong>User-defined tags:</strong> Custom labels (e.g., Department, Project)</li>
+                            <li class="fragment">Must be activated in Billing console</li>
+                            <li class="fragment">Appear in Cost Explorer and CUR</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="key-point fragment">Consolidated billing aggregates usage across accounts, enabling volume discounts.</p>
+                <aside class="notes">Consolidated billing is a key benefit of AWS Organizations. By combining usage, organizations can reach higher volume discount tiers. Cost allocation tags allow you to categorize and track costs by business dimensions like project, department, or environment. Both are commonly tested topics.</aside>
+            </section>
+
+            <!-- Section Divider: Support Plans -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>AWS Support Plans</h2>
+                <h3>Choosing the right level of support for your organization</h3>
+                <aside class="notes">AWS offers multiple support plan tiers. Understanding the differences, especially response times and included features, is essential for the exam.</aside>
+            </section>
+
+            <!-- Support Plans Comparison -->
+            <section>
+                <h2>AWS Support Plan Tiers</h2>
+                <table style="font-size:0.55em;">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Basic</th>
+                            <th>Developer</th>
+                            <th>Business</th>
+                            <th>Enterprise On-Ramp</th>
+                            <th>Enterprise</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment">
+                            <td><strong>Price</strong></td>
+                            <td>Free</td>
+                            <td>$29+/mo</td>
+                            <td>$100+/mo</td>
+                            <td>$5,500+/mo</td>
+                            <td>$15,000+/mo</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Tech Support</strong></td>
+                            <td>None</td>
+                            <td>Business hours email</td>
+                            <td>24/7 phone, email, chat</td>
+                            <td>24/7 phone, email, chat</td>
+                            <td>24/7 phone, email, chat</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Response (Critical)</strong></td>
+                            <td>N/A</td>
+                            <td>12 hours (general)</td>
+                            <td>1 hour</td>
+                            <td>30 minutes</td>
+                            <td>15 minutes</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>TAM</strong></td>
+                            <td>No</td>
+                            <td>No</td>
+                            <td>No</td>
+                            <td>Pool of TAMs</td>
+                            <td>Designated TAM</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Trusted Advisor</strong></td>
+                            <td>7 core checks</td>
+                            <td>7 core checks</td>
+                            <td>Full checks</td>
+                            <td>Full checks</td>
+                            <td>Full checks</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <aside class="notes">The support plan comparison table is heavily tested on the exam. Key differentiators include: a TAM (Technical Account Manager) is only available at Enterprise On-Ramp and Enterprise levels. Full Trusted Advisor checks start at Business tier. Critical response times vary from 1 hour at Business to 15 minutes at Enterprise.</aside>
+            </section>
+
+            <!-- When to Use Each Tier -->
+            <section>
+                <h2>Choosing the Right Support Plan</h2>
+                <div class="two-columns">
+                    <div>
+                        <div class="highlight-box fragment" style="font-size:0.72em;">
+                            <strong>Basic:</strong> Experimenting or testing AWS. No technical support cases needed.
+                        </div>
+                        <div class="highlight-box success fragment" style="font-size:0.72em;">
+                            <strong>Developer:</strong> Development and testing environments. One primary contact needs email support during business hours.
+                        </div>
+                        <div class="highlight-box warning fragment" style="font-size:0.72em;">
+                            <strong>Business:</strong> Production workloads. Need 24/7 phone support and full Trusted Advisor. Most common for production use.
+                        </div>
+                    </div>
+                    <div>
+                        <div class="highlight-box danger fragment" style="font-size:0.72em;">
+                            <strong>Enterprise On-Ramp:</strong> Business-critical workloads. Need a pool of TAMs and 30-minute critical response.
+                        </div>
+                        <div class="highlight-box danger fragment" style="font-size:0.72em;">
+                            <strong>Enterprise:</strong> Mission-critical workloads. Need a designated TAM, 15-minute critical response, and concierge support.
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">When choosing a plan, match it to the workload criticality. Basic for experimentation, Developer for dev and test, Business for production, Enterprise On-Ramp and Enterprise for business-critical and mission-critical workloads respectively. The exam may present scenarios and ask which plan is appropriate.</aside>
+            </section>
+
+            <!-- Personal Health Dashboard and Trusted Advisor -->
+            <section>
+                <h2>Health Dashboard &amp; Trusted Advisor</h2>
+                <div class="two-columns">
+                    <div class="card">
+                        <h4>AWS Health Dashboard</h4>
+                        <ul style="font-size:0.72em;">
+                            <li class="fragment">Personalized view of AWS service health</li>
+                            <li class="fragment">Alerts for events affecting your resources</li>
+                            <li class="fragment">Proactive notifications for scheduled changes</li>
+                            <li class="fragment">Remediation guidance included</li>
+                            <li class="fragment">Available to all support plans</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>AWS Trusted Advisor</h4>
+                        <ul style="font-size:0.72em;">
+                            <li class="fragment">Automated best-practice checks across 5 categories:</li>
+                            <li class="fragment"><strong>Cost Optimization</strong> -- reduce spending</li>
+                            <li class="fragment"><strong>Performance</strong> -- improve speed</li>
+                            <li class="fragment"><strong>Security</strong> -- close gaps</li>
+                            <li class="fragment"><strong>Fault Tolerance</strong> -- increase resilience</li>
+                            <li class="fragment"><strong>Service Limits</strong> -- avoid hitting quotas</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box warning fragment" style="font-size:0.75em;">
+                    <strong>Exam tip:</strong> Basic and Developer plans get only 7 core Trusted Advisor checks (mostly security). Full checks require Business tier or above.
+                </div>
+                <aside class="notes">The AWS Health Dashboard provides personalized alerts about AWS events that may affect your account. Trusted Advisor performs automated checks across five categories. An important exam distinction: Basic and Developer plans only get 7 core checks, while Business, Enterprise On-Ramp, and Enterprise get the full set of checks.</aside>
+            </section>
+
+            <!-- Section Divider: Exam Prep -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>Exam Preparation -- CLF-C02</h2>
+                <h3>Strategies, domains, and practice for certification success</h3>
+                <aside class="notes">Now we transition to dedicated exam preparation. This section covers the exam structure, domain breakdown, strategies, and sample questions to prepare you for the CLF-C02 certification.</aside>
+            </section>
+
+            <!-- Exam Overview -->
+            <section>
+                <h2>CLF-C02 Exam Overview</h2>
+                <div class="concept-box">
+                    <div class="three-columns">
+                        <div class="fragment">
+                            <h4>Format</h4>
+                            <ul style="font-size:0.72em;">
+                                <li>65 questions total</li>
+                                <li>Multiple choice (1 correct) and multiple response (2+ correct)</li>
+                                <li>50 scored, 15 unscored</li>
+                            </ul>
+                        </div>
+                        <div class="fragment">
+                            <h4>Logistics</h4>
+                            <ul style="font-size:0.72em;">
+                                <li>90 minutes duration</li>
+                                <li>Testing center or online proctored</li>
+                                <li>Valid for 3 years</li>
+                            </ul>
+                        </div>
+                        <div class="fragment">
+                            <h4>Scoring</h4>
+                            <ul style="font-size:0.72em;">
+                                <li>Scaled score: 100-1000</li>
+                                <li>Passing score: 700</li>
+                                <li>No penalty for guessing</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <p class="key-point fragment">There is no penalty for guessing -- always answer every question.</p>
+                <aside class="notes">The CLF-C02 exam has 65 questions, but only 50 are scored. You have 90 minutes. The passing score is 700 out of 1000 on a scaled score. There is no penalty for wrong answers, so always answer every question even if you are unsure. The exam can be taken at a testing center or via online proctoring.</aside>
+            </section>
+
+            <!-- Exam Domains -->
+            <section>
+                <h2>Exam Domains &amp; Weights</h2>
+                <div class="two-columns">
+                    <div>
+                        <div class="card fragment" style="border-left: 4px solid var(--accent-color); margin-bottom: 15px;">
+                            <h4>Domain 1: Cloud Concepts</h4>
+                            <p style="font-size:0.75em; margin:0;"><strong>24% of exam</strong></p>
+                            <p style="font-size:0.68em; color:#666; margin:5px 0 0 0;">Value proposition, cloud economics, cloud architecture design principles</p>
+                        </div>
+                        <div class="card fragment" style="border-left: 4px solid var(--danger-color); margin-bottom: 15px;">
+                            <h4>Domain 2: Security and Compliance</h4>
+                            <p style="font-size:0.75em; margin:0;"><strong>30% of exam</strong></p>
+                            <p style="font-size:0.68em; color:#666; margin:5px 0 0 0;">Shared responsibility, governance, compliance, access management</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="card fragment" style="border-left: 4px solid var(--success-color); margin-bottom: 15px;">
+                            <h4>Domain 3: Cloud Technology and Services</h4>
+                            <p style="font-size:0.75em; margin:0;"><strong>34% of exam</strong></p>
+                            <p style="font-size:0.68em; color:#666; margin:5px 0 0 0;">Deploying, managing services, global infrastructure, networking</p>
+                        </div>
+                        <div class="card fragment" style="border-left: 4px solid var(--warning-color); margin-bottom: 15px;">
+                            <h4>Domain 4: Billing, Pricing, and Support</h4>
+                            <p style="font-size:0.75em; margin:0;"><strong>12% of exam</strong></p>
+                            <p style="font-size:0.68em; color:#666; margin:5px 0 0 0;">Pricing models, billing management, support resources</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box danger fragment" style="font-size:0.75em;">
+                    <strong>Key insight:</strong> Security (30%) and Technology (34%) together make up 64% of the exam. Focus your study time accordingly.
+                </div>
+                <aside class="notes">The four domains have different weights. Domain 3, Cloud Technology and Services, carries the highest weight at 34%. Domain 2, Security and Compliance, is close behind at 30%. Together they represent nearly two-thirds of the exam. Domain 4, which covers billing and pricing, is only 12% but is still important for passing.</aside>
+            </section>
+
+            <!-- Key Services per Domain -->
+            <section>
+                <h2>Key Services to Know by Domain</h2>
+                <div class="two-columns" style="font-size:0.68em;">
+                    <div>
+                        <div class="card fragment" style="margin-bottom:12px;">
+                            <h4>Domain 1: Cloud Concepts</h4>
+                            <ul>
+                                <li>Well-Architected Framework (6 pillars)</li>
+                                <li>Cloud deployment models (public, private, hybrid)</li>
+                                <li>Benefits of cloud (agility, elasticity, cost savings)</li>
+                                <li>AWS Cloud Adoption Framework</li>
+                            </ul>
+                        </div>
+                        <div class="card fragment">
+                            <h4>Domain 2: Security</h4>
+                            <ul>
+                                <li>IAM (users, groups, roles, policies)</li>
+                                <li>AWS Organizations, SCPs</li>
+                                <li>KMS, CloudTrail, Config</li>
+                                <li>Security Hub, GuardDuty, Shield, WAF</li>
+                                <li>Shared Responsibility Model</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="card fragment" style="margin-bottom:12px;">
+                            <h4>Domain 3: Technology</h4>
+                            <ul>
+                                <li>EC2, Lambda, ECS, Fargate</li>
+                                <li>S3, EBS, EFS, Glacier</li>
+                                <li>RDS, DynamoDB, Aurora</li>
+                                <li>VPC, CloudFront, Route 53</li>
+                                <li>CloudWatch, CloudFormation</li>
+                            </ul>
+                        </div>
+                        <div class="card fragment">
+                            <h4>Domain 4: Billing</h4>
+                            <ul>
+                                <li>Cost Explorer, Budgets, CUR</li>
+                                <li>Pricing Calculator</li>
+                                <li>Consolidated Billing, Organizations</li>
+                                <li>Support Plans, Trusted Advisor</li>
+                                <li>Free Tier, pricing models</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">This slide lists the key services and concepts for each domain. For Cloud Concepts, focus on the Well-Architected Framework and cloud benefits. Security revolves around IAM and the Shared Responsibility Model. Technology covers the core compute, storage, database, and networking services. Billing includes the cost management tools and support plans we covered earlier in this module.</aside>
+            </section>
+
+            <!-- Exam Strategies -->
+            <section>
+                <h2>Exam Question Strategies</h2>
+                <div class="two-columns">
+                    <div class="card">
+                        <h4>Answering Techniques</h4>
+                        <ul style="font-size:0.72em;">
+                            <li class="fragment">Read the entire question before looking at answers</li>
+                            <li class="fragment">Identify keywords: "most cost-effective," "most secure," "least operational overhead"</li>
+                            <li class="fragment">Eliminate obviously wrong answers first</li>
+                            <li class="fragment">If two answers seem correct, choose the more AWS-native solution</li>
+                            <li class="fragment">Flag and revisit difficult questions</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Time Management</h4>
+                        <ul style="font-size:0.72em;">
+                            <li class="fragment">~83 seconds per question on average</li>
+                            <li class="fragment">Do not spend more than 2 minutes on any one question</li>
+                            <li class="fragment">Answer easy questions first, flag harder ones</li>
+                            <li class="fragment">Review flagged questions at the end</li>
+                            <li class="fragment">Never leave a question blank</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="key-point fragment">When in doubt, choose the answer that is the most managed, most scalable, and most AWS-native.</p>
+                <aside class="notes">These strategies will help during the exam. Look for qualifier keywords in the question that guide you to the correct answer. Elimination is your most powerful technique for multiple choice. AWS generally favors managed, serverless, and native solutions over self-managed approaches.</aside>
+            </section>
+
+            <!-- Study Resources -->
+            <section>
+                <h2>Recommended Study Resources</h2>
+                <div class="three-columns">
+                    <div class="card fragment">
+                        <h4>AWS Official</h4>
+                        <ul style="font-size:0.68em;">
+                            <li>AWS Skill Builder (free and paid courses)</li>
+                            <li>AWS Certified Cloud Practitioner Exam Guide</li>
+                            <li>AWS Well-Architected Labs</li>
+                            <li>AWS Documentation and FAQs</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment">
+                        <h4>Whitepapers</h4>
+                        <ul style="font-size:0.68em;">
+                            <li>Overview of Amazon Web Services</li>
+                            <li>AWS Well-Architected Framework</li>
+                            <li>How AWS Pricing Works</li>
+                            <li>Compare AWS Support Plans</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment">
+                        <h4>Practice Exams</h4>
+                        <ul style="font-size:0.68em;">
+                            <li>AWS Official Practice Question Set (20 free questions)</li>
+                            <li>AWS Skill Builder practice exams</li>
+                            <li>Exam Prep courses on Skill Builder</li>
+                            <li>Review incorrect answers thoroughly</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box success fragment" style="font-size:0.75em;">
+                    <strong>Top tip:</strong> The free Official Practice Question Set on AWS Skill Builder matches the real exam format exactly. Complete it at least twice before your exam.
+                </div>
+                <aside class="notes">AWS provides excellent free study resources through Skill Builder. The official practice question set is free and closely mirrors the real exam format. The four whitepapers listed here cover the most commonly tested topics. Spend time reviewing any practice questions you get wrong to fill knowledge gaps.</aside>
+            </section>
+
+            <!-- Sample Question 1 -->
+            <section>
+                <h2>Sample Exam Questions</h2>
+                <div class="concept-box" style="font-size:0.78em;">
+                    <h4>Question 1</h4>
+                    <p>A company wants to receive alerts when their AWS spending exceeds a defined threshold. Which AWS service should they use?</p>
+                    <ul style="list-style:upper-alpha;">
+                        <li>AWS Cost Explorer</li>
+                        <li>AWS Budgets</li>
+                        <li>AWS Pricing Calculator</li>
+                        <li>AWS Cost and Usage Reports</li>
+                    </ul>
+                    <div class="fragment">
+                        <div class="highlight-box success">
+                            <strong>Answer: B -- AWS Budgets</strong><br>
+                            AWS Budgets allows you to set custom spending thresholds and receive alerts when actual or forecasted costs exceed those thresholds. Cost Explorer is for analysis, not alerts.
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">This is a typical exam question that tests your knowledge of which cost management tool to use. The key word here is "alerts" -- which maps directly to AWS Budgets. Cost Explorer analyzes costs but does not send alerts on thresholds. The Pricing Calculator is for pre-deployment estimates.</aside>
+            </section>
+
+            <!-- Sample Question 2 -->
+            <section>
+                <h2>Sample Exam Questions</h2>
+                <div class="concept-box" style="font-size:0.78em;">
+                    <h4>Question 2</h4>
+                    <p>Which AWS Support plan provides access to a designated Technical Account Manager (TAM)?</p>
+                    <ul style="list-style:upper-alpha;">
+                        <li>Basic</li>
+                        <li>Business</li>
+                        <li>Enterprise On-Ramp</li>
+                        <li>Enterprise</li>
+                    </ul>
+                    <div class="fragment">
+                        <div class="highlight-box success">
+                            <strong>Answer: D -- Enterprise</strong><br>
+                            Only the Enterprise plan provides a designated TAM. Enterprise On-Ramp provides access to a pool of TAMs, not a designated one. Business and Basic do not include TAM access.
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">This question tests the distinction between Enterprise and Enterprise On-Ramp. The keyword is "designated" TAM. Enterprise On-Ramp provides a pool of TAMs, but only Enterprise provides a single designated TAM. This is a frequently tested distinction.</aside>
+            </section>
+
+            <!-- Sample Question 3 -->
+            <section>
+                <h2>Sample Exam Questions</h2>
+                <div class="concept-box" style="font-size:0.78em;">
+                    <h4>Question 3</h4>
+                    <p>Under the AWS Shared Responsibility Model, which of the following is the customer's responsibility?</p>
+                    <ul style="list-style:upper-alpha;">
+                        <li>Physical security of data centers</li>
+                        <li>Patching the hypervisor</li>
+                        <li>Configuring security group rules</li>
+                        <li>Maintaining network infrastructure hardware</li>
+                    </ul>
+                    <div class="fragment">
+                        <div class="highlight-box success">
+                            <strong>Answer: C -- Configuring security group rules</strong><br>
+                            Security groups are customer-managed network firewalls. Physical security, hypervisor patching, and network hardware are all AWS responsibilities.
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">The Shared Responsibility Model is the most commonly tested topic on the exam. Customers are responsible for security IN the cloud, which includes configuring security groups, managing IAM, encrypting data, and patching guest operating systems. AWS handles security OF the cloud, including physical infrastructure, hypervisors, and managed services.</aside>
+            </section>
+
+            <!-- Sample Question 4 -->
+            <section>
+                <h2>Sample Exam Questions</h2>
+                <div class="concept-box" style="font-size:0.78em;">
+                    <h4>Question 4</h4>
+                    <p>A company needs to run a workload that can tolerate interruptions and wants the lowest possible cost. Which EC2 purchasing option should they choose?</p>
+                    <ul style="list-style:upper-alpha;">
+                        <li>On-Demand Instances</li>
+                        <li>Reserved Instances</li>
+                        <li>Spot Instances</li>
+                        <li>Dedicated Hosts</li>
+                    </ul>
+                    <div class="fragment">
+                        <div class="highlight-box success">
+                            <strong>Answer: C -- Spot Instances</strong><br>
+                            Spot Instances offer up to 90% discount compared to On-Demand pricing but can be interrupted with a 2-minute warning. They are ideal for fault-tolerant workloads.
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">This question combines two keywords: "tolerate interruptions" and "lowest possible cost." Both point directly to Spot Instances. The exam frequently tests whether you can match workload requirements to the correct EC2 pricing model. If the workload can handle interruptions, Spot is always the most cost-effective option.</aside>
+            </section>
+
+            <!-- Lab Callout -->
+            <section data-background-color="#1a365d" class="lab-callout">
+                <div class="lab-badge">Hands-On Lab</div>
+                <h2>Lab 6: Practice Exam Questions</h2>
+                <div class="lab-description">
+                    <p>Put your knowledge to the test with a comprehensive practice exam covering all four domains of the CLF-C02 certification.</p>
+                    <ul>
+                        <li>Complete a set of practice questions across all domains</li>
+                        <li>Review answers and explanations for each question</li>
+                        <li>Identify knowledge gaps and areas for further study</li>
+                        <li>Practice time management and question strategies</li>
+                        <li>Discuss any remaining questions with your instructor</li>
+                    </ul>
+                </div>
+                <aside class="notes">This lab gives participants hands-on practice with exam-style questions. Encourage them to apply the strategies discussed: eliminate wrong answers, watch for keywords, manage time, and never leave a question blank. Review any commonly missed topics as a group afterward.</aside>
+            </section>
+
+            <!-- Key Takeaways: Course Summary -->
+            <section class="takeaway-list">
+                <h2>Key Takeaways -- Course Summary</h2>
+                <div class="two-columns">
+                    <div>
+                        <ul>
+                            <li class="fragment"><strong>Module 1 -- Cloud Fundamentals:</strong> Cloud computing models, AWS global infrastructure, Well-Architected Framework</li>
+                            <li class="fragment"><strong>Module 2 -- Core Services:</strong> EC2, S3, RDS, Lambda, VPC -- the building blocks of AWS</li>
+                            <li class="fragment"><strong>Module 3 -- Security:</strong> IAM, Shared Responsibility Model, encryption, compliance services</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul>
+                            <li class="fragment"><strong>Module 4 -- Architecture:</strong> High availability, fault tolerance, elastic scaling, decoupled architectures</li>
+                            <li class="fragment"><strong>Module 5 -- Additional Services:</strong> Databases, analytics, ML/AI, migration, and management services</li>
+                            <li class="fragment"><strong>Module 6 -- Billing and Exam Prep:</strong> Pricing models, cost tools, support plans, and CLF-C02 exam strategies</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">This summary recaps all six modules of the course. Each module maps to one or more exam domains. Encourage participants to revisit any module where they feel less confident, and to use AWS Skill Builder for additional practice.</aside>
+            </section>
+
+            <!-- Top Exam Tips -->
+            <section>
+                <h2>Top Exam Tips</h2>
+                <div class="two-columns">
+                    <div class="card">
+                        <h4>Before the Exam</h4>
+                        <ul style="font-size:0.72em;">
+                            <li class="fragment">Complete the official AWS practice question set</li>
+                            <li class="fragment">Read the "How AWS Pricing Works" whitepaper</li>
+                            <li class="fragment">Review the Well-Architected Framework</li>
+                            <li class="fragment">Master the Shared Responsibility Model</li>
+                            <li class="fragment">Know every EC2 pricing model</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>During the Exam</h4>
+                        <ul style="font-size:0.72em;">
+                            <li class="fragment">Read each question fully before answering</li>
+                            <li class="fragment">Look for qualifier words (most, least, best)</li>
+                            <li class="fragment">Eliminate wrong answers to improve odds</li>
+                            <li class="fragment">Flag uncertain questions for review</li>
+                            <li class="fragment">Never leave any question unanswered</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="key-point fragment">The Shared Responsibility Model and the Well-Architected Framework appear in nearly every exam. Know them thoroughly.</p>
+                <aside class="notes">These are the most impactful tips for exam success. The Shared Responsibility Model and Well-Architected Framework are the two most commonly tested topics. EC2 pricing models come up frequently. Always answer every question since there is no penalty for guessing. Use the flag and review strategy to manage your time effectively.</aside>
+            </section>
+
+            <!-- Questions Slide -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="questions-slide">
+                <h2>Questions?</h2>
+                <p>Thank you for completing the AWS Cloud Practitioner 1-Day Course</p>
+                <p style="font-size:0.8em; color: #90cdf4;">Best of luck on your CLF-C02 certification exam!</p>
+                <div class="course-badge" style="display:inline-block; background:rgba(255,255,255,0.2); border:1px solid rgba(255,255,255,0.4); border-radius:25px; padding:8px 24px; color:white; font-size:0.7em; margin-top:20px;">AWS Cloud Practitioner -- 1-Day Course Complete</div>
+                <aside class="notes">Thank participants for their engagement throughout the day. Remind them of key study resources: AWS Skill Builder, the official practice question set, and the recommended whitepapers. Encourage them to schedule their exam while the material is fresh. Offer to answer any remaining questions.</aside>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/notes/notes.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide',
+            plugins: [RevealHighlight, RevealNotes]
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 3: Networking &amp; Compute — VPC &amp; EC2</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/white.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/monokai.css">
+    <style>
+        :root {
+            --heading-color: #1a365d;
+            --accent-color: #2b6cb0;
+            --success-color: #2f855a;
+            --warning-color: #c05621;
+            --danger-color: #c53030;
+            --text-color: #2d3748;
+        }
+
+        .reveal {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            font-size: 32px;
+        }
+
+        .reveal h1 {
+            color: var(--heading-color);
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 0.4em;
+        }
+
+        .reveal h2 {
+            color: var(--heading-color);
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 0.4em;
+        }
+
+        .reveal h3 {
+            color: var(--accent-color);
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 0.3em;
+        }
+
+        .reveal h4 {
+            color: var(--accent-color);
+            font-size: 0.95em;
+            font-weight: 600;
+            margin-bottom: 0.2em;
+        }
+
+        /* Title Slide */
+        .title-slide h1 {
+            color: #ffffff;
+            font-size: 2.2em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .title-slide h2 {
+            color: #bee3f8;
+            font-size: 1.3em;
+            font-weight: 400;
+        }
+
+        .title-slide h3 {
+            color: #90cdf4;
+            font-size: 1.0em;
+            font-weight: 400;
+        }
+
+        .title-slide .course-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 30px;
+            padding: 8px 24px;
+            color: #ffffff;
+            font-size: 0.65em;
+            margin-top: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        /* Highlight Boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+            border-left: 5px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 18px 22px;
+            margin: 15px 0;
+            text-align: left;
+            font-size: 0.85em;
+        }
+
+        .highlight-box.success {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border-left-color: var(--success-color);
+        }
+
+        .highlight-box.warning {
+            background: linear-gradient(135deg, #fffaf0 0%, #feebc8 100%);
+            border-left-color: var(--warning-color);
+        }
+
+        .highlight-box.danger {
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+            border-left-color: var(--danger-color);
+        }
+
+        /* Two Columns */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* Three Columns */
+        .three-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* Card */
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+            text-align: left;
+        }
+
+        /* Concept Box */
+        .concept-box {
+            background: #ffffff;
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        /* Key Point */
+        .key-point {
+            text-align: center;
+            font-style: italic;
+            color: var(--accent-color);
+            font-size: 1.15em;
+            margin: 20px 0;
+        }
+
+        /* Lab Callout */
+        .lab-callout h2 {
+            color: #ffffff;
+            font-size: 1.5em;
+        }
+
+        .lab-callout h3 {
+            color: #bee3f8;
+        }
+
+        .lab-callout p {
+            color: #e2e8f0;
+        }
+
+        .lab-callout .lab-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.25);
+            border-radius: 30px;
+            padding: 6px 20px;
+            color: #ffffff;
+            font-size: 0.7em;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .lab-callout .lab-description {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(6px);
+            border-radius: 12px;
+            padding: 20px 25px;
+            margin-top: 15px;
+            color: #e2e8f0;
+            text-align: left;
+            font-size: 0.85em;
+        }
+
+        /* Section Divider */
+        .section-divider h2 {
+            color: #ffffff;
+            font-size: 1.8em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .section-divider h3 {
+            color: #bee3f8;
+            font-weight: 400;
+        }
+
+        /* Questions Slide */
+        .questions-slide h2 {
+            color: #ffffff;
+            font-size: 1.8em;
+        }
+
+        .questions-slide p {
+            color: #bee3f8;
+            font-size: 1.1em;
+        }
+
+        /* Takeaway List */
+        .takeaway-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .takeaway-list ul li {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px 18px;
+            margin-bottom: 10px;
+            background: #ffffff;
+            font-size: 0.85em;
+        }
+
+        /* Module Progress */
+        .module-progress {
+            position: fixed;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--heading-color);
+            color: #ffffff;
+            border-radius: 30px;
+            padding: 6px 18px;
+            font-size: 0.45em;
+            z-index: 100;
+            white-space: nowrap;
+        }
+
+        /* Tables */
+        .reveal table {
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            width: 100%;
+            font-size: 0.7em;
+            margin: 15px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .reveal table thead th {
+            background: var(--heading-color);
+            color: #ffffff;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .reveal table tbody td {
+            padding: 10px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            background: #ffffff;
+        }
+
+        .reveal table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .reveal table tbody tr:nth-child(even) td {
+            background: #f7fafc;
+        }
+
+        /* List Styles */
+        .reveal ul, .reveal ol {
+            font-size: 0.88em;
+            line-height: 1.6;
+        }
+
+        .reveal li {
+            margin-bottom: 4px;
+        }
+
+        /* Blockquote */
+        .reveal blockquote {
+            background: #f7fafc;
+            border-left: 4px solid var(--accent-color);
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: var(--text-color);
+            margin: 15px 0;
+            width: 90%;
+        }
+
+        /* Slide Number */
+        .reveal .slide-number {
+            background: var(--heading-color);
+            color: #ffffff;
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 6px 0 0 0;
+            right: 0;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="title-slide">
+                <h1>Networking &amp; Compute</h1>
+                <h2>Module 3</h2>
+                <h3>VPC &amp; EC2 Fundamentals</h3>
+                <div class="course-badge">AWS Cloud Practitioner -- 1-Day Course</div>
+                <aside class="notes">
+                    Welcome to Module 3 where we cover the foundational networking and compute services in AWS. VPC and EC2 are two of the most critical services you will encounter. Understanding how they work together is essential for building any workload on AWS.
+                </aside>
+            </section>
+
+            <!-- Module Objectives -->
+            <section>
+                <h2>Module Objectives</h2>
+                <div class="concept-box">
+                    <ul>
+                        <li class="fragment fade-up">Describe the purpose and components of Amazon VPC</li>
+                        <li class="fragment fade-up">Differentiate between public and private subnets</li>
+                        <li class="fragment fade-up">Compare Security Groups and Network ACLs</li>
+                        <li class="fragment fade-up">Explain what Amazon EC2 is and how instance types are organized</li>
+                        <li class="fragment fade-up">Compare EC2 pricing models to optimize cost</li>
+                        <li class="fragment fade-up">Understand Elastic Load Balancing and Auto Scaling fundamentals</li>
+                    </ul>
+                </div>
+                <div class="module-progress">Module 3 of 8 -- Networking &amp; Compute</div>
+                <aside class="notes">
+                    These objectives align with the AWS Cloud Practitioner exam domains. Networking and compute are foundational topics that appear throughout the exam. We will build from VPC networking concepts up through EC2 compute and then cover high availability patterns.
+                </aside>
+            </section>
+
+            <!-- Section Divider: Amazon VPC -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>Amazon VPC</h2>
+                <h3>Virtual Private Cloud</h3>
+                <aside class="notes">
+                    We begin with Amazon VPC, which is the networking foundation for nearly everything you deploy on AWS. Without understanding VPC, it is difficult to reason about security, connectivity, and architecture in the cloud.
+                </aside>
+            </section>
+
+            <!-- What is a VPC -->
+            <section>
+                <h2>What Is a VPC?</h2>
+                <div class="concept-box">
+                    <p>A <strong>Virtual Private Cloud (VPC)</strong> is a logically isolated section of the AWS cloud where you can launch AWS resources in a virtual network that you define.</p>
+                </div>
+                <ul>
+                    <li class="fragment fade-up">You control IP address ranges, subnets, route tables, and gateways</li>
+                    <li class="fragment fade-up">Each AWS account includes a default VPC in every Region</li>
+                    <li class="fragment fade-up">VPCs are Region-scoped and can span multiple Availability Zones</li>
+                    <li class="fragment fade-up">CIDR blocks define the IP address range (e.g., 10.0.0.0/16)</li>
+                </ul>
+                <aside class="notes">
+                    Think of a VPC as your own private data center within AWS. You get full control over the networking environment. The default VPC is provided so new users can launch instances without having to configure networking first, but production workloads typically use custom VPCs with carefully planned CIDR ranges.
+                </aside>
+            </section>
+
+            <!-- VPCs, AZs, and Regions -->
+            <section>
+                <h2>VPCs, AZs, and Regions</h2>
+                <div class="two-columns">
+                    <div class="card">
+                        <h4>Region</h4>
+                        <ul>
+                            <li class="fragment fade-up">A VPC belongs to a single Region</li>
+                            <li class="fragment fade-up">Cannot span Regions</li>
+                            <li class="fragment fade-up">Use VPC Peering or Transit Gateway for cross-Region connectivity</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Availability Zones</h4>
+                        <ul>
+                            <li class="fragment fade-up">A VPC can span all AZs in its Region</li>
+                            <li class="fragment fade-up">Subnets are AZ-scoped</li>
+                            <li class="fragment fade-up">Deploy across multiple AZs for high availability</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="key-point fragment fade-up">
+                    VPC = Region-scoped | Subnet = AZ-scoped
+                </div>
+                <aside class="notes">
+                    This relationship is fundamental. A VPC lives within one Region, but you create subnets inside specific Availability Zones. To build highly available architectures, you deploy resources across subnets in multiple AZs within the same VPC.
+                </aside>
+            </section>
+
+            <!-- Core VPC Components -->
+            <section>
+                <h2>Core VPC Components</h2>
+                <div class="two-columns">
+                    <div class="card">
+                        <h4>Subnets</h4>
+                        <p style="font-size:0.8em;">Subdivisions of a VPC's IP range, each in a single AZ. Can be public or private.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Route Tables</h4>
+                        <p style="font-size:0.8em;">Rules that determine where network traffic is directed. Each subnet has one associated route table.</p>
+                    </div>
+                </div>
+                <div class="two-columns" style="margin-top:20px;">
+                    <div class="card">
+                        <h4>Internet Gateway (IGW)</h4>
+                        <p style="font-size:0.8em;">Allows communication between resources in a VPC and the internet. Horizontally scaled and highly available.</p>
+                    </div>
+                    <div class="card">
+                        <h4>NAT Gateway</h4>
+                        <p style="font-size:0.8em;">Enables private subnet resources to access the internet for outbound traffic while remaining unreachable from inbound.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    These four components form the backbone of VPC networking. Subnets segment your network, route tables control traffic flow, the internet gateway provides public internet access, and the NAT gateway lets private resources make outbound connections without exposing them to inbound internet traffic.
+                </aside>
+            </section>
+
+            <!-- Public vs Private Subnets -->
+            <section>
+                <h2>Public vs Private Subnets</h2>
+                <div class="two-columns">
+                    <div class="card">
+                        <h4>Public Subnet</h4>
+                        <ul>
+                            <li class="fragment fade-up">Route table has a route to an Internet Gateway</li>
+                            <li class="fragment fade-up">Resources can have public IP addresses</li>
+                            <li class="fragment fade-up">Directly reachable from the internet</li>
+                            <li class="fragment fade-up">Use for: load balancers, bastion hosts, public-facing web servers</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Private Subnet</h4>
+                        <ul>
+                            <li class="fragment fade-up">No route to an Internet Gateway</li>
+                            <li class="fragment fade-up">Resources only have private IP addresses</li>
+                            <li class="fragment fade-up">Outbound via NAT Gateway if needed</li>
+                            <li class="fragment fade-up">Use for: databases, application servers, internal services</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box success fragment fade-up">
+                    <strong>Best Practice:</strong> Place resources in private subnets by default. Only use public subnets when direct internet access is required.
+                </div>
+                <aside class="notes">
+                    The distinction between public and private subnets comes down to routing. If a subnet's route table includes a route to an internet gateway, it is public. Most production workloads place application tiers and data tiers in private subnets and only expose a load balancer or bastion in the public subnet.
+                </aside>
+            </section>
+
+            <!-- Security Groups -->
+            <section>
+                <h2>Security Groups</h2>
+                <div class="concept-box">
+                    <p>A <strong>Security Group</strong> acts as a virtual firewall at the <strong>instance level</strong>, controlling inbound and outbound traffic.</p>
+                </div>
+                <ul>
+                    <li class="fragment fade-up"><strong>Stateful</strong> -- return traffic is automatically allowed</li>
+                    <li class="fragment fade-up">Rules are <strong>allow-only</strong> -- you cannot create deny rules</li>
+                    <li class="fragment fade-up">All rules are evaluated before deciding to allow traffic</li>
+                    <li class="fragment fade-up">Can reference other security groups as sources</li>
+                    <li class="fragment fade-up">Default: allows all outbound, denies all inbound</li>
+                </ul>
+                <aside class="notes">
+                    Security groups are probably the most commonly used network security feature in AWS. Because they are stateful, if you allow inbound traffic on port 443, the response traffic is automatically permitted without a separate outbound rule. This simplifies configuration compared to traditional firewalls.
+                </aside>
+            </section>
+
+            <!-- Network ACLs -->
+            <section>
+                <h2>Network ACLs</h2>
+                <div class="concept-box">
+                    <p>A <strong>Network Access Control List (NACL)</strong> is a firewall at the <strong>subnet level</strong> that controls traffic entering and leaving a subnet.</p>
+                </div>
+                <ul>
+                    <li class="fragment fade-up"><strong>Stateless</strong> -- return traffic must be explicitly allowed</li>
+                    <li class="fragment fade-up">Supports both <strong>allow</strong> and <strong>deny</strong> rules</li>
+                    <li class="fragment fade-up">Rules are evaluated in <strong>number order</strong> (lowest first)</li>
+                    <li class="fragment fade-up">Default NACL allows all inbound and outbound traffic</li>
+                    <li class="fragment fade-up">One NACL per subnet; one subnet can have only one NACL</li>
+                </ul>
+                <aside class="notes">
+                    NACLs provide a second layer of defense at the subnet boundary. Because they are stateless, you need to configure both inbound and outbound rules. They are useful for broad deny rules, such as blocking a known malicious IP range at the subnet level.
+                </aside>
+            </section>
+
+            <!-- Security Groups vs NACLs Comparison -->
+            <section>
+                <h2>Security Groups vs NACLs</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Security Group</th>
+                            <th>Network ACL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Scope</td>
+                            <td>Instance (ENI) level</td>
+                            <td>Subnet level</td>
+                        </tr>
+                        <tr>
+                            <td>State</td>
+                            <td>Stateful</td>
+                            <td>Stateless</td>
+                        </tr>
+                        <tr>
+                            <td>Rule Type</td>
+                            <td>Allow only</td>
+                            <td>Allow and Deny</td>
+                        </tr>
+                        <tr>
+                            <td>Rule Evaluation</td>
+                            <td>All rules evaluated</td>
+                            <td>Rules in number order</td>
+                        </tr>
+                        <tr>
+                            <td>Default Inbound</td>
+                            <td>Deny all</td>
+                            <td>Allow all</td>
+                        </tr>
+                        <tr>
+                            <td>Return Traffic</td>
+                            <td>Automatic</td>
+                            <td>Must be explicitly allowed</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="highlight-box fragment fade-up">
+                    <strong>Remember:</strong> Security Groups are stateful (SG = Stateful). NACLs are stateless and operate at the subnet boundary.
+                </div>
+                <aside class="notes">
+                    This comparison table is a frequent topic on the Cloud Practitioner exam. The key differentiators to remember are stateful versus stateless, allow-only versus allow-and-deny, and instance level versus subnet level. Most workloads rely heavily on security groups with NACLs as an additional defense layer.
+                </aside>
+            </section>
+
+            <!-- VPC Peering and Transit Gateway -->
+            <section>
+                <h2>VPC Connectivity</h2>
+                <div class="two-columns">
+                    <div class="card">
+                        <h4>VPC Peering</h4>
+                        <ul>
+                            <li class="fragment fade-up">Private connection between two VPCs</li>
+                            <li class="fragment fade-up">Works across accounts and Regions</li>
+                            <li class="fragment fade-up">Non-transitive -- each pair needs its own peering</li>
+                            <li class="fragment fade-up">Best for a small number of VPC connections</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Transit Gateway</h4>
+                        <ul>
+                            <li class="fragment fade-up">Hub-and-spoke model for connecting multiple VPCs</li>
+                            <li class="fragment fade-up">Supports thousands of VPCs</li>
+                            <li class="fragment fade-up">Can connect VPCs and on-premises networks</li>
+                            <li class="fragment fade-up">Best for large-scale, complex networking</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    VPC Peering is straightforward for connecting two VPCs but does not scale well because every pair needs its own peering connection and peering is non-transitive. Transit Gateway solves this with a central hub that all VPCs connect to, greatly simplifying network topology in large organizations.
+                </aside>
+            </section>
+
+            <!-- Hybrid Connectivity: VPN vs Direct Connect -->
+            <section>
+                <h2>Hybrid Connectivity</h2>
+                <div class="two-columns">
+                    <div class="card">
+                        <h4>AWS Site-to-Site VPN</h4>
+                        <ul>
+                            <li class="fragment fade-up">Encrypted IPsec tunnel over the public internet</li>
+                            <li class="fragment fade-up">Connects on-premises network to a VPC</li>
+                            <li class="fragment fade-up">Quick to set up -- operational in minutes</li>
+                            <li class="fragment fade-up">Lower cost, but variable latency</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>AWS Direct Connect</h4>
+                        <ul>
+                            <li class="fragment fade-up">Dedicated private connection from on-premises to AWS</li>
+                            <li class="fragment fade-up">Consistent low latency, higher throughput</li>
+                            <li class="fragment fade-up">Takes weeks to establish</li>
+                            <li class="fragment fade-up">Higher cost than VPN</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box success fragment fade-up">
+                    <strong>VPN</strong> = encrypted over internet (quick, variable latency) | <strong>Direct Connect</strong> = dedicated private line (consistent, higher cost)
+                </div>
+                <aside class="notes">
+                    Site-to-Site VPN and Direct Connect are the two primary ways to connect an on-premises data center to AWS. VPN is the faster and cheaper option -- you can have an encrypted tunnel running in minutes. However, because the traffic traverses the public internet, latency can vary. Direct Connect provides a dedicated physical connection through an AWS partner facility, delivering consistent performance and higher bandwidth. It is the right choice for workloads that require predictable latency or move large volumes of data, but it takes weeks to provision and costs more. Many organizations use both: Direct Connect as the primary path and VPN as a backup.
+                </aside>
+            </section>
+
+            <!-- VPC Endpoints -->
+            <section>
+                <h2>VPC Endpoints</h2>
+                <div class="concept-box">
+                    <p><strong>VPC Endpoints</strong> allow private connectivity from your VPC to supported AWS services without traversing the internet, improving security and reducing data transfer costs.</p>
+                </div>
+                <div class="two-columns">
+                    <div class="card">
+                        <h4>Gateway Endpoints</h4>
+                        <ul>
+                            <li class="fragment fade-up">Support <strong>S3</strong> and <strong>DynamoDB</strong> only</li>
+                            <li class="fragment fade-up">Route table entries -- no additional charge</li>
+                            <li class="fragment fade-up">Traffic stays within the AWS network</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Interface Endpoints (AWS PrivateLink)</h4>
+                        <ul>
+                            <li class="fragment fade-up">ENI with a private IP -- supports 100+ AWS services</li>
+                            <li class="fragment fade-up">Hourly charge plus per-GB data processing fee</li>
+                            <li class="fragment fade-up">Also used to expose your own services to other VPCs</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box success fragment fade-up">
+                    <strong>Key takeaway:</strong> VPC Endpoints keep traffic within the AWS network, improving security and reducing data transfer costs.
+                </div>
+                <aside class="notes">
+                    VPC Endpoints remove the need for an internet gateway, NAT device, or VPN connection to reach AWS services. Gateway Endpoints are free and work by adding a route to your route table -- they are available only for S3 and DynamoDB. Interface Endpoints use AWS PrivateLink and create an ENI in your subnet with a private IP address, supporting a much broader set of services but at a per-hour and per-GB cost. For the exam, remember the distinction: Gateway Endpoints are free and limited to S3 and DynamoDB; Interface Endpoints cost money but cover many more services.
+                </aside>
+            </section>
+
+            <!-- Section Divider: Amazon EC2 -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>Amazon EC2</h2>
+                <h3>Elastic Compute Cloud</h3>
+                <aside class="notes">
+                    Now we move to Amazon EC2, the core compute service in AWS. EC2 gives you resizable virtual servers that you can provision in minutes rather than weeks, which was revolutionary when it launched and remains foundational to cloud computing.
+                </aside>
+            </section>
+
+            <!-- What is EC2 -->
+            <section>
+                <h2>What Is Amazon EC2?</h2>
+                <div class="concept-box">
+                    <p><strong>Amazon Elastic Compute Cloud (EC2)</strong> provides virtual servers -- called <strong>instances</strong> -- in the cloud, giving you resizable compute capacity on demand.</p>
+                </div>
+                <ul>
+                    <li class="fragment fade-up">Launch instances in minutes, scale up or down as needed</li>
+                    <li class="fragment fade-up">Pay only for the compute time you use</li>
+                    <li class="fragment fade-up">Choose from hundreds of instance types optimized for different workloads</li>
+                    <li class="fragment fade-up">Full root/admin access to your instances</li>
+                    <li class="fragment fade-up">Runs within your VPC for network isolation</li>
+                </ul>
+                <aside class="notes">
+                    EC2 was one of the first AWS services and remains one of the most widely used. It replaces the need to invest in physical hardware upfront. You can experiment, develop, and scale without long-term commitments, paying only for what you consume.
+                </aside>
+            </section>
+
+            <!-- EC2 Instance Types -->
+            <section>
+                <h2>EC2 Instance Families</h2>
+                <div class="three-columns" style="font-size:0.82em;">
+                    <div class="card">
+                        <h4>General Purpose (M, T, A)</h4>
+                        <p style="font-size:0.85em;">Balanced compute, memory, networking — web servers, dev environments</p>
+                    </div>
+                    <div class="card">
+                        <h4>Compute Optimized (C)</h4>
+                        <p style="font-size:0.85em;">High-performance processors — batch processing, HPC, media encoding</p>
+                    </div>
+                    <div class="card">
+                        <h4>Memory Optimized (R, X, z)</h4>
+                        <p style="font-size:0.85em;">Large in-memory data sets — in-memory databases, real-time analytics</p>
+                    </div>
+                </div>
+                <div class="two-columns" style="margin-top:20px;font-size:0.82em;">
+                    <div class="card">
+                        <h4>Storage Optimized (I, D, H)</h4>
+                        <p style="font-size:0.85em;">High sequential read/write — data warehousing, distributed file systems</p>
+                    </div>
+                    <div class="card">
+                        <h4>Accelerated Computing (P, G, Inf, Trn)</h4>
+                        <p style="font-size:0.85em;">Hardware accelerators (GPUs/FPGAs) — ML training, graphics rendering</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    AWS organizes instance types into families optimized for different workloads. For the Cloud Practitioner exam, you need to know the general categories and their use cases. You do not need to memorize specific instance specifications, but understanding which family fits which workload is important.
+                </aside>
+            </section>
+
+            <!-- Instance Type Naming Convention -->
+            <section>
+                <h2>Instance Type Naming</h2>
+                <div class="concept-box" style="text-align:center;">
+                    <h3 style="font-size:1.6em;letter-spacing:2px;margin-bottom:15px;">m5.xlarge</h3>
+                    <div class="two-columns" style="font-size:0.85em;">
+                        <div>
+                            <p><strong>m</strong> = Instance family (General Purpose)</p>
+                            <p><strong>5</strong> = Generation number</p>
+                        </div>
+                        <div>
+                            <p><strong>xlarge</strong> = Instance size</p>
+                            <p>Sizes: nano, micro, small, medium, large, xlarge, 2xlarge...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box fragment fade-up">
+                    <strong>Tip:</strong> Higher generation numbers generally offer better price-performance. Prefer current-generation instances (e.g., m7i over m5) for new workloads.
+                </div>
+                <aside class="notes">
+                    The naming convention is straightforward once you understand the pattern. The letter identifies the family, the number is the generation, and the size determines the amount of vCPU, memory, and network capacity. Each step up in size typically doubles the resources and cost.
+                </aside>
+            </section>
+
+            <!-- Amazon Machine Images -->
+            <section>
+                <h2>Amazon Machine Images (AMIs)</h2>
+                <div class="concept-box">
+                    <p>An <strong>AMI</strong> is a template that contains the software configuration (OS, application server, applications) required to launch an instance.</p>
+                </div>
+                <div class="two-columns">
+                    <div class="card">
+                        <h4>AMI Sources</h4>
+                        <ul>
+                            <li class="fragment fade-up">AWS-provided (Amazon Linux, Ubuntu, Windows)</li>
+                            <li class="fragment fade-up">AWS Marketplace (third-party)</li>
+                            <li class="fragment fade-up">Community AMIs</li>
+                            <li class="fragment fade-up">Custom AMIs you create</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Key Characteristics</h4>
+                        <ul>
+                            <li class="fragment fade-up">Region-specific (can be copied across Regions)</li>
+                            <li class="fragment fade-up">Includes root volume and optional data volumes</li>
+                            <li class="fragment fade-up">Launch permissions control who can use it</li>
+                            <li class="fragment fade-up">Foundation for repeatable, consistent deployments</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    AMIs are the blueprints for your EC2 instances. Creating custom AMIs from a configured instance is a common practice called golden image baking. This ensures every instance you launch is identical and already has the software and patches you need, reducing configuration drift.
+                </aside>
+            </section>
+
+            <!-- EC2 Pricing Models -->
+            <section>
+                <h2>EC2 Pricing Models</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Commitment</th>
+                            <th>Savings</th>
+                            <th>Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>On-Demand</strong></td>
+                            <td>None</td>
+                            <td>Baseline (no discount)</td>
+                            <td>Short-term, unpredictable workloads</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reserved Instances</strong></td>
+                            <td>1 or 3 years</td>
+                            <td>Up to 72%</td>
+                            <td>Steady-state, predictable usage</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Savings Plans</strong></td>
+                            <td>1 or 3 years ($/hr)</td>
+                            <td>Up to 72%</td>
+                            <td>Flexible across instance families</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Spot Instances</strong></td>
+                            <td>None</td>
+                            <td>Up to 90%</td>
+                            <td>Fault-tolerant, flexible workloads</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dedicated Hosts</strong></td>
+                            <td>On-Demand or Reserved</td>
+                            <td>Varies</td>
+                            <td>Licensing, compliance requirements</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="highlight-box warning fragment fade-up">
+                    <strong>Spot Instances</strong> can be interrupted by AWS with a 2-minute warning. Only use them for workloads that can handle interruptions (batch jobs, CI/CD, data analysis).
+                </div>
+                <aside class="notes">
+                    Pricing models are a popular exam topic. On-Demand is the most flexible but most expensive. Reserved Instances and Savings Plans trade commitment for discounts. Spot gives the deepest discounts but can be reclaimed. Dedicated Hosts are for specific compliance or licensing needs such as per-socket or per-core software licenses.
+                </aside>
+            </section>
+
+            <!-- EC2 Instance Lifecycle -->
+            <section>
+                <h2>EC2 Instance Lifecycle</h2>
+                <div class="concept-box" style="text-align:center;">
+                    <p style="font-size:0.9em;">
+                        <strong>pending</strong> &rarr; <strong>running</strong> &rarr; <strong>stopping</strong> &rarr; <strong>stopped</strong> &rarr; <strong>terminated</strong>
+                    </p>
+                </div>
+                <div class="two-columns">
+                    <div class="card">
+                        <h4>Running State</h4>
+                        <ul>
+                            <li class="fragment fade-up">Instance is active and billing applies</li>
+                            <li class="fragment fade-up">Can be stopped (EBS-backed) or terminated</li>
+                            <li class="fragment fade-up">Can be rebooted without data loss</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Stopped vs Terminated</h4>
+                        <ul>
+                            <li class="fragment fade-up"><strong>Stopped:</strong> No compute charges; EBS volumes persist</li>
+                            <li class="fragment fade-up"><strong>Terminated:</strong> Instance is deleted; EBS root volume deleted by default</li>
+                            <li class="fragment fade-up">Instance store data is lost on stop or terminate</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Understanding the lifecycle matters for both cost management and operations. When you stop an instance, you stop paying for compute but still pay for EBS storage. Terminating is permanent and the instance cannot be restarted. Termination protection can be enabled to prevent accidental deletion.
+                </aside>
+            </section>
+
+            <!-- Amazon EBS Overview -->
+            <section>
+                <h2>Amazon EBS Overview</h2>
+                <div class="concept-box">
+                    <p><strong>Amazon Elastic Block Store (EBS)</strong> provides persistent block-level storage volumes for EC2 instances. Think of it as a virtual hard drive.</p>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Volume Type</th>
+                            <th>Category</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>gp3</strong></td>
+                            <td>General Purpose SSD</td>
+                            <td>Boot volumes, dev/test, virtual desktops</td>
+                        </tr>
+                        <tr>
+                            <td><strong>io2</strong></td>
+                            <td>Provisioned IOPS SSD</td>
+                            <td>Databases needing sustained IOPS</td>
+                        </tr>
+                        <tr>
+                            <td><strong>st1</strong></td>
+                            <td>Throughput Optimized HDD</td>
+                            <td>Big data, data warehouses, log processing</td>
+                        </tr>
+                        <tr>
+                            <td><strong>sc1</strong></td>
+                            <td>Cold HDD</td>
+                            <td>Infrequent access, lowest cost</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="highlight-box success fragment fade-up">
+                    <strong>Key fact:</strong> EBS volumes are AZ-scoped and can only attach to instances in the same AZ. Use EBS Snapshots to copy data across AZs or Regions.
+                </div>
+                <aside class="notes">
+                    EBS is the primary storage mechanism for EC2. gp3 is the default and recommended volume type for most workloads, offering a good balance of price and performance. io2 is for I/O-intensive database workloads. HDD options are cheaper for sequential access patterns but cannot be used as boot volumes.
+                </aside>
+            </section>
+
+            <!-- Elastic IP Addresses -->
+            <section>
+                <h2>Elastic IP Addresses</h2>
+                <div class="two-columns">
+                    <div class="card">
+                        <h4>What Are Elastic IPs?</h4>
+                        <ul>
+                            <li class="fragment fade-up">Static, public IPv4 addresses you allocate to your account</li>
+                            <li class="fragment fade-up">Can be associated and disassociated with instances</li>
+                            <li class="fragment fade-up">Persist until you explicitly release them</li>
+                            <li class="fragment fade-up">Useful for maintaining a fixed IP after instance replacement</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Important Considerations</h4>
+                        <ul>
+                            <li class="fragment fade-up">Free when associated with a running instance</li>
+                            <li class="fragment fade-up">Charged when allocated but not in use</li>
+                            <li class="fragment fade-up">Limited to 5 per Region by default</li>
+                            <li class="fragment fade-up">Prefer DNS names and load balancers over Elastic IPs when possible</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box warning fragment fade-up">
+                    <strong>Cost note:</strong> As of February 2024, AWS charges for all public IPv4 addresses, including Elastic IPs -- even when attached to running instances.
+                </div>
+                <aside class="notes">
+                    Elastic IPs provide a stable endpoint, but AWS now charges for all public IPv4 addresses to encourage IPv6 adoption and efficient IP usage. For most architectures, placing instances behind a load balancer with a DNS name is preferred over assigning Elastic IPs directly.
+                </aside>
+            </section>
+
+            <!-- Serverless Compute: AWS Lambda -->
+            <section>
+                <h2>Serverless Compute: AWS Lambda</h2>
+                <div class="concept-box">
+                    <p><strong>AWS Lambda</strong> lets you run code without provisioning or managing servers. You supply the code, and AWS handles all the infrastructure, scaling, and availability.</p>
+                </div>
+                <div class="two-columns">
+                    <div class="card">
+                        <h4>How Lambda Works</h4>
+                        <ul>
+                            <li class="fragment fade-up">Event-driven -- triggered by S3, API Gateway, DynamoDB, and more</li>
+                            <li class="fragment fade-up">Scales automatically with concurrent executions</li>
+                            <li class="fragment fade-up">Pay per request plus compute duration -- no charge when idle</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Key Characteristics</h4>
+                        <ul>
+                            <li class="fragment fade-up">Supports Python, Node.js, Java, Go, .NET, Ruby, and custom runtimes</li>
+                            <li class="fragment fade-up">15-minute max execution; up to 10 GB memory per function</li>
+                            <li class="fragment fade-up">Integrates natively with many AWS services</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box success fragment fade-up">
+                    <strong>Lambda</strong> is the foundation of serverless architecture on AWS -- no servers to manage, no idle cost.
+                </div>
+                <aside class="notes">
+                    Lambda vs EC2 is a common exam comparison. EC2 gives you full control over a virtual server that runs continuously (or on a schedule you manage), while Lambda runs code only in response to events and scales automatically. Lambda is ideal for short-duration, event-driven tasks such as processing an uploaded file, handling an API request, or reacting to a database change. EC2 is better suited for long-running processes, applications that need persistent state on disk, or workloads that require a specific operating system configuration. Remember the 15-minute execution limit -- if your workload runs longer than that, Lambda is not the right fit.
+                </aside>
+            </section>
+
+            <!-- Section Divider: High Availability & Scaling -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>High Availability &amp; Scaling</h2>
+                <h3>Load Balancing and Auto Scaling</h3>
+                <aside class="notes">
+                    Now that we understand the individual compute and networking components, we need to discuss how to make them resilient and scalable. This section covers the services that help you distribute traffic and automatically adjust capacity.
+                </aside>
+            </section>
+
+            <!-- Elastic Load Balancing -->
+            <section>
+                <h2>Elastic Load Balancing</h2>
+                <div class="concept-box">
+                    <p><strong>Elastic Load Balancing (ELB)</strong> automatically distributes incoming application traffic across multiple targets (EC2 instances, containers, IPs) in one or more AZs.</p>
+                </div>
+                <div class="three-columns" style="font-size:0.82em;">
+                    <div class="card">
+                        <h4>Application LB (ALB)</h4>
+                        <ul>
+                            <li class="fragment fade-up">Layer 7 (HTTP/HTTPS)</li>
+                            <li class="fragment fade-up">Path- and host-based routing</li>
+                            <li class="fragment fade-up">Best for web applications</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Network LB (NLB)</h4>
+                        <ul>
+                            <li class="fragment fade-up">Layer 4 (TCP/UDP)</li>
+                            <li class="fragment fade-up">Ultra-low latency</li>
+                            <li class="fragment fade-up">Millions of requests/sec</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Gateway LB (GLB)</h4>
+                        <ul>
+                            <li class="fragment fade-up">Layer 3 (IP packets)</li>
+                            <li class="fragment fade-up">Third-party appliances</li>
+                            <li class="fragment fade-up">Firewalls, IDS/IPS</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    For the Cloud Practitioner exam, know that ALB is for HTTP/HTTPS traffic with advanced routing, NLB is for high-performance TCP/UDP traffic, and GLB is for deploying third-party network appliances. ALB is the most commonly used type for typical web applications.
+                </aside>
+            </section>
+
+            <!-- EC2 Auto Scaling -->
+            <section>
+                <h2>EC2 Auto Scaling</h2>
+                <div class="two-columns">
+                    <div class="card">
+                        <h4>How It Works</h4>
+                        <ul>
+                            <li class="fragment fade-up"><strong>Scale out:</strong> Add instances when demand increases</li>
+                            <li class="fragment fade-up"><strong>Scale in:</strong> Remove instances when demand decreases</li>
+                            <li class="fragment fade-up">Maintains a desired count of healthy instances</li>
+                            <li class="fragment fade-up">Works across multiple AZs for high availability</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Scaling Policies</h4>
+                        <ul>
+                            <li class="fragment fade-up"><strong>Target tracking:</strong> Maintain a metric at a target (e.g., CPU at 50%)</li>
+                            <li class="fragment fade-up"><strong>Step scaling:</strong> Scale by amounts based on alarm thresholds</li>
+                            <li class="fragment fade-up"><strong>Scheduled:</strong> Scale at specific times</li>
+                            <li class="fragment fade-up"><strong>Predictive:</strong> ML-based forecasting</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="key-point fragment fade-up">
+                    Auto Scaling ensures you have the right number of instances at all times -- improving availability and reducing cost.
+                </div>
+                <aside class="notes">
+                    Auto Scaling is a key differentiator of cloud computing. You define minimum, maximum, and desired capacity. AWS handles the rest. Combined with a load balancer, Auto Scaling enables architectures that can handle traffic spikes without manual intervention and save money during low-traffic periods.
+                </aside>
+            </section>
+
+            <!-- Launch Templates -->
+            <section>
+                <h2>Launch Templates</h2>
+                <div class="concept-box">
+                    <p>A <strong>Launch Template</strong> defines the configuration for an EC2 instance, enabling consistent and repeatable instance launches.</p>
+                </div>
+                <div class="highlight-box">
+                    <strong>A launch template specifies:</strong>
+                    <ul>
+                        <li class="fragment fade-up">AMI ID and instance type</li>
+                        <li class="fragment fade-up">Key pair and security groups</li>
+                        <li class="fragment fade-up">Network settings (subnet, public IP)</li>
+                        <li class="fragment fade-up">Storage (EBS volumes)</li>
+                        <li class="fragment fade-up">User data scripts for bootstrapping</li>
+                        <li class="fragment fade-up">IAM instance profile</li>
+                    </ul>
+                </div>
+                <div class="highlight-box success fragment fade-up">
+                    <strong>Best Practice:</strong> Use launch templates instead of launch configurations. Launch templates support versioning and are required by current-generation Auto Scaling features.
+                </div>
+                <aside class="notes">
+                    Launch templates are the modern way to define instance configurations. They replaced launch configurations and offer versioning, which means you can iterate on your instance setup without creating entirely new templates. Auto Scaling groups reference launch templates to know how to launch new instances.
+                </aside>
+            </section>
+
+            <!-- Lab Callout -->
+            <section data-background-color="#1a365d" class="lab-callout">
+                <div class="lab-badge">Hands-On Lab</div>
+                <h2>Lab 3: Launching an EC2 Instance in a VPC</h2>
+                <div class="lab-description">
+                    <ul>
+                        <li>Explore the default VPC, subnets, route tables, and internet gateway</li>
+                        <li>Launch an EC2 instance with a security group allowing HTTP and SSH</li>
+                        <li>Configure a user data script to install and start a web server</li>
+                        <li>Verify web server connectivity via the instance's public IP</li>
+                        <li>Connect to the instance using EC2 Instance Connect</li>
+                    </ul>
+                </div>
+                <aside class="notes">
+                    This lab brings together everything we covered in this module. Participants will build a VPC from scratch, configure networking components, and launch an EC2 instance. This hands-on experience reinforces the relationship between VPCs, subnets, security groups, and EC2 instances.
+                </aside>
+            </section>
+
+            <!-- Key Takeaways -->
+            <section>
+                <h2>Key Takeaways</h2>
+                <div class="takeaway-list">
+                    <ul>
+                        <li class="fragment fade-up"><strong>VPC</strong> is your isolated network in AWS -- it is Region-scoped with AZ-scoped subnets, and you control all routing and access.</li>
+                        <li class="fragment fade-up"><strong>Security Groups</strong> are stateful instance-level firewalls; <strong>NACLs</strong> are stateless subnet-level firewalls.</li>
+                        <li class="fragment fade-up"><strong>EC2</strong> provides resizable virtual servers with multiple instance families optimized for different workload types.</li>
+                        <li class="fragment fade-up"><strong>EC2 pricing</strong> ranges from flexible On-Demand to deeply discounted Spot and Reserved options -- choose based on workload characteristics.</li>
+                        <li class="fragment fade-up"><strong>EBS</strong> provides persistent block storage with volume types tailored to performance and cost needs.</li>
+                        <li class="fragment fade-up"><strong>ELB and Auto Scaling</strong> work together to deliver highly available, automatically scaling architectures.</li>
+                    </ul>
+                </div>
+                <aside class="notes">
+                    These are the essential concepts from this module. VPC and EC2 form the backbone of most AWS architectures. Understanding networking isolation, security layers, instance selection, pricing models, and scaling patterns will serve you well on both the exam and in real-world AWS work.
+                </aside>
+            </section>
+
+            <!-- Questions Slide -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="questions-slide">
+                <h2>Questions?</h2>
+                <p>Let us review any concepts before moving on.</p>
+                <aside class="notes">
+                    Open the floor for questions. Common areas of confusion include the difference between security groups and NACLs, how public versus private subnets work, and the various EC2 pricing models. Use this time to clarify before the lab.
+                </aside>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/notes/notes.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide',
+            plugins: [RevealHighlight, RevealNotes]
+        });
+    </script>
+</body>
+</html>

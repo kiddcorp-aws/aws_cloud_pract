@@ -1,0 +1,1061 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 2: AWS Identity & Access Management — AWS Cloud Practitioner</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/white.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/monokai.css">
+    <style>
+        :root {
+            --heading-color: #1a365d;
+            --accent-color: #2b6cb0;
+            --success-color: #2f855a;
+            --warning-color: #c05621;
+            --danger-color: #c53030;
+            --text-color: #2d3748;
+            --light-bg: #f7fafc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        .reveal {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+        }
+
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+            color: var(--heading-color);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .reveal h1 { font-size: 2.2em; }
+        .reveal h2 { font-size: 1.6em; margin-bottom: 0.6em; }
+        .reveal h3 { font-size: 1.3em; color: var(--accent-color); }
+
+        /* Title Slide */
+        .title-slide h1 {
+            color: #ffffff;
+            font-size: 2.6em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 0.2em;
+        }
+        .title-slide h2 {
+            color: #bee3f8;
+            font-size: 1.4em;
+            font-weight: 400;
+        }
+        .title-slide h3 {
+            color: #90cdf4;
+            font-size: 1.0em;
+            font-weight: 300;
+        }
+        .title-slide .course-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 24px;
+            border-radius: 30px;
+            color: #ffffff;
+            font-size: 0.8em;
+            margin-top: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+            border-left: 5px solid var(--accent-color);
+            padding: 20px 28px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+            font-size: 0.92em;
+        }
+        .highlight-box.success {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border-left-color: var(--success-color);
+        }
+        .highlight-box.warning {
+            background: linear-gradient(135deg, #fffaf0 0%, #feebc8 100%);
+            border-left-color: var(--warning-color);
+        }
+        .highlight-box.danger {
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+            border-left-color: var(--danger-color);
+        }
+
+        /* Two Column Layout */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+            margin-top: 20px;
+        }
+        .two-columns .column {
+            text-align: left;
+        }
+
+        /* Three Column Layout */
+        .three-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            align-items: start;
+            margin-top: 20px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+        .card h4 {
+            margin-top: 0;
+            color: var(--accent-color);
+            font-size: 1.0em;
+        }
+        .card p, .card li {
+            font-size: 0.82em;
+            line-height: 1.5;
+        }
+
+        /* Lists */
+        .reveal ul, .reveal ol {
+            margin-left: 0;
+        }
+        .reveal li {
+            font-size: 0.88em;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        .reveal ul ul li {
+            font-size: 0.95em;
+            color: #4a5568;
+        }
+
+        /* Concept Box */
+        .concept-box {
+            background: var(--card-bg);
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 24px 28px;
+            margin: 16px 0;
+            text-align: left;
+        }
+        .concept-box h4 {
+            color: var(--accent-color);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        /* Emoji Header */
+        .emoji-header {
+            font-size: 1.1em;
+        }
+        .emoji-header .emoji {
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+
+        /* Key Point */
+        .key-point {
+            font-size: 1.15em;
+            color: var(--accent-color);
+            font-weight: 600;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        /* Quote Style */
+        .reveal blockquote {
+            background: var(--light-bg);
+            border-left: 5px solid var(--accent-color);
+            padding: 20px 28px;
+            margin: 20px auto;
+            width: 85%;
+            font-style: italic;
+            border-radius: 0 8px 8px 0;
+            color: #4a5568;
+        }
+        .reveal blockquote cite {
+            display: block;
+            margin-top: 10px;
+            font-size: 0.85em;
+            color: var(--accent-color);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        /* Lab Callout */
+        .lab-callout h2, .lab-callout h3, .lab-callout p, .lab-callout li {
+            color: #ffffff !important;
+        }
+        .lab-callout .lab-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.5);
+            padding: 10px 30px;
+            border-radius: 30px;
+            color: #ffffff;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .lab-callout .lab-description {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px auto;
+            max-width: 80%;
+            backdrop-filter: blur(4px);
+        }
+        .lab-callout ul {
+            text-align: left;
+            display: inline-block;
+        }
+
+        /* Section Divider */
+        .section-divider h2 {
+            color: #ffffff;
+            font-size: 2.0em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .section-divider h3 {
+            color: #bee3f8;
+            font-weight: 400;
+        }
+
+        /* Takeaway List */
+        .takeaway-list li {
+            font-size: 0.9em;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .takeaway-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Questions Slide */
+        .questions-slide h2 {
+            color: #ffffff;
+            font-size: 2.4em;
+        }
+        .questions-slide p {
+            color: #bee3f8;
+            font-size: 1.1em;
+        }
+
+        /* Comparison Table */
+        .reveal table {
+            margin: 20px auto;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 0.82em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .reveal table th {
+            background: var(--heading-color);
+            color: #ffffff;
+            padding: 14px 20px;
+            font-weight: 600;
+        }
+        .reveal table td {
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .reveal table tr:nth-child(even) td {
+            background: var(--light-bg);
+        }
+
+        /* Visual Container */
+        .visual-container {
+            background: var(--light-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 16px auto;
+            text-align: center;
+        }
+
+        /* Progress indicator */
+        .module-progress {
+            position: fixed;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(26, 54, 93, 0.85);
+            color: #ffffff;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 0.55em;
+            z-index: 100;
+            backdrop-filter: blur(4px);
+        }
+
+        /* Slide number styling */
+        .reveal .slide-number {
+            background: var(--heading-color);
+            color: #ffffff;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.7em;
+        }
+
+        /* Code block styling */
+        .reveal pre {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            font-size: 0.52em;
+        }
+        .reveal pre code {
+            padding: 20px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- ============================================================
+                 SLIDE 1: TITLE SLIDE
+                 ============================================================ -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="title-slide">
+                <h1>AWS Identity & Access Management</h1>
+                <h2>Module 2</h2>
+                <h3>Securing Access to AWS Resources</h3>
+                <div class="course-badge">AWS Cloud Practitioner -- 1-Day Course</div>
+                <aside class="notes">
+                    Welcome to Module 2 on AWS Identity and Access Management, commonly known as IAM. This is arguably the most important service in all of AWS because it controls who can access what. Every API call in AWS goes through IAM for authorization. Understanding IAM is foundational to everything else we will cover today.
+                </aside>
+            </section>
+
+            <!-- ============================================================
+                 SLIDE 2: MODULE OBJECTIVES
+                 ============================================================ -->
+            <section>
+                <h2>Module Objectives</h2>
+                <div class="highlight-box">
+                    <p><strong>By the end of this module, you will be able to:</strong></p>
+                </div>
+                <ul>
+                    <li class="fragment">Explain the purpose and core components of AWS IAM</li>
+                    <li class="fragment">Differentiate between IAM Users, Groups, and Roles</li>
+                    <li class="fragment">Understand how IAM policies grant and restrict permissions</li>
+                    <li class="fragment">Apply security best practices for identity and access management</li>
+                    <li class="fragment">Describe identity federation and AWS IAM Identity Center</li>
+                </ul>
+                <aside class="notes">
+                    These objectives align directly with the AWS Cloud Practitioner exam domains around security and shared responsibility. IAM touches every service in AWS, so a strong foundation here will help with all subsequent modules.
+                </aside>
+            </section>
+
+            <!-- ============================================================
+                 SECTION: IAM FUNDAMENTALS
+                 ============================================================ -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>IAM Fundamentals</h2>
+                <h3>The Foundation of AWS Security</h3>
+                <aside class="notes">
+                    Let us begin with the fundamentals of IAM. Understanding these core concepts is critical before we move into policies, roles, and best practices.
+                </aside>
+            </section>
+
+            <!-- What is IAM -->
+            <section>
+                <h2>What is AWS IAM?</h2>
+                <div class="concept-box">
+                    <h4>Identity and Access Management</h4>
+                    <p>IAM enables you to securely control <strong>who</strong> (authentication) can do <strong>what</strong> (authorization) in your AWS account.</p>
+                </div>
+                <div class="three-columns">
+                    <div class="card fragment">
+                        <h4>Global Service</h4>
+                        <p>IAM is not region-specific. Users, groups, and roles are available across all AWS regions.</p>
+                    </div>
+                    <div class="card fragment">
+                        <h4>Free to Use</h4>
+                        <p>There is no charge for IAM. You only pay for the AWS resources your users consume.</p>
+                    </div>
+                    <div class="card fragment">
+                        <h4>Fine-Grained Control</h4>
+                        <p>Control access down to specific API actions on specific resources under specific conditions.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    IAM is one of the first services you interact with when setting up an AWS account. It is a global service, meaning an IAM user created in one region is available everywhere. Importantly, IAM itself is free. You are only charged for the resources that your users access. IAM provides extremely fine-grained control, letting you define exactly which API calls a principal can make on which resources.
+                </aside>
+            </section>
+
+            <!-- Root Account vs IAM Users -->
+            <section>
+                <h2>Root Account vs. IAM Users</h2>
+                <div class="two-columns">
+                    <div class="column">
+                        <div class="card">
+                            <h4>Root Account</h4>
+                            <ul>
+                                <li class="fragment">Created when you first set up your AWS account</li>
+                                <li class="fragment">Has unrestricted access to all resources</li>
+                                <li class="fragment">Cannot be limited by IAM policies</li>
+                                <li class="fragment">Required for a few specific tasks (closing account, changing support plan)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="card">
+                            <h4>IAM Users</h4>
+                            <ul>
+                                <li class="fragment">Created within IAM for individual people or applications</li>
+                                <li class="fragment">Permissions are controlled through policies</li>
+                                <li class="fragment">Can have console access, programmatic access, or both</li>
+                                <li class="fragment">Follow least privilege principle</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box danger fragment">
+                    <p><strong>Critical Rule:</strong> Never use the root account for day-to-day tasks. Lock it away, enable MFA, and create IAM users instead.</p>
+                </div>
+                <aside class="notes">
+                    The root account is the email address you used to create your AWS account. It has full, unrestricted access and cannot be limited by IAM policies. This makes it extremely dangerous for everyday use. Best practice is to lock the root account with MFA, create an IAM admin user for daily operations, and only use root for the handful of tasks that require it, such as closing the account or changing the support plan.
+                </aside>
+            </section>
+
+            <!-- IAM Principals -->
+            <section>
+                <h2>IAM Principals</h2>
+                <p>An IAM principal is an entity that can make requests to AWS services.</p>
+                <div class="three-columns">
+                    <div class="card fragment">
+                        <h4>Users</h4>
+                        <p>Represent a <strong>person or application</strong> that interacts with AWS. Each user has unique credentials.</p>
+                        <ul>
+                            <li>Console password</li>
+                            <li>Access keys (CLI/API)</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment">
+                        <h4>Groups</h4>
+                        <p>A <strong>collection of users</strong>. Policies attached to a group apply to all members.</p>
+                        <ul>
+                            <li>Simplifies permission management</li>
+                            <li>Cannot be nested</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment">
+                        <h4>Roles</h4>
+                        <p>An identity with permissions that can be <strong>assumed temporarily</strong> by users, applications, or services.</p>
+                        <ul>
+                            <li>No permanent credentials</li>
+                            <li>Temporary security tokens</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    There are three main types of IAM principals. Users are for individual people or applications and have long-term credentials. Groups let you manage permissions collectively, so if you have a team of developers, you attach a policy to the Developers group rather than to each user individually. Groups cannot be nested inside other groups. Roles are unique to AWS. They have no long-term credentials. Instead, when a role is assumed, AWS issues temporary security tokens. This is the preferred approach for granting permissions to services like EC2 or Lambda.
+                </aside>
+            </section>
+
+            <!-- ============================================================
+                 SECTION: IAM POLICIES & PERMISSIONS
+                 ============================================================ -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>IAM Policies and Permissions</h2>
+                <h3>Defining Who Can Do What</h3>
+                <aside class="notes">
+                    Now that we understand the principals, let us look at how permissions work. IAM policies are the mechanism through which you grant or deny access to AWS resources.
+                </aside>
+            </section>
+
+            <!-- IAM Policies -->
+            <section>
+                <h2>IAM Policies</h2>
+                <div class="concept-box">
+                    <h4>JSON-Based Permission Documents</h4>
+                    <p>IAM policies are JSON documents that define permissions. They specify which actions are allowed or denied on which AWS resources.</p>
+                </div>
+                <div class="two-columns">
+                    <div class="column fragment">
+                        <div class="highlight-box">
+                            <p><strong>Key Elements of a Policy Statement:</strong></p>
+                            <ul>
+                                <li><strong>Effect</strong> -- Allow or Deny</li>
+                                <li><strong>Action</strong> -- The API calls permitted (e.g., s3:GetObject)</li>
+                                <li><strong>Resource</strong> -- The specific AWS resource (ARN)</li>
+                                <li><strong>Condition</strong> -- Optional constraints (IP, time, MFA)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="column fragment">
+                        <div class="highlight-box warning">
+                            <p><strong>Evaluation Logic:</strong></p>
+                            <ul>
+                                <li>By default, all requests are denied (implicit deny)</li>
+                                <li>An explicit Allow overrides the default deny</li>
+                                <li>An explicit Deny always overrides any Allow</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    IAM policies are written in JSON and attached to users, groups, or roles. Each policy contains one or more statements. The Effect is either Allow or Deny. The Action specifies which API calls are covered. The Resource identifies the specific AWS resources using Amazon Resource Names, or ARNs. Conditions are optional and let you add context-based restrictions. The evaluation logic is important: everything is denied by default, an explicit Allow opens access, but an explicit Deny always wins over any Allow.
+                </aside>
+            </section>
+
+            <!-- Example Policy JSON -->
+            <section>
+                <h2>Example IAM Policy</h2>
+                <pre><code class="json" data-trim>
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::my-app-bucket",
+                "arn:aws:s3:::my-app-bucket/*"
+            ]
+        },
+        {
+            "Effect": "Deny",
+            "Action": "s3:DeleteObject",
+            "Resource": "arn:aws:s3:::my-app-bucket/*",
+            "Condition": {
+                "Bool": {
+                    "aws:MultiFactorAuthPresent": "false"
+                }
+            }
+        }
+    ]
+}
+                </code></pre>
+                <div class="highlight-box success fragment">
+                    <p><strong>This policy:</strong> Allows reading objects and listing the bucket, but denies deleting objects unless MFA is active.</p>
+                </div>
+                <aside class="notes">
+                    Here is a concrete example. The first statement allows the user to list the bucket and get objects from it. The second statement denies the ability to delete objects unless MFA authentication is present. Notice the Condition block, which is a powerful feature for adding context-based controls. The Version field should always be 2012-10-17, which is the current policy language version.
+                </aside>
+            </section>
+
+            <!-- Policy Types -->
+            <section>
+                <h2>Types of IAM Policies</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment">
+                            <td><strong>AWS Managed</strong></td>
+                            <td>Pre-built by AWS, updated automatically</td>
+                            <td>Common use cases (ReadOnlyAccess, PowerUserAccess)</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Customer Managed</strong></td>
+                            <td>Created and maintained by you</td>
+                            <td>Organization-specific requirements</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Inline</strong></td>
+                            <td>Embedded directly in a user, group, or role</td>
+                            <td>One-off, tightly coupled permissions</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="highlight-box fragment">
+                    <p><strong>Best Practice:</strong> Prefer AWS Managed policies when possible, use Customer Managed policies for custom needs, and avoid Inline policies unless strictly necessary.</p>
+                </div>
+                <aside class="notes">
+                    AWS provides over 1,000 managed policies covering common access patterns. These are maintained by AWS and updated as new services launch. Customer managed policies give you full control and can be versioned. Inline policies are embedded directly in a principal and cannot be reused. They are generally discouraged because they are harder to manage and audit, but they are useful when you need a strict one-to-one relationship between a policy and a principal.
+                </aside>
+            </section>
+
+            <!-- Principle of Least Privilege -->
+            <section>
+                <h2>Principle of Least Privilege</h2>
+                <div class="concept-box">
+                    <h4>Grant Only the Permissions Required</h4>
+                    <p>Every user, group, and role should have <strong>only</strong> the permissions necessary to perform their intended tasks -- nothing more.</p>
+                </div>
+                <div class="two-columns">
+                    <div class="column fragment">
+                        <div class="card">
+                            <h4>How to Implement</h4>
+                            <ul>
+                                <li>Start with zero permissions</li>
+                                <li>Add permissions incrementally as needed</li>
+                                <li>Use IAM Access Analyzer to identify unused permissions</li>
+                                <li>Review and remove unnecessary permissions regularly</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="column fragment">
+                        <div class="card">
+                            <h4>Why It Matters</h4>
+                            <ul>
+                                <li>Limits blast radius of compromised credentials</li>
+                                <li>Reduces accidental resource modifications</li>
+                                <li>Required for compliance (SOC 2, PCI-DSS, HIPAA)</li>
+                                <li>Core AWS Well-Architected principle</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <p class="key-point fragment">"When in doubt, leave it out."</p>
+                <aside class="notes">
+                    Least privilege is the single most important security principle in IAM. Many organizations make the mistake of granting AdministratorAccess broadly. This creates enormous risk. Instead, start with no permissions and add only what is needed. IAM Access Analyzer can generate policies based on actual usage, helping you right-size permissions. This principle is also heavily tested on the Cloud Practitioner exam.
+                </aside>
+            </section>
+
+            <!-- ============================================================
+                 SECTION: IAM ROLES
+                 ============================================================ -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>IAM Roles</h2>
+                <h3>Temporary Credentials for Services and Users</h3>
+                <aside class="notes">
+                    Roles are one of the most powerful and frequently misunderstood features of IAM. Let us dive deeper into how they work and when to use them.
+                </aside>
+            </section>
+
+            <!-- What Are Roles -->
+            <section>
+                <h2>What Are IAM Roles?</h2>
+                <div class="concept-box">
+                    <h4>Temporary, Assumable Identities</h4>
+                    <p>A role is an IAM identity with specific permissions that can be <strong>assumed</strong> by trusted entities. Roles issue <strong>temporary security credentials</strong> via the AWS Security Token Service (STS).</p>
+                </div>
+                <div class="two-columns">
+                    <div class="column fragment">
+                        <div class="highlight-box success">
+                            <p><strong>Roles vs. Users:</strong></p>
+                            <ul>
+                                <li>No long-term credentials (no passwords or access keys)</li>
+                                <li>Credentials expire automatically</li>
+                                <li>Can be assumed by multiple entities</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="column fragment">
+                        <div class="highlight-box">
+                            <p><strong>Two Policy Types on a Role:</strong></p>
+                            <ul>
+                                <li><strong>Trust Policy</strong> -- who can assume the role</li>
+                                <li><strong>Permission Policy</strong> -- what the role can do</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Think of a role as a hat you can put on temporarily. When you assume a role, you get temporary credentials with the permissions defined in that role. When the credentials expire, access is revoked. Every role has two parts: a trust policy that defines who is allowed to assume the role, and a permissions policy that defines what the role can do. This separation is a key security design.
+                </aside>
+            </section>
+
+            <!-- Common Role Use Cases -->
+            <section>
+                <h2>Common Role Use Cases</h2>
+                <div class="three-columns">
+                    <div class="card fragment">
+                        <h4>EC2 Instance Roles</h4>
+                        <p>Attach a role to an EC2 instance so applications running on it can access AWS services <strong>without embedding access keys</strong>.</p>
+                        <ul>
+                            <li>Instance profile delivers credentials</li>
+                            <li>Credentials rotate automatically</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment">
+                        <h4>Lambda Execution Roles</h4>
+                        <p>Every Lambda function must have an execution role that grants it permission to interact with other AWS services.</p>
+                        <ul>
+                            <li>Defined at function creation</li>
+                            <li>Scoped to function needs</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment">
+                        <h4>Cross-Account Access</h4>
+                        <p>Allow users or services in <strong>Account A</strong> to assume a role in <strong>Account B</strong> to access its resources.</p>
+                        <ul>
+                            <li>No credential sharing</li>
+                            <li>Auditable via CloudTrail</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    EC2 instance roles are perhaps the most common use case. Instead of putting access keys on an EC2 instance, which is a major security risk, you attach a role. The instance metadata service delivers temporary credentials that rotate automatically. Lambda functions require an execution role to interact with any other AWS service. Cross-account roles are essential in multi-account architectures. They let you grant access across accounts without sharing credentials.
+                </aside>
+            </section>
+
+            <!-- Service-Linked Roles -->
+            <section>
+                <h2>Service-Linked Roles</h2>
+                <div class="concept-box">
+                    <h4>Predefined Roles for AWS Services</h4>
+                    <p>A service-linked role is a unique type of IAM role linked directly to an AWS service. The service defines the permissions, and only that service can assume the role.</p>
+                </div>
+                <div class="highlight-box fragment">
+                    <p><strong>Key characteristics:</strong></p>
+                    <ul>
+                        <li>Created automatically by the service when needed</li>
+                        <li>Permissions are predefined and cannot be modified</li>
+                        <li>Includes all permissions the service requires to call other services on your behalf</li>
+                        <li>Examples: Elastic Load Balancing, Amazon RDS, AWS Config</li>
+                    </ul>
+                </div>
+                <p class="key-point fragment">Service-linked roles simplify setup by providing pre-configured permissions that the service needs.</p>
+                <aside class="notes">
+                    Service-linked roles are a special category. They are created and managed by AWS services. You cannot modify their permissions because the service itself defines exactly what it needs. For example, when you create an Elastic Load Balancer, AWS automatically creates a service-linked role that allows ELB to register and deregister instances, perform health checks, and other necessary actions. You will see these in your IAM console, and it is important to understand that they are normal and expected.
+                </aside>
+            </section>
+
+            <!-- ============================================================
+                 SECTION: SECURITY BEST PRACTICES
+                 ============================================================ -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>Security Best Practices</h2>
+                <h3>Protecting Your AWS Environment</h3>
+                <aside class="notes">
+                    Security is not optional in the cloud. AWS provides the tools, but it is your responsibility to configure them properly. Let us review the critical best practices for IAM.
+                </aside>
+            </section>
+
+            <!-- MFA -->
+            <section>
+                <h2>Multi-Factor Authentication (MFA)</h2>
+                <div class="highlight-box danger">
+                    <p><strong>Non-Negotiable:</strong> Enable MFA on the root account and all IAM users with console access.</p>
+                </div>
+                <div class="two-columns">
+                    <div class="column fragment">
+                        <div class="card">
+                            <h4>MFA Options</h4>
+                            <ul>
+                                <li><strong>Virtual MFA devices</strong> -- Authenticator apps (Google Authenticator, Authy)</li>
+                                <li><strong>Hardware MFA tokens</strong> -- Physical key fobs</li>
+                                <li><strong>FIDO2 security keys</strong> -- YubiKey and similar devices</li>
+                                <li><strong>Passkeys</strong> -- Platform authenticators (supported since 2024)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="column fragment">
+                        <div class="card">
+                            <h4>Why MFA Matters</h4>
+                            <ul>
+                                <li>Passwords alone can be phished or leaked</li>
+                                <li>MFA adds a second verification factor</li>
+                                <li>Blocks over 99% of account compromise attacks</li>
+                                <li>Can be required via IAM policy conditions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    MFA is the single most impactful security measure you can take. AWS supports multiple MFA device types, including virtual authenticator apps, hardware tokens, and FIDO2 security keys. Since 2024, AWS also supports passkeys for root account MFA. You can also enforce MFA in IAM policies using the aws:MultiFactorAuthPresent condition key, ensuring that sensitive operations require MFA even if the user is already logged in.
+                </aside>
+            </section>
+
+            <!-- Password Policies and Access Keys -->
+            <section>
+                <h2>Credential Management</h2>
+                <div class="two-columns">
+                    <div class="column">
+                        <div class="card fragment">
+                            <h4>Password Policies</h4>
+                            <ul>
+                                <li>Set minimum length and complexity requirements</li>
+                                <li>Enable password expiration and prevent reuse</li>
+                                <li>Allow users to change their own passwords</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="card fragment">
+                            <h4>Access Key Best Practices</h4>
+                            <ul>
+                                <li>Never embed keys in code or commit to version control</li>
+                                <li>Use IAM roles instead of access keys when possible</li>
+                                <li>Rotate keys regularly and remove unused keys</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box danger fragment">
+                    <p><strong>Warning:</strong> Exposed access keys are the number one cause of AWS security breaches. Use tools like AWS Secrets Manager or environment variables instead of hardcoding credentials.</p>
+                </div>
+                <aside class="notes">
+                    Password policies are configured at the account level and apply to all IAM users. For access keys, the golden rule is to never embed them in code. Leaked access keys are the leading cause of AWS account compromises. Bots continuously scan public repositories like GitHub for exposed keys and can begin exploiting them within minutes. Always prefer roles over access keys, and when you must use keys, rotate them regularly and use AWS Secrets Manager to store them.
+                </aside>
+            </section>
+
+            <!-- IAM Access Analyzer and Organizations -->
+            <section>
+                <h2>Advanced Security Tools</h2>
+                <div class="two-columns">
+                    <div class="column">
+                        <div class="card fragment">
+                            <h4>IAM Access Analyzer</h4>
+                            <ul>
+                                <li>Identifies resources shared with external entities</li>
+                                <li>Generates least-privilege policies based on access activity</li>
+                                <li>Validates policies against best practices</li>
+                                <li>Provides unused access findings to help right-size permissions</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="card fragment">
+                            <h4>AWS Organizations and SCPs</h4>
+                            <ul>
+                                <li>Manage multiple AWS accounts centrally</li>
+                                <li><strong>Service Control Policies (SCPs)</strong> set permission guardrails across accounts</li>
+                                <li>SCPs restrict the maximum permissions available</li>
+                                <li>Apply to all users and roles in member accounts (including root)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box success fragment">
+                    <p><strong>Key Insight:</strong> SCPs do not grant permissions. They define the maximum boundary. You still need IAM policies to allow specific actions within those boundaries.</p>
+                </div>
+                <aside class="notes">
+                    IAM Access Analyzer is a powerful tool that helps you identify overly permissive policies. It can analyze your CloudTrail logs and generate policies based on what was actually used, which is invaluable for implementing least privilege. AWS Organizations lets you manage multiple accounts and apply Service Control Policies. SCPs act as permission boundaries across entire accounts. An important distinction for the exam: SCPs restrict what is possible, but they do not grant permissions. An IAM policy must still explicitly allow the action.
+                </aside>
+            </section>
+
+            <!-- ============================================================
+                 SECTION: IDENTITY FEDERATION & SSO
+                 ============================================================ -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>Identity Federation and SSO</h2>
+                <h3>Enterprise Identity Integration</h3>
+                <aside class="notes">
+                    Most organizations already have identity systems in place. AWS provides several mechanisms to integrate those existing identity providers with AWS access, eliminating the need to create separate IAM users for every person.
+                </aside>
+            </section>
+
+            <!-- Identity Providers -->
+            <section>
+                <h2>Identity Federation</h2>
+                <div class="concept-box">
+                    <h4>Use Existing Identities with AWS</h4>
+                    <p>Identity federation allows users to authenticate with an external identity provider (IdP) and receive temporary AWS credentials without needing an IAM user account.</p>
+                </div>
+                <div class="two-columns">
+                    <div class="column fragment">
+                        <div class="card">
+                            <h4>SAML 2.0 Federation</h4>
+                            <ul>
+                                <li>Integrate with enterprise directories (Active Directory, Okta, Ping Identity)</li>
+                                <li>Single sign-on to AWS Management Console</li>
+                                <li>Map directory groups to IAM roles</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="column fragment">
+                        <div class="card">
+                            <h4>OpenID Connect (OIDC)</h4>
+                            <ul>
+                                <li>Used for web and mobile applications</li>
+                                <li>Compatible with providers like Google, Facebook, Amazon Cognito</li>
+                                <li>Enables identity federation for application users</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Federation is essential in enterprise environments. With SAML 2.0, employees can use their corporate credentials to access AWS through single sign-on. The organization's identity provider authenticates the user and provides a SAML assertion that AWS trusts. OIDC federation is more commonly used for application-level identity, where end users of a web or mobile app need access to AWS resources like S3 or DynamoDB through Amazon Cognito.
+                </aside>
+            </section>
+
+            <!-- IAM Identity Center -->
+            <section>
+                <h2>AWS IAM Identity Center</h2>
+                <div class="highlight-box">
+                    <p><strong>Formerly AWS Single Sign-On (SSO)</strong> -- Renamed in 2022 to better reflect its expanded capabilities.</p>
+                </div>
+                <div class="two-columns">
+                    <div class="column fragment">
+                        <div class="card">
+                            <h4>Key Features</h4>
+                            <ul>
+                                <li>Centralized access management for multiple AWS accounts</li>
+                                <li>Built-in user directory or connect to existing IdP</li>
+                                <li>One-click access to assigned accounts and applications</li>
+                                <li>Permission sets define access levels</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="column fragment">
+                        <div class="card">
+                            <h4>Supported Identity Sources</h4>
+                            <ul>
+                                <li>IAM Identity Center directory (built-in)</li>
+                                <li>Active Directory (AWS Managed or self-managed)</li>
+                                <li>External SAML 2.0 identity providers (Okta, Azure AD, Ping)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <p class="key-point fragment">IAM Identity Center is the recommended approach for managing workforce access to AWS accounts and applications.</p>
+                <aside class="notes">
+                    IAM Identity Center, formerly AWS SSO, is the recommended way to manage human access to AWS in an organization. It integrates with AWS Organizations and lets you define permission sets that map to IAM roles in each account. Users get a single portal where they can see all accounts and applications they have access to. For the exam, remember that this is the successor to AWS SSO and the preferred solution for workforce identity management.
+                </aside>
+            </section>
+
+            <!-- Amazon Cognito -->
+            <section>
+                <h2>Amazon Cognito</h2>
+                <div class="concept-box">
+                    <h4>Authentication and Authorization for Applications</h4>
+                    <p>Amazon Cognito provides authentication and authorization for web and mobile applications, enabling secure user sign-up, sign-in, and access control.</p>
+                </div>
+                <div class="two-columns">
+                    <div class="column fragment">
+                        <div class="card">
+                            <h4>User Pools</h4>
+                            <ul>
+                                <li>Managed user directory for sign-up and sign-in</li>
+                                <li>Supports MFA and social identity providers</li>
+                                <li>SAML/OIDC federation with enterprise IdPs</li>
+                                <li>Returns JSON Web Tokens (JWTs)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="column fragment">
+                        <div class="card">
+                            <h4>Identity Pools</h4>
+                            <ul>
+                                <li>Provide temporary AWS credentials to access AWS services directly</li>
+                                <li>Supports both authenticated and guest users</li>
+                                <li>Maps users to IAM roles for fine-grained access</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box fragment">
+                    <p><strong>User Pools = WHO you are (authentication) | Identity Pools = WHAT you can do (authorization/AWS access)</strong></p>
+                </div>
+                <aside class="notes">
+                    Amazon Cognito is the go-to service for adding authentication and authorization to web and mobile applications. It is distinct from IAM Identity Center, which is designed for workforce access to the AWS console and AWS accounts. Cognito is purpose-built for application end-users. User Pools handle the authentication side, managing user directories and returning JWTs after sign-in. Identity Pools handle the authorization side, vending temporary AWS credentials so that application users can interact with AWS services directly. The two components can be used independently or together.
+                </aside>
+            </section>
+
+            <!-- KMS Brief Overview -->
+            <section>
+                <h2>AWS Key Management Service (KMS)</h2>
+                <div class="concept-box">
+                    <h4>Managed Encryption Key Service</h4>
+                    <p>AWS KMS lets you create and manage cryptographic keys used to encrypt your data across AWS services.</p>
+                </div>
+                <div class="three-columns">
+                    <div class="card fragment">
+                        <h4>AWS Managed Keys</h4>
+                        <p>Created and managed by AWS services on your behalf. Free to use, automatic rotation.</p>
+                    </div>
+                    <div class="card fragment">
+                        <h4>Customer Managed Keys</h4>
+                        <p>You create and control the key policies. Can configure automatic annual rotation.</p>
+                    </div>
+                    <div class="card fragment">
+                        <h4>Integration</h4>
+                        <p>Natively integrated with S3, EBS, RDS, Lambda, and 100+ AWS services.</p>
+                    </div>
+                </div>
+                <div class="highlight-box success fragment">
+                    <p><strong>IAM + KMS:</strong> Access to encryption keys is controlled through IAM policies and KMS key policies working together.</p>
+                </div>
+                <aside class="notes">
+                    KMS ties closely to IAM because access to encryption keys is governed by IAM policies and KMS key policies. AWS managed keys are created automatically when you enable encryption on a service. Customer managed keys give you full control, including the ability to define who can use and administer the key. For the Cloud Practitioner exam, you should understand that KMS provides managed encryption and integrates across AWS services.
+                </aside>
+            </section>
+
+            <!-- ============================================================
+                 LAB CALLOUT
+                 ============================================================ -->
+            <section data-background-color="#1a365d" class="lab-callout">
+                <div class="lab-badge">Hands-On Lab</div>
+                <h2>Lab 2: IAM Users, Groups, and Policies</h2>
+                <div class="lab-description">
+                    <p>In this lab, you will apply what you have learned about IAM by working in a live AWS environment.</p>
+                    <ul>
+                        <li class="fragment">Create an IAM user group with AWS managed policies attached</li>
+                        <li class="fragment">Create an IAM user with console access and add to the group</li>
+                        <li class="fragment">Create a custom inline policy with Allow and Deny statements</li>
+                        <li class="fragment">Test permissions by signing in as the new user in an incognito window</li>
+                        <li class="fragment">Verify least privilege by confirming read-only access and denied actions</li>
+                    </ul>
+                </div>
+                <aside class="notes">
+                    This lab gives students hands-on experience with IAM. Walk them through creating users, organizing them into groups, and attaching policies. Have them test the principle of least privilege by logging in as a user with restricted permissions and verifying they cannot perform unauthorized actions. Enabling MFA is an important step to include.
+                </aside>
+            </section>
+
+            <!-- ============================================================
+                 KEY TAKEAWAYS
+                 ============================================================ -->
+            <section>
+                <h2>Key Takeaways</h2>
+                <ul class="takeaway-list">
+                    <li class="fragment"><strong>IAM is global and free</strong> -- it controls authentication and authorization for all AWS services</li>
+                    <li class="fragment"><strong>Never use the root account</strong> for daily tasks -- lock it with MFA and create IAM users instead</li>
+                    <li class="fragment"><strong>Use Groups</strong> to assign permissions to users, and <strong>Roles</strong> for services and cross-account access</li>
+                    <li class="fragment"><strong>Policies are JSON documents</strong> with Effect, Action, and Resource -- explicit Deny always wins</li>
+                    <li class="fragment"><strong>Apply least privilege</strong> -- start with no permissions, add only what is needed</li>
+                    <li class="fragment"><strong>Enable MFA everywhere</strong> and never embed access keys in code</li>
+                    <li class="fragment"><strong>IAM Identity Center</strong> is the recommended solution for workforce access management</li>
+                </ul>
+                <aside class="notes">
+                    Let us review the key points. IAM is the security backbone of AWS. The root account should be locked away. Groups simplify user permission management. Roles are for services and cross-account access. Policies use JSON with Allow and Deny effects, and Deny always takes precedence. Least privilege is the guiding principle. MFA should be enabled on every account. And IAM Identity Center is the modern approach for enterprise workforce access.
+                </aside>
+            </section>
+
+            <!-- ============================================================
+                 QUESTIONS SLIDE
+                 ============================================================ -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="questions-slide">
+                <h2>Questions?</h2>
+                <p>Let us discuss IAM concepts before moving to the lab.</p>
+                <aside class="notes">
+                    Open the floor for questions. Common questions include the difference between roles and users, how policy evaluation works with multiple policies, and how SCPs interact with IAM policies. Be prepared to draw the policy evaluation flowchart if needed.
+                </aside>
+            </section>
+
+        </div>
+    </div>
+
+    <div class="module-progress">Module 2: AWS Identity & Access Management</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/notes/notes.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide',
+            plugins: [RevealHighlight, RevealNotes]
+        });
+    </script>
+</body>
+</html>

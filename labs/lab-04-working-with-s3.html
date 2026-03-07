@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 4: Working with S3 Buckets and Objects</title>
+    <style>
+        :root {
+            --heading-color: #1a365d;
+            --accent-color: #2b6cb0;
+            --success-color: #2f855a;
+            --warning-color: #c05621;
+            --danger-color: #c53030;
+            --text-color: #2d3748;
+            --light-bg: #f7fafc;
+            --border-color: #e2e8f0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.7;
+        }
+        h1 { color: var(--heading-color); border-bottom: 3px solid var(--accent-color); padding-bottom: 12px; font-size: 2em; }
+        h2 { color: var(--accent-color); margin-top: 2em; font-size: 1.4em; }
+        h3 { color: var(--heading-color); font-size: 1.15em; }
+        .lab-meta {
+            background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+            border-left: 5px solid var(--accent-color);
+            padding: 16px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        .lab-meta p { margin: 4px 0; }
+        .objective-box {
+            background: var(--light-bg);
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 20px 0;
+        }
+        .warning-box {
+            background: linear-gradient(135deg, #fffaf0 0%, #feebc8 100%);
+            border-left: 5px solid var(--warning-color);
+            padding: 16px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        .success-box {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border-left: 5px solid var(--success-color);
+            padding: 16px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        .step {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 12px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .step-number {
+            display: inline-block;
+            background: var(--accent-color);
+            color: #ffffff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: 700;
+            font-size: 0.85em;
+            margin-right: 8px;
+        }
+        code {
+            background: #edf2f7;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 16px 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.85em;
+            line-height: 1.5;
+        }
+        ol li, ul li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Lab 4: Working with S3 Buckets and Objects</h1>
+
+    <div class="lab-meta">
+        <p><strong>Duration:</strong> 15 minutes</p>
+        <p><strong>Level:</strong> Introductory</p>
+        <p><strong>Prerequisites:</strong> Completed Labs 1-3; AWS console access with S3 permissions</p>
+    </div>
+
+    <div class="objective-box">
+        <h3>Lab Objectives</h3>
+        <ul>
+            <li>Create an S3 bucket with specific configuration</li>
+            <li>Upload objects and organize them with prefixes (folders)</li>
+            <li>Enable versioning and observe version behavior</li>
+            <li>Configure a bucket policy for public read access</li>
+            <li>Enable static website hosting</li>
+            <li>Clean up all resources</li>
+        </ul>
+    </div>
+
+    <h2>Part A: Create an S3 Bucket</h2>
+
+    <div class="step">
+        <p><span class="step-number">1</span> Navigate to <strong>S3</strong> in the AWS Management Console.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">2</span> Click <strong>Create bucket</strong> and configure:</p>
+        <ul>
+            <li><strong>Bucket name:</strong> <code>cloud-pract-lab-&lt;your-initials&gt;-&lt;random-number&gt;</code> (bucket names must be globally unique)</li>
+            <li><strong>Region:</strong> US East (N. Virginia) us-east-1</li>
+            <li><strong>Object Ownership:</strong> ACLs disabled (recommended)</li>
+            <li><strong>Block Public Access:</strong> Leave all checked for now (we will change this later)</li>
+            <li><strong>Bucket Versioning:</strong> Disable (we will enable it later)</li>
+            <li><strong>Default encryption:</strong> SSE-S3 (Amazon S3 managed keys)</li>
+            <li>Click <strong>Create bucket</strong></li>
+        </ul>
+    </div>
+
+    <h2>Part B: Upload Objects</h2>
+
+    <div class="step">
+        <p><span class="step-number">3</span> Click on your new bucket to open it. Click <strong>Upload</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">4</span> Create a simple HTML file on your local machine called <code>index.html</code>:</p>
+        <pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;My S3 Website&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello from Amazon S3!&lt;/h1&gt;
+    &lt;p&gt;This page is hosted on S3 static website hosting.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">5</span> Upload <code>index.html</code> to the bucket. Also create a text file called <code>error.html</code> with a simple "Page not found" message and upload it.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">6</span> Click <strong>Create folder</strong> and create a folder called <code>images</code>. Upload any small image file into this folder. Note how S3 uses the folder name as a prefix in the object key.</p>
+    </div>
+
+    <h2>Part C: Enable Versioning</h2>
+
+    <div class="step">
+        <p><span class="step-number">7</span> Go to the bucket's <strong>Properties</strong> tab. Under <strong>Bucket Versioning</strong>, click <strong>Edit</strong> and enable versioning. Save changes.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">8</span> Modify your <code>index.html</code> locally (change the heading text) and upload it again to the same bucket.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">9</span> In the bucket's <strong>Objects</strong> tab, toggle <strong>Show versions</strong>. You should see two versions of <code>index.html</code>, each with a unique Version ID.</p>
+    </div>
+
+    <h2>Part D: Static Website Hosting</h2>
+
+    <div class="step">
+        <p><span class="step-number">10</span> Go to the bucket's <strong>Properties</strong> tab. Scroll to <strong>Static website hosting</strong> and click <strong>Edit</strong>:</p>
+        <ul>
+            <li><strong>Static website hosting:</strong> Enable</li>
+            <li><strong>Index document:</strong> <code>index.html</code></li>
+            <li><strong>Error document:</strong> <code>error.html</code></li>
+            <li>Save changes. Note the <strong>Bucket website endpoint</strong> URL.</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">11</span> Go to the <strong>Permissions</strong> tab. Under <strong>Block public access</strong>, click <strong>Edit</strong> and uncheck all options. Save and confirm.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">12</span> Still on the <strong>Permissions</strong> tab, scroll to <strong>Bucket policy</strong> and click <strong>Edit</strong>. Paste the following policy (replace <code>YOUR-BUCKET-NAME</code>):</p>
+        <pre>{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicReadGetObject",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::YOUR-BUCKET-NAME/*"
+        }
+    ]
+}</pre>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">13</span> Open the <strong>Bucket website endpoint</strong> URL in a new browser tab. You should see your index.html page served from S3.</p>
+    </div>
+
+    <h2>Part E: Clean Up</h2>
+
+    <div class="warning-box">
+        <strong>Important:</strong> You must empty the bucket before you can delete it.
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">14</span> Go back to the bucket, select all objects, and click <strong>Delete</strong>. Since versioning is enabled, you need to toggle <strong>Show versions</strong> and delete all versions as well.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">15</span> Once the bucket is empty, go back to the S3 bucket list, select your bucket, and click <strong>Delete</strong>. Type the bucket name to confirm.</p>
+    </div>
+
+    <div class="success-box">
+        <h3>Lab Complete</h3>
+        <p>You have created an S3 bucket, uploaded objects, enabled versioning, configured static website hosting with a bucket policy, and cleaned up all resources.</p>
+    </div>
+
+    <h2>Discussion Questions</h2>
+    <ol>
+        <li>Why are S3 bucket names globally unique across all AWS accounts?</li>
+        <li>How does versioning protect against accidental deletion or overwrite?</li>
+        <li>What are the security implications of making a bucket publicly accessible?</li>
+        <li>How could you use S3 lifecycle policies to reduce storage costs over time?</li>
+    </ol>
+</body>
+</html>

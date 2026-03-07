@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 5: CloudWatch Dashboards and Alarms</title>
+    <style>
+        :root {
+            --heading-color: #1a365d;
+            --accent-color: #2b6cb0;
+            --success-color: #2f855a;
+            --warning-color: #c05621;
+            --danger-color: #c53030;
+            --text-color: #2d3748;
+            --light-bg: #f7fafc;
+            --border-color: #e2e8f0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.7;
+        }
+        h1 { color: var(--heading-color); border-bottom: 3px solid var(--accent-color); padding-bottom: 12px; font-size: 2em; }
+        h2 { color: var(--accent-color); margin-top: 2em; font-size: 1.4em; }
+        h3 { color: var(--heading-color); font-size: 1.15em; }
+        .lab-meta {
+            background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+            border-left: 5px solid var(--accent-color);
+            padding: 16px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        .lab-meta p { margin: 4px 0; }
+        .objective-box {
+            background: var(--light-bg);
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 20px 0;
+        }
+        .warning-box {
+            background: linear-gradient(135deg, #fffaf0 0%, #feebc8 100%);
+            border-left: 5px solid var(--warning-color);
+            padding: 16px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        .success-box {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border-left: 5px solid var(--success-color);
+            padding: 16px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        .step {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 12px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .step-number {
+            display: inline-block;
+            background: var(--accent-color);
+            color: #ffffff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: 700;
+            font-size: 0.85em;
+            margin-right: 8px;
+        }
+        code {
+            background: #edf2f7;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 16px 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.85em;
+            line-height: 1.5;
+        }
+        ol li, ul li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Lab 5: CloudWatch Dashboards and Alarms</h1>
+
+    <div class="lab-meta">
+        <p><strong>Duration:</strong> 15 minutes</p>
+        <p><strong>Level:</strong> Introductory</p>
+        <p><strong>Prerequisites:</strong> Completed Labs 1-4; AWS console access with CloudWatch permissions</p>
+    </div>
+
+    <div class="objective-box">
+        <h3>Lab Objectives</h3>
+        <ul>
+            <li>Explore CloudWatch metrics for AWS services</li>
+            <li>Create a custom CloudWatch dashboard</li>
+            <li>Add metric widgets to the dashboard</li>
+            <li>Create a CloudWatch alarm</li>
+            <li>Explore CloudTrail event history</li>
+            <li>Review AWS Trusted Advisor recommendations</li>
+        </ul>
+    </div>
+
+    <h2>Part A: Explore CloudWatch Metrics</h2>
+
+    <div class="step">
+        <p><span class="step-number">1</span> Navigate to <strong>CloudWatch</strong> in the AWS Management Console. Ensure you are in <code>us-east-1</code>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">2</span> In the left navigation, click <strong>Metrics</strong> &gt; <strong>All metrics</strong>. Explore the available metric namespaces. You may see:</p>
+        <ul>
+            <li><strong>EC2</strong> — Instance metrics (if any instances are running)</li>
+            <li><strong>S3</strong> — Bucket-level metrics</li>
+            <li><strong>Billing</strong> — Estimated charges (available in us-east-1 only)</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">3</span> If the <strong>Billing</strong> namespace is available, click into it, then <strong>Total Estimated Charge</strong>, and select the <strong>EstimatedCharges</strong> metric for <strong>USD</strong>. Observe the graph.</p>
+    </div>
+
+    <h2>Part B: Create a Dashboard</h2>
+
+    <div class="step">
+        <p><span class="step-number">4</span> In the left navigation, click <strong>Dashboards</strong>, then <strong>Create dashboard</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">5</span> Name the dashboard <code>cloud-pract-lab-dashboard</code> and click <strong>Create dashboard</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">6</span> In the <strong>Add widget</strong> dialog, select <strong>Line</strong> chart, then <strong>Metrics</strong>. Choose a metric to display:</p>
+        <ul>
+            <li>If you have running EC2 instances: select <strong>EC2</strong> &gt; <strong>Per-Instance Metrics</strong> &gt; <strong>CPUUtilization</strong></li>
+            <li>If no instances are running: select <strong>Billing</strong> &gt; <strong>Total Estimated Charge</strong> &gt; <strong>EstimatedCharges</strong></li>
+        </ul>
+        <p>Click <strong>Create widget</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">7</span> Click <strong>Add widget</strong> again. This time select <strong>Number</strong> type. Add another metric of your choice. This creates a single-value display.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">8</span> Click <strong>Save</strong> to save the dashboard.</p>
+    </div>
+
+    <h2>Part C: Create a CloudWatch Alarm</h2>
+
+    <div class="step">
+        <p><span class="step-number">9</span> In the left navigation, click <strong>Alarms</strong> &gt; <strong>All alarms</strong>, then <strong>Create alarm</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">10</span> Click <strong>Select metric</strong>. Navigate to <strong>Billing</strong> &gt; <strong>Total Estimated Charge</strong> and select the <strong>EstimatedCharges</strong> metric in USD. Click <strong>Select metric</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">11</span> Configure the alarm:</p>
+        <ul>
+            <li><strong>Statistic:</strong> Maximum</li>
+            <li><strong>Period:</strong> 6 hours</li>
+            <li><strong>Threshold type:</strong> Static</li>
+            <li><strong>Whenever EstimatedCharges is:</strong> Greater than <code>10</code> (USD)</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">12</span> For <strong>Notification</strong>:</p>
+        <ul>
+            <li>Select <strong>In alarm</strong></li>
+            <li>Create a new SNS topic named <code>billing-alerts</code></li>
+            <li>Enter your email address</li>
+            <li>Click <strong>Create topic</strong></li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">13</span> Name the alarm <code>billing-over-10-usd</code> and click <strong>Create alarm</strong>.</p>
+    </div>
+
+    <div class="warning-box">
+        <strong>Note:</strong> Check your email and confirm the SNS subscription for the alarm to send notifications.
+    </div>
+
+    <h2>Part D: Explore CloudTrail</h2>
+
+    <div class="step">
+        <p><span class="step-number">14</span> Navigate to <strong>CloudTrail</strong> in the AWS Management Console.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">15</span> Click <strong>Event history</strong> in the left navigation. Review recent API events. You should see events from the resources you created in this lab and previous labs. Note:</p>
+        <ul>
+            <li><strong>Event name</strong> — The API call that was made (e.g., CreateBucket, RunInstances)</li>
+            <li><strong>User name</strong> — The IAM identity that made the call</li>
+            <li><strong>Event time</strong> — When it happened</li>
+            <li><strong>Source IP address</strong> — Where the call came from</li>
+        </ul>
+    </div>
+
+    <h2>Part E: Clean Up</h2>
+
+    <div class="step">
+        <p><span class="step-number">16</span> Delete the resources created in this lab:</p>
+        <ul>
+            <li>Delete the CloudWatch alarm <code>billing-over-10-usd</code></li>
+            <li>Delete the CloudWatch dashboard <code>cloud-pract-lab-dashboard</code></li>
+            <li>Optionally delete the SNS topic <code>billing-alerts</code> (Navigate to SNS &gt; Topics)</li>
+        </ul>
+    </div>
+
+    <div class="success-box">
+        <h3>Lab Complete</h3>
+        <p>You have explored CloudWatch metrics, created a custom dashboard, configured a billing alarm with SNS notification, and reviewed CloudTrail event history for auditing purposes.</p>
+    </div>
+
+    <h2>Discussion Questions</h2>
+    <ol>
+        <li>Why is monitoring important in a cloud environment?</li>
+        <li>How could you use CloudWatch alarms to implement auto-scaling?</li>
+        <li>What is the difference between CloudWatch (performance monitoring) and CloudTrail (API audit logging)?</li>
+        <li>How does setting up a billing alarm help with cost management?</li>
+    </ol>
+</body>
+</html>

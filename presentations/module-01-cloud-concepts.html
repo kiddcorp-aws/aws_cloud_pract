@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 1: Cloud Concepts & AWS Overview</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/white.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/monokai.css">
+    <style>
+        :root {
+            --heading-color: #1a365d;
+            --accent-color: #2b6cb0;
+            --success-color: #2f855a;
+            --warning-color: #c05621;
+            --danger-color: #c53030;
+            --text-color: #2d3748;
+        }
+
+        .reveal {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            color: var(--text-color);
+        }
+
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+            color: var(--heading-color);
+            font-weight: 700;
+            text-transform: none;
+        }
+
+        .reveal h1 { font-size: 2.2em; }
+        .reveal h2 { font-size: 1.6em; }
+        .reveal h3 { font-size: 1.3em; }
+
+        /* Title Slide */
+        .title-slide h1 {
+            color: #ffffff;
+            font-size: 2.4em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 0.3em;
+        }
+        .title-slide h2 {
+            color: #e2e8f0;
+            font-size: 1.4em;
+            font-weight: 400;
+            margin-bottom: 0.2em;
+        }
+        .title-slide h3 {
+            color: #cbd5e0;
+            font-size: 1.1em;
+            font-weight: 300;
+        }
+
+        /* Section Divider */
+        .section-divider h2 {
+            color: #ffffff;
+            font-size: 2.0em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .section-divider h3 {
+            color: #e2e8f0;
+            font-size: 1.2em;
+            font-weight: 400;
+        }
+
+        /* Highlight Boxes */
+        .highlight-box {
+            background: #ebf8ff;
+            border-left: 4px solid var(--accent-color);
+            padding: 20px 25px;
+            border-radius: 0 8px 8px 0;
+            margin: 15px 0;
+            text-align: left;
+        }
+        .highlight-box.success {
+            background: #f0fff4;
+            border-left-color: var(--success-color);
+        }
+        .highlight-box.warning {
+            background: #fffaf0;
+            border-left-color: var(--warning-color);
+        }
+        .highlight-box.danger {
+            background: #fff5f5;
+            border-left-color: var(--danger-color);
+        }
+
+        /* Two Columns */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+            text-align: left;
+        }
+
+        /* Three Columns */
+        .three-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            align-items: start;
+            text-align: left;
+        }
+
+        /* Card */
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+            text-align: left;
+        }
+        .card h3, .card h4 {
+            margin-top: 0;
+            color: var(--accent-color);
+        }
+
+        /* Concept Box */
+        .concept-box {
+            background: linear-gradient(135deg, #ebf8ff 0%, #e2e8f0 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 15px 0;
+            border: 1px solid #bee3f8;
+            text-align: left;
+        }
+        .concept-box h3, .concept-box h4 {
+            color: var(--heading-color);
+            margin-top: 0;
+        }
+
+        /* Emoji Header */
+        .emoji-header {
+            font-size: 1.8em;
+            margin-bottom: 0.5em;
+        }
+
+        /* Key Point */
+        .key-point {
+            background: #ebf8ff;
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 20px 25px;
+            margin: 15px 0;
+            text-align: left;
+            font-size: 0.95em;
+        }
+        .key-point strong {
+            color: var(--accent-color);
+        }
+
+        /* Lab Callout */
+        .lab-callout h2 {
+            color: #ffffff;
+            font-size: 1.8em;
+            margin-bottom: 0.3em;
+        }
+        .lab-callout h3 {
+            color: #90cdf4;
+            font-size: 1.3em;
+            font-weight: 400;
+        }
+        .lab-callout p {
+            color: #e2e8f0;
+            font-size: 1.0em;
+        }
+        .lab-callout ul {
+            color: #e2e8f0;
+            text-align: left;
+            display: inline-block;
+        }
+        .lab-callout .highlight-box {
+            background: rgba(255,255,255,0.1);
+            border-left-color: #90cdf4;
+            color: #e2e8f0;
+        }
+
+        /* Questions Slide */
+        .questions-slide h2 {
+            color: #ffffff;
+            font-size: 2.2em;
+        }
+        .questions-slide p {
+            color: #e2e8f0;
+            font-size: 1.2em;
+        }
+
+        /* Takeaway List */
+        .takeaway-list {
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .takeaway-list li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+            list-style: none;
+            padding-left: 10px;
+        }
+
+        /* Module Progress */
+        .module-progress {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+        .module-progress .step {
+            width: 30px;
+            height: 6px;
+            border-radius: 3px;
+            background: #cbd5e0;
+        }
+        .module-progress .step.active {
+            background: var(--accent-color);
+        }
+        .module-progress .step.completed {
+            background: var(--success-color);
+        }
+
+        /* Table Styles */
+        .reveal table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 0.75em;
+            margin: 15px 0;
+        }
+        .reveal table th {
+            background: var(--heading-color);
+            color: #ffffff;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+        .reveal table td {
+            padding: 10px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+        }
+        .reveal table tr:nth-child(even) {
+            background: #f7fafc;
+        }
+        .reveal table tr:hover {
+            background: #ebf8ff;
+        }
+
+        /* General list styling */
+        .reveal ul, .reveal ol {
+            text-align: left;
+            display: block;
+            margin-left: 1em;
+        }
+        .reveal li {
+            margin-bottom: 0.5em;
+            line-height: 1.5;
+            font-size: 0.9em;
+        }
+
+        .reveal p {
+            line-height: 1.6;
+        }
+
+        .reveal .small-text {
+            font-size: 0.7em;
+            color: #718096;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="title-slide">
+                <h1>Cloud Concepts & AWS Overview</h1>
+                <h2>Module 1</h2>
+                <h3>AWS Cloud Practitioner -- 1-Day Course</h3>
+                <div class="module-progress">
+                    <div class="step active"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                </div>
+                <aside class="notes">
+                    Welcome to Module 1 of the AWS Cloud Practitioner course. This module lays the foundation for everything else in the course by covering core cloud concepts, an introduction to AWS, and the shared responsibility model.
+                </aside>
+            </section>
+
+            <!-- Module Objectives -->
+            <section>
+                <h2>Module Objectives</h2>
+                <div class="concept-box">
+                    <h4>By the end of this module, you will be able to:</h4>
+                    <ul>
+                        <li class="fragment fade-up">Define cloud computing and its essential characteristics</li>
+                        <li class="fragment fade-up">Differentiate between IaaS, PaaS, and SaaS service models</li>
+                        <li class="fragment fade-up">Describe AWS and its value propositions</li>
+                        <li class="fragment fade-up">Explain the AWS Global Infrastructure (Regions, AZs, Edge Locations)</li>
+                        <li class="fragment fade-up">Articulate the Shared Responsibility Model</li>
+                        <li class="fragment fade-up">Identify major AWS service categories and access methods</li>
+                        <li class="fragment fade-up">Describe the AWS Cloud Adoption Framework and common migration strategies</li>
+                    </ul>
+                </div>
+                <aside class="notes">
+                    Walk through each objective briefly. Emphasize that this foundational module is critical for the AWS Cloud Practitioner exam, as cloud concepts account for roughly 24% of the exam content.
+                </aside>
+            </section>
+
+            <!-- ===================== SECTION: What is Cloud Computing ===================== -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>What is Cloud Computing</h2>
+                <h3>Foundations and Definitions</h3>
+                <aside class="notes">
+                    We begin with the fundamentals of cloud computing. Understanding these concepts is essential before diving into AWS-specific services.
+                </aside>
+            </section>
+
+            <!-- Overview of Cloud Computing -->
+            <section>
+                <h2>Overview of Cloud Computing</h2>
+                <div class="two-columns">
+                    <div class="card">
+                        <h4>Traditional IT (CapEx)</h4>
+                        <ul>
+                            <li class="fragment fade-up">Purchase physical hardware upfront</li>
+                            <li class="fragment fade-up">Maintain data centers and staff</li>
+                            <li class="fragment fade-up">Capacity planning and over-provisioning</li>
+                            <li class="fragment fade-up">Long procurement cycles (weeks to months)</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Cloud Computing (OpEx)</h4>
+                        <ul>
+                            <li class="fragment fade-up">On-demand delivery of IT resources</li>
+                            <li class="fragment fade-up">Pay only for what you consume</li>
+                            <li class="fragment fade-up">Scale up or down instantly</li>
+                            <li class="fragment fade-up">Provision in minutes, not months</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box fragment fade-up" style="margin-top: 20px;">
+                    <strong>Key Shift:</strong> Cloud computing transforms IT from a capital expense (CapEx) to an operational expense (OpEx), enabling organizations to focus on innovation rather than infrastructure management.
+                </div>
+                <aside class="notes">
+                    Emphasize the fundamental shift from CapEx to OpEx. In the traditional model, organizations had to make large upfront investments in hardware, estimate capacity years in advance, and maintain costly data center facilities. Cloud computing eliminates this by letting you pay for resources as you use them, much like a utility bill.
+                </aside>
+            </section>
+
+            <!-- NIST Cloud Definition -->
+            <section>
+                <h2>NIST Cloud Definition</h2>
+                <p>The National Institute of Standards and Technology defines five essential characteristics:</p>
+                <div class="highlight-box" style="margin-top: 20px;">
+                    <ul>
+                        <li><strong>On-Demand Self-Service</strong> -- Provision resources automatically without human interaction with the provider</li>
+                        <li><strong>Broad Network Access</strong> -- Resources available over the network via standard mechanisms</li>
+                        <li><strong>Resource Pooling</strong> -- Provider resources pooled across multiple consumers (multi-tenant)</li>
+                        <li><strong>Rapid Elasticity</strong> -- Scale resources up and down with demand, appearing unlimited</li>
+                        <li><strong>Measured Service</strong> -- Automatic metering and optimization of resource usage</li>
+                    </ul>
+                </div>
+                <aside class="notes">
+                    The NIST definition (SP 800-145) is widely accepted as the standard definition of cloud computing. These five characteristics are what distinguish true cloud services from traditional hosting. Note that all five must be present for a service to be considered cloud computing.
+                </aside>
+            </section>
+
+            <!-- Cloud Service Types -->
+            <section>
+                <h2>Cloud Service Models</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>IaaS</th>
+                            <th>PaaS</th>
+                            <th>SaaS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>What You Manage</strong></td>
+                            <td>OS, middleware, runtime, apps, data</td>
+                            <td>Apps and data</td>
+                            <td>Nothing (just use it)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Provider Manages</strong></td>
+                            <td>Virtualization, servers, storage, networking</td>
+                            <td>OS, middleware, runtime, plus infra</td>
+                            <td>Everything</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AWS Examples</strong></td>
+                            <td>EC2, EBS, VPC</td>
+                            <td>Elastic Beanstalk, RDS, Lambda</td>
+                            <td>WorkMail, Chime, QuickSight</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Use Case</strong></td>
+                            <td>Full control over infrastructure</td>
+                            <td>Focus on application development</td>
+                            <td>End-user applications</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Flexibility</strong></td>
+                            <td>Highest</td>
+                            <td>Moderate</td>
+                            <td>Lowest</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="key-point fragment fade-up">
+                    <strong>Key Point:</strong> As you move from IaaS to SaaS, you manage less and the provider manages more. The trade-off is flexibility versus ease of use.
+                </div>
+                <aside class="notes">
+                    Walk through the table row by row. IaaS gives you the most control but the most responsibility. PaaS lets you focus on your code while the provider manages the platform. SaaS is a complete application delivered over the internet. Most organizations use a mix of all three models.
+                </aside>
+            </section>
+
+            <!-- Cloud Deployment Models -->
+            <section>
+                <h2>Cloud Deployment Models</h2>
+                <div class="two-columns">
+                    <div class="card fragment fade-up">
+                        <h4>Public Cloud</h4>
+                        <p>Resources owned and operated by a third-party provider, delivered over the internet. Examples: AWS, Azure, GCP.</p>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Private Cloud</h4>
+                        <p>Cloud infrastructure operated solely for a single organization. Higher cost but greater control and compliance.</p>
+                    </div>
+                </div>
+                <div class="two-columns" style="margin-top: 20px;">
+                    <div class="card fragment fade-up">
+                        <h4>Hybrid Cloud</h4>
+                        <p>Combines public and private clouds with data and application portability. Most enterprises adopt this model.</p>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Community Cloud</h4>
+                        <p>Shared infrastructure for a specific community with common concerns such as security and compliance.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Public cloud is what most people think of when they hear "cloud." Private cloud is often used by organizations with strict regulatory requirements. Hybrid cloud is increasingly popular as organizations migrate gradually. AWS supports all of these models -- for example, AWS Outposts brings AWS infrastructure on-premises for hybrid deployments.
+                </aside>
+            </section>
+
+            <!-- ===================== SECTION: Introduction to AWS ===================== -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>Introduction to AWS</h2>
+                <h3>The Market Leader in Cloud Services</h3>
+                <aside class="notes">
+                    Now that we understand cloud computing fundamentals, let us look at AWS specifically -- the largest and most mature cloud provider in the world.
+                </aside>
+            </section>
+
+            <!-- AWS Overview -->
+            <section>
+                <h2>Amazon Web Services Overview</h2>
+                <div class="concept-box">
+                    <p>AWS launched in 2006 and has grown to become the world's most comprehensive and broadly adopted cloud platform, serving millions of customers worldwide.</p>
+                </div>
+                <div class="three-columns" style="margin-top: 20px;">
+                    <div class="card fragment fade-up">
+                        <h4>200+ Services</h4>
+                        <p>Compute, storage, databases, machine learning, IoT, security, and more.</p>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>30+ Regions</h4>
+                        <p>Global presence across the Americas, Europe, Asia Pacific, Middle East, and Africa as of 2026.</p>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>600+ Edge Locations</h4>
+                        <p>Content delivery and edge computing locations worldwide for low-latency access.</p>
+                    </div>
+                </div>
+                <div class="highlight-box success fragment fade-up" style="margin-top: 20px;">
+                    <strong>Market Position:</strong> AWS holds the largest share of the global cloud infrastructure market, ahead of Microsoft Azure and Google Cloud Platform.
+                </div>
+                <aside class="notes">
+                    AWS started with simple services like S3 (storage) and EC2 (compute) and has since expanded to over 200 fully featured services. The breadth and depth of AWS services is unmatched. As of 2026, AWS has more than 30 Regions globally, each containing multiple Availability Zones.
+                </aside>
+            </section>
+
+            <!-- Multi-tenancy -->
+            <section>
+                <h2>Multi-Tenancy and Shared Infrastructure</h2>
+                <div class="concept-box">
+                    <h4>What is Multi-Tenancy?</h4>
+                    <p>Multiple customers share the same physical infrastructure while maintaining logical isolation of their resources. Each customer's data and configurations are invisible to others.</p>
+                </div>
+                <div class="two-columns" style="margin-top: 20px;">
+                    <div class="card fragment fade-up">
+                        <h4>Benefits</h4>
+                        <ul>
+                            <li>Lower costs through economies of scale</li>
+                            <li>Provider handles maintenance and upgrades</li>
+                            <li>Better resource utilization</li>
+                            <li>Rapid provisioning of new resources</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>How AWS Ensures Isolation</h4>
+                        <ul>
+                            <li>Hypervisor-level isolation for compute</li>
+                            <li>Network isolation via VPC</li>
+                            <li>Encryption at rest and in transit</li>
+                            <li>IAM policies for access control</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Multi-tenancy is what makes cloud computing economically viable. By sharing physical infrastructure across many customers, AWS achieves economies of scale that individual organizations cannot. The key concern is security -- AWS uses the Nitro System hypervisor, network segmentation, and encryption to ensure strict isolation between tenants.
+                </aside>
+            </section>
+
+            <!-- AWS Value Propositions -->
+            <section>
+                <h2>AWS Value Propositions</h2>
+                <div class="two-columns">
+                    <div>
+                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
+                            <h4>On-Demand Provisioning</h4>
+                            <p>Launch resources in minutes with no long-term commitments.</p>
+                        </div>
+                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
+                            <h4>Elasticity</h4>
+                            <p>Scale resources automatically with demand.</p>
+                        </div>
+                        <div class="card fragment fade-up">
+                            <h4>Pay-As-You-Go</h4>
+                            <p>Pay only for what you consume, with no upfront costs.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
+                            <h4>Global Reach</h4>
+                            <p>Deploy in multiple regions worldwide to reduce latency.</p>
+                        </div>
+                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
+                            <h4>Innovation</h4>
+                            <p>Access AI/ML, IoT, and serverless without building from scratch.</p>
+                        </div>
+                        <div class="card fragment fade-up">
+                            <h4>Security</h4>
+                            <p>Secure foundation with compliance certifications and extensive controls.</p>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    These are the core reasons organizations choose AWS. On-demand provisioning eliminates the wait time of traditional IT. Elasticity means you do not have to guess capacity. Pay-as-you-go aligns costs with actual usage. Global reach lets you serve customers anywhere. AWS continuously innovates, releasing thousands of new features annually.
+                </aside>
+            </section>
+
+            <!-- Six Advantages of Cloud Computing -->
+            <section>
+                <h2>Six Advantages of Cloud Computing</h2>
+                <div class="two-columns">
+                    <div>
+                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
+                            <h4>1. Trade Fixed Expense for Variable Expense</h4>
+                            <p>Instead of investing heavily in data centers before knowing how you will use them, pay only when you consume computing resources.</p>
+                        </div>
+                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
+                            <h4>2. Benefit from Massive Economies of Scale</h4>
+                            <p>AWS aggregates usage from hundreds of thousands of customers, achieving higher economies of scale and lower pay-as-you-go prices.</p>
+                        </div>
+                        <div class="card fragment fade-up">
+                            <h4>3. Stop Guessing Capacity</h4>
+                            <p>Eliminate guessing on infrastructure capacity needs. Scale up or down as required with only a few minutes notice.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
+                            <h4>4. Increase Speed and Agility</h4>
+                            <p>New IT resources are a click away, reducing the time to make those resources available from weeks to minutes.</p>
+                        </div>
+                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
+                            <h4>5. Stop Spending Money Running Data Centers</h4>
+                            <p>Focus on projects that differentiate your business rather than on the undifferentiated heavy lifting of racking, stacking, and powering servers.</p>
+                        </div>
+                        <div class="card fragment fade-up">
+                            <h4>6. Go Global in Minutes</h4>
+                            <p>Deploy your application in multiple AWS Regions around the world with just a few clicks, providing lower latency and a better experience for customers.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box fragment fade-up" style="margin-top: 20px;">
+                    <strong>Exam Tip:</strong> These six advantages are directly from AWS and frequently tested on the CLF-C02 exam.
+                </div>
+                <aside class="notes">
+                    These six advantages come directly from AWS whitepapers and are a staple of the Cloud Practitioner exam. Students should be able to recall and explain each one. Emphasize the shift from CapEx to OpEx (advantage 1), the benefit of AWS pooling demand across customers (advantage 2), and how elasticity removes the need to guess capacity (advantage 3). Speed, agility, and global reach are what make cloud transformative for organizations of all sizes.
+                </aside>
+            </section>
+
+            <!-- ===================== SECTION: AWS Global Infrastructure ===================== -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>AWS Global Infrastructure</h2>
+                <h3>Regions, Availability Zones, and Edge Locations</h3>
+                <aside class="notes">
+                    The AWS global infrastructure is the foundation upon which all AWS services are built. Understanding this infrastructure is critical for designing resilient, high-performing architectures.
+                </aside>
+            </section>
+
+            <!-- Regions, AZs, Edge Locations -->
+            <section>
+                <h2>Regions, Availability Zones, and Edge Locations</h2>
+                <div class="three-columns">
+                    <div class="card fragment fade-up">
+                        <h4>Regions</h4>
+                        <ul>
+                            <li>Geographic areas with multiple data centers</li>
+                            <li>30+ Regions worldwide (as of 2026)</li>
+                            <li>Fully independent and isolated</li>
+                            <li>Data does not replicate between Regions unless you configure it</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Availability Zones (AZs)</h4>
+                        <ul>
+                            <li>One or more discrete data centers</li>
+                            <li>Each Region has 2-6 AZs</li>
+                            <li>Connected via low-latency links</li>
+                            <li>Physically separated for fault tolerance</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Edge Locations</h4>
+                        <ul>
+                            <li>600+ points of presence globally</li>
+                            <li>Used by CloudFront (CDN) and Route 53 (DNS)</li>
+                            <li>Cache content close to users</li>
+                            <li>Reduce latency for end users</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Regions are the largest unit of AWS infrastructure. Each Region is completely independent, which means a failure in one Region does not affect others. Within each Region, Availability Zones are physically separated data centers with independent power, cooling, and networking. Edge locations are used for content delivery and are far more numerous than Regions.
+                </aside>
+            </section>
+
+            <!-- AWS Distributed Architecture -->
+            <section>
+                <h2>The AWS Distributed Architecture</h2>
+                <div class="concept-box">
+                    <h4>Built for Resilience</h4>
+                    <p>AWS infrastructure is designed so that no single point of failure can take down an application. By distributing workloads across multiple Availability Zones and Regions, you achieve high availability and fault tolerance.</p>
+                </div>
+                <div class="two-columns" style="margin-top: 20px;">
+                    <div class="card fragment fade-up">
+                        <h4>High Availability</h4>
+                        <ul>
+                            <li>Deploy across multiple AZs within a Region</li>
+                            <li>Automatic failover with services like ELB and RDS Multi-AZ</li>
+                            <li>SLA guarantees of 99.99% for many services</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Disaster Recovery</h4>
+                        <ul>
+                            <li>Cross-Region replication for critical data</li>
+                            <li>Multi-Region active-active architectures</li>
+                            <li>AWS Backup for centralized backup management</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    The distributed architecture is one of the biggest advantages of AWS. In traditional data centers, achieving this level of redundancy requires enormous capital investment. With AWS, you can architect for high availability by simply deploying across multiple AZs. For disaster recovery, you can replicate data to another Region.
+                </aside>
+            </section>
+
+            <!-- Choosing a Region -->
+            <section>
+                <h2>How to Choose a Region</h2>
+                <p>Consider these four factors when selecting an AWS Region:</p>
+                <div class="two-columns" style="margin-top: 20px;">
+                    <div class="card fragment fade-up" style="margin-bottom: 15px;">
+                        <h4>1. Compliance</h4>
+                        <p>Does your data need to stay within a specific geographic boundary? Regulations like GDPR may dictate where data must reside.</p>
+                        <div class="highlight-box danger">This is often the most important factor and should be evaluated first.</div>
+                    </div>
+                    <div class="card fragment fade-up" style="margin-bottom: 15px;">
+                        <h4>2. Latency</h4>
+                        <p>Choose a Region close to your end users to minimize network latency and improve user experience.</p>
+                    </div>
+                    <div class="card fragment fade-up" style="margin-bottom: 15px;">
+                        <h4>3. Service Availability</h4>
+                        <p>Not all AWS services are available in every Region. Verify that the services you need are offered in your chosen Region.</p>
+                    </div>
+                    <div class="card fragment fade-up" style="margin-bottom: 15px;">
+                        <h4>4. Pricing</h4>
+                        <p>Pricing varies by Region. Some Regions are more expensive due to local costs. Compare pricing for your primary services.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Region selection is a foundational architectural decision. Compliance always comes first -- if regulations require data to stay in a country, that narrows your options immediately. After compliance, proximity to users reduces latency. Check that needed services exist in the Region. Finally, pricing can vary significantly -- for example, the Sao Paulo Region is typically more expensive than US East (N. Virginia).
+                </aside>
+            </section>
+
+            <!-- AWS Cloud Adoption Framework (CAF) -->
+            <section>
+                <h2>AWS Cloud Adoption Framework (CAF)</h2>
+                <p>The CAF organizes guidance into six areas of focus, called <strong>perspectives</strong>:</p>
+                <div class="two-columns" style="margin-top: 20px;">
+                    <div>
+                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
+                            <h4>Business</h4>
+                            <p>Aligns IT investment with business outcomes. Ensures IT strategy drives business results.</p>
+                        </div>
+                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
+                            <h4>People</h4>
+                            <p>Addresses HR, staffing, and organizational change management needed for cloud adoption.</p>
+                        </div>
+                        <div class="card fragment fade-up">
+                            <h4>Governance</h4>
+                            <p>Aligns IT strategy with business strategy. Maximizes the value of IT while minimizing risk.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
+                            <h4>Platform</h4>
+                            <p>Covers architecture and infrastructure design. Helps build an enterprise-grade, scalable cloud platform.</p>
+                        </div>
+                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
+                            <h4>Security</h4>
+                            <p>Ensures the organization meets security objectives for visibility, auditability, control, and agility.</p>
+                        </div>
+                        <div class="card fragment fade-up">
+                            <h4>Operations</h4>
+                            <p>Defines how day-to-day, quarter-to-quarter, and year-to-year business operations are conducted in the cloud.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="concept-box fragment fade-up" style="margin-top: 20px;">
+                    <h4>Why CAF Matters</h4>
+                    <p>The Cloud Adoption Framework helps organizations identify gaps in skills and processes during cloud adoption. It provides a structured approach to planning, ensuring that business, people, and technology perspectives are all addressed before and during migration.</p>
+                </div>
+                <aside class="notes">
+                    The AWS Cloud Adoption Framework is a guidance tool, not a service. It helps organizations understand how adopting the cloud will affect their business, people, and technology. The six perspectives split into two groups: Business, People, and Governance are business-oriented; Platform, Security, and Operations are technical. Each perspective identifies gaps in skills and processes that need to be addressed. This is tested on the CLF-C02 exam, so students should know the six perspective names and their general purpose.
+                </aside>
+            </section>
+
+            <!-- Migration Strategies (7 R's) -->
+            <section>
+                <h2>Migration Strategies -- The 7 R's</h2>
+                <table style="font-size: 0.65em; margin-top: 15px;">
+                    <thead>
+                        <tr>
+                            <th>Strategy</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment fade-up">
+                            <td><strong>Rehost</strong></td>
+                            <td>Lift and shift -- move applications as-is to the cloud</td>
+                            <td>Migrating on-premises VMs directly to Amazon EC2</td>
+                        </tr>
+                        <tr class="fragment fade-up">
+                            <td><strong>Replatform</strong></td>
+                            <td>Lift, tinker, and shift -- make minor optimizations during migration</td>
+                            <td>Moving a database to Amazon RDS instead of self-managing on EC2</td>
+                        </tr>
+                        <tr class="fragment fade-up">
+                            <td><strong>Refactor / Re-architect</strong></td>
+                            <td>Redesign the application using cloud-native features</td>
+                            <td>Breaking a monolith into microservices using Lambda and containers</td>
+                        </tr>
+                        <tr class="fragment fade-up">
+                            <td><strong>Repurchase</strong></td>
+                            <td>Move to a different product, typically a SaaS solution</td>
+                            <td>Replacing an on-premises CRM with Salesforce</td>
+                        </tr>
+                        <tr class="fragment fade-up">
+                            <td><strong>Retire</strong></td>
+                            <td>Decommission applications that are no longer needed</td>
+                            <td>Shutting down legacy systems with no active users</td>
+                        </tr>
+                        <tr class="fragment fade-up">
+                            <td><strong>Retain</strong></td>
+                            <td>Keep in the current environment for now; revisit later</td>
+                            <td>Mainframe applications with complex dependencies</td>
+                        </tr>
+                        <tr class="fragment fade-up">
+                            <td><strong>Relocate</strong></td>
+                            <td>Move infrastructure to AWS without changes at the hypervisor level</td>
+                            <td>Migrating VMware workloads to VMware Cloud on AWS</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="highlight-box fragment fade-up" style="margin-top: 20px;">
+                    <strong>Key Insight:</strong> Most large migrations start with Rehost for quick wins, then optimize with Replatform/Refactor over time.
+                </div>
+                <aside class="notes">
+                    The 7 R's provide a framework for deciding how to handle each application during a migration. Rehost is the fastest path and works well for organizations that need to vacate a data center quickly. Replatform makes targeted optimizations without a full re-architecture. Refactor delivers the most cloud-native benefits but requires the most effort. Repurchase is common when a SaaS product replaces custom-built software. Retire and Retain reduce the scope of the migration. Relocate was added more recently and applies specifically to VMware workloads. On the exam, students should recognize each strategy and match it to the appropriate scenario.
+                </aside>
+            </section>
+
+            <!-- ===================== SECTION: Shared Responsibility Model ===================== -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>Shared Responsibility Model</h2>
+                <h3>Security OF the Cloud vs. Security IN the Cloud</h3>
+                <aside class="notes">
+                    The Shared Responsibility Model is one of the most important concepts for the Cloud Practitioner exam. It defines what AWS is responsible for and what the customer is responsible for.
+                </aside>
+            </section>
+
+            <!-- Shared Responsibility Model -->
+            <section>
+                <h2>Shared Responsibility Model</h2>
+                <div class="two-columns">
+                    <div class="card fragment fade-up">
+                        <h4>AWS Responsibility: Security OF the Cloud</h4>
+                        <ul>
+                            <li>Physical security of data centers</li>
+                            <li>Hardware and global infrastructure</li>
+                            <li>Managed services software patching</li>
+                            <li>Networking infrastructure</li>
+                            <li>Hypervisor and virtualization layer</li>
+                            <li>Compliance validation of infrastructure</li>
+                        </ul>
+                        <div class="highlight-box success" style="margin-top: 10px;">
+                            AWS secures the foundation upon which your services run.
+                        </div>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Customer Responsibility: Security IN the Cloud</h4>
+                        <ul>
+                            <li>Customer data and encryption</li>
+                            <li>Identity and access management (IAM)</li>
+                            <li>Operating system and firewall configuration</li>
+                            <li>Network traffic protection and encryption</li>
+                            <li>Application-level security</li>
+                            <li>Security group and NACL configuration</li>
+                        </ul>
+                        <div class="highlight-box warning" style="margin-top: 10px;">
+                            You are responsible for properly configuring and securing your workloads.
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    The simplest way to remember this: AWS is responsible for the security OF the cloud (the infrastructure), while the customer is responsible for security IN the cloud (their data, configurations, and applications). The exact division depends on the service model -- with IaaS like EC2, the customer has more responsibility. With managed services like RDS or Lambda, AWS takes on more.
+                </aside>
+            </section>
+
+            <!-- Shared Responsibility - Key Point -->
+            <section>
+                <h2>Responsibility Varies by Service Type</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Responsibility</th>
+                            <th>IaaS (EC2)</th>
+                            <th>PaaS (RDS)</th>
+                            <th>Serverless (Lambda)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Physical Infrastructure</td>
+                            <td>AWS</td>
+                            <td>AWS</td>
+                            <td>AWS</td>
+                        </tr>
+                        <tr>
+                            <td>Operating System</td>
+                            <td>Customer</td>
+                            <td>AWS</td>
+                            <td>AWS</td>
+                        </tr>
+                        <tr>
+                            <td>Patching</td>
+                            <td>Customer</td>
+                            <td>AWS</td>
+                            <td>AWS</td>
+                        </tr>
+                        <tr>
+                            <td>Network Configuration</td>
+                            <td>Customer</td>
+                            <td>Shared</td>
+                            <td>AWS</td>
+                        </tr>
+                        <tr>
+                            <td>Application Code</td>
+                            <td>Customer</td>
+                            <td>Customer</td>
+                            <td>Customer</td>
+                        </tr>
+                        <tr>
+                            <td>Data Encryption</td>
+                            <td>Customer</td>
+                            <td>Customer</td>
+                            <td>Customer</td>
+                        </tr>
+                        <tr>
+                            <td>IAM / Access Control</td>
+                            <td>Customer</td>
+                            <td>Customer</td>
+                            <td>Customer</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="key-point fragment fade-up">
+                    <strong>Key Point:</strong> The more managed the service, the more AWS handles. However, the customer is always responsible for their data, access control, and application-level security -- regardless of the service model.
+                </div>
+                <aside class="notes">
+                    This table illustrates how responsibility shifts depending on the service type. With EC2, you manage the OS, patching, and network configuration. With RDS, AWS handles the database engine patching and OS. With Lambda, AWS manages virtually everything except your code and data. But notice that data encryption and IAM are always the customer's responsibility.
+                </aside>
+            </section>
+
+            <!-- ===================== SECTION: AWS Services Overview ===================== -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>AWS Services Overview</h2>
+                <h3>Categories, Managed Services, and Access Methods</h3>
+                <aside class="notes">
+                    Let us take a broad look at the major AWS service categories and how you interact with them. We will explore individual services in detail throughout the rest of the course.
+                </aside>
+            </section>
+
+            <!-- Managed vs Unmanaged -->
+            <section>
+                <h2>Managed vs. Unmanaged Services</h2>
+                <div class="two-columns">
+                    <div class="card fragment fade-up">
+                        <h4>Unmanaged Services</h4>
+                        <p>You are responsible for scaling, availability, and fault tolerance.</p>
+                        <ul>
+                            <li>Amazon EC2 -- you manage the instance, OS, and applications</li>
+                            <li>Greater control and flexibility</li>
+                            <li>More operational overhead</li>
+                        </ul>
+                        <div class="highlight-box warning" style="margin-top: 10px;">You handle provisioning, patching, scaling, and backups.</div>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Managed Services</h4>
+                        <p>AWS handles scaling, availability, and maintenance automatically.</p>
+                        <ul>
+                            <li>Amazon RDS, DynamoDB, Lambda, S3</li>
+                            <li>Less operational overhead</li>
+                            <li>Built-in high availability and durability</li>
+                        </ul>
+                        <div class="highlight-box success" style="margin-top: 10px;">AWS handles the undifferentiated heavy lifting for you.</div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Understanding the distinction between managed and unmanaged services is important because it directly affects your operational burden. With unmanaged services like EC2, you have full control but must handle everything from OS patching to scaling. Managed services like RDS or Lambda let AWS handle infrastructure concerns so you can focus on your application.
+                </aside>
+            </section>
+
+            <!-- Service Categories -->
+            <section>
+                <h2>AWS Service Categories</h2>
+                <div class="three-columns">
+                    <div class="card fragment fade-up">
+                        <h4>Compute</h4>
+                        <ul>
+                            <li>EC2 (Virtual Servers)</li>
+                            <li>Lambda (Serverless)</li>
+                            <li>ECS / EKS (Containers)</li>
+                            <li>Elastic Beanstalk</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Storage</h4>
+                        <ul>
+                            <li>S3 (Object Storage)</li>
+                            <li>EBS (Block Storage)</li>
+                            <li>EFS (File Storage)</li>
+                            <li>S3 Glacier (Archive)</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Database</h4>
+                        <ul>
+                            <li>RDS (Relational)</li>
+                            <li>DynamoDB (NoSQL)</li>
+                            <li>Aurora (Cloud-native)</li>
+                            <li>ElastiCache (In-memory)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="three-columns" style="margin-top: 20px;">
+                    <div class="card fragment fade-up">
+                        <h4>Networking</h4>
+                        <ul>
+                            <li>VPC (Virtual Network)</li>
+                            <li>CloudFront (CDN)</li>
+                            <li>Route 53 (DNS)</li>
+                            <li>Direct Connect</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Security</h4>
+                        <ul>
+                            <li>IAM (Access Control)</li>
+                            <li>KMS (Encryption Keys)</li>
+                            <li>WAF (Web Firewall)</li>
+                            <li>GuardDuty (Threat Detection)</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Management</h4>
+                        <ul>
+                            <li>CloudWatch (Monitoring)</li>
+                            <li>CloudFormation (IaC)</li>
+                            <li>CloudTrail (Audit)</li>
+                            <li>Trusted Advisor</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    This is a high-level overview of the most important service categories. We will dive deeper into specific services in later modules. For the Cloud Practitioner exam, you need to know what each service does at a high level and which category it belongs to. There are over 200 services, but these are the core ones you should know.
+                </aside>
+            </section>
+
+            <!-- Accessing AWS -->
+            <section>
+                <h2>Accessing AWS</h2>
+                <p>There are three primary ways to interact with AWS services:</p>
+                <div class="three-columns" style="margin-top: 20px;">
+                    <div class="card fragment fade-up">
+                        <h4>AWS Management Console</h4>
+                        <ul>
+                            <li>Web-based graphical interface</li>
+                            <li>Point-and-click service management</li>
+                            <li>Best for exploration and learning</li>
+                            <li>Mobile app available</li>
+                        </ul>
+                        <div class="highlight-box" style="margin-top: 10px;">Ideal for getting started and visual management.</div>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>AWS CLI</h4>
+                        <ul>
+                            <li>Command-line interface</li>
+                            <li>Scriptable and automatable</li>
+                            <li>Available for Windows, macOS, Linux</li>
+                            <li>Supports all AWS services</li>
+                        </ul>
+                        <div class="highlight-box" style="margin-top: 10px;">Best for scripting, automation, and power users.</div>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>AWS SDKs</h4>
+                        <ul>
+                            <li>Language-specific APIs</li>
+                            <li>Python, Java, JavaScript, Go, .NET, and more</li>
+                            <li>Embed AWS calls in your applications</li>
+                            <li>Handles auth, retries, and serialization</li>
+                        </ul>
+                        <div class="highlight-box" style="margin-top: 10px;">Best for integrating AWS into applications.</div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    All three methods use the same underlying AWS APIs, so the results are identical regardless of how you access a service. The Console is great for learning and ad-hoc tasks. The CLI is essential for automation and scripting. SDKs are used when building applications that interact with AWS services programmatically. In our first lab, we will explore the Management Console.
+                </aside>
+            </section>
+
+            <!-- ===================== LAB CALLOUT ===================== -->
+            <section data-background-color="#1a365d" class="lab-callout">
+                <h2>Lab 1</h2>
+                <h3>Exploring the AWS Management Console</h3>
+                <div class="highlight-box" style="margin-top: 30px;">
+                    <p>In this lab, you will:</p>
+                    <ul>
+                        <li>Sign in to the AWS Management Console and explore the interface</li>
+                        <li>Navigate to key services including EC2, S3, IAM, VPC, and CloudWatch</li>
+                        <li>Explore the Region selector and understand global vs regional services</li>
+                        <li>Review account billing dashboard and Free Tier usage</li>
+                        <li>Use AWS CloudShell to run basic CLI commands</li>
+                    </ul>
+                </div>
+                <aside class="notes">
+                    This is a guided exploration lab. Students should log in to their provided AWS accounts and spend time navigating the Console. Encourage them to switch Regions and observe how service availability changes. Have them locate key services like EC2, S3, and IAM. This hands-on experience reinforces the concepts covered in this module.
+                </aside>
+            </section>
+
+            <!-- Key Takeaways -->
+            <section>
+                <h2>Key Takeaways</h2>
+                <div class="takeaway-list">
+                    <ul>
+                        <li class="fragment fade-up"><strong>Cloud computing</strong> delivers IT resources on demand, shifting from CapEx to OpEx, and is defined by five NIST characteristics.</li>
+                        <li class="fragment fade-up"><strong>Service models</strong> (IaaS, PaaS, SaaS) determine the division of management responsibility between provider and customer.</li>
+                        <li class="fragment fade-up"><strong>AWS</strong> is the market-leading cloud provider with 200+ services, 30+ Regions, and a global edge network.</li>
+                        <li class="fragment fade-up"><strong>AWS Global Infrastructure</strong> is built on Regions, Availability Zones, and Edge Locations for resilience and performance.</li>
+                        <li class="fragment fade-up"><strong>The Shared Responsibility Model</strong> defines that AWS secures the cloud infrastructure while customers secure their workloads within it.</li>
+                        <li class="fragment fade-up"><strong>AWS services</strong> range from unmanaged (EC2) to fully managed (Lambda, S3), and can be accessed via Console, CLI, or SDKs.</li>
+                    </ul>
+                </div>
+                <div class="module-progress" style="margin-top: 30px;">
+                    <div class="step completed"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                </div>
+                <aside class="notes">
+                    Recap the main points of this module. These concepts form the foundation for everything that follows. The Cloud Practitioner exam allocates about 24% of questions to cloud concepts, so ensure students are comfortable with all of these topics before moving on.
+                </aside>
+            </section>
+
+            <!-- Questions Slide -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="questions-slide">
+                <h2>Questions?</h2>
+                <p>Take a moment to review the concepts covered in this module.</p>
+                <p>We will continue with the next module after the lab.</p>
+                <aside class="notes">
+                    Open the floor for questions. Common questions at this point include: How does AWS pricing compare to on-premises? What is the difference between a Region and an Availability Zone in practice? How does the Shared Responsibility Model apply to specific services? Address these and encourage students to explore further during the lab.
+                </aside>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/notes/notes.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide',
+            plugins: [RevealHighlight, RevealNotes]
+        });
+    </script>
+</body>
+</html>

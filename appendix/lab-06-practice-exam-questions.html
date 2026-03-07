@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 6: Practice Exam Questions</title>
+    <style>
+        :root {
+            --heading-color: #1a365d;
+            --accent-color: #2b6cb0;
+            --success-color: #2f855a;
+            --warning-color: #c05621;
+            --danger-color: #c53030;
+            --text-color: #2d3748;
+            --light-bg: #f7fafc;
+            --border-color: #e2e8f0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.7;
+        }
+        h1 { color: var(--heading-color); border-bottom: 3px solid var(--accent-color); padding-bottom: 12px; font-size: 2em; }
+        h2 { color: var(--accent-color); margin-top: 2em; font-size: 1.4em; }
+        h3 { color: var(--heading-color); font-size: 1.15em; }
+        .lab-meta {
+            background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+            border-left: 5px solid var(--accent-color);
+            padding: 16px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        .lab-meta p { margin: 4px 0; }
+        .objective-box {
+            background: var(--light-bg);
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 20px 0;
+        }
+        .success-box {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border-left: 5px solid var(--success-color);
+            padding: 16px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        .question-block {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px 0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+        .question-block h3 {
+            color: var(--accent-color);
+            margin-top: 0;
+        }
+        .question-block .domain-tag {
+            display: inline-block;
+            background: #ebf8ff;
+            color: var(--accent-color);
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .options { list-style-type: upper-alpha; }
+        .options li { margin-bottom: 6px; }
+        .answer {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border-left: 4px solid var(--success-color);
+            padding: 12px 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 16px;
+            display: none;
+        }
+        .answer strong { color: var(--success-color); }
+        .show-answer-btn {
+            background: var(--accent-color);
+            color: #ffffff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-top: 12px;
+        }
+        .show-answer-btn:hover { background: var(--heading-color); }
+        .section-header {
+            background: linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%);
+            color: #ffffff;
+            padding: 16px 24px;
+            border-radius: 12px;
+            margin-top: 2em;
+        }
+        .section-header h2 { color: #ffffff; margin: 0; }
+        .section-header p { color: #bee3f8; margin: 4px 0 0 0; }
+        ol li, ul li { margin-bottom: 8px; }
+    </style>
+    <script>
+        function toggleAnswer(id) {
+            var el = document.getElementById(id);
+            if (el.style.display === 'none' || el.style.display === '') {
+                el.style.display = 'block';
+            } else {
+                el.style.display = 'none';
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Lab 6: Practice Exam Questions</h1>
+
+    <div class="lab-meta">
+        <p><strong>Duration:</strong> 15 minutes</p>
+        <p><strong>Level:</strong> Introductory</p>
+        <p><strong>Format:</strong> Individual or group exercise — discuss answers with your table</p>
+    </div>
+
+    <div class="objective-box">
+        <h3>Lab Objectives</h3>
+        <ul>
+            <li>Practice answering AWS Cloud Practitioner exam-style questions</li>
+            <li>Review key concepts across all four exam domains</li>
+            <li>Develop exam-taking strategies for multiple-choice questions</li>
+            <li>Identify areas for further study</li>
+        </ul>
+    </div>
+
+    <p>Answer each question individually, then click "Show Answer" to check your response. Keep track of your score. Discuss any incorrect answers with your group or instructor.</p>
+
+    <!-- DOMAIN 1: CLOUD CONCEPTS -->
+    <div class="section-header">
+        <h2>Domain 1: Cloud Concepts (24%)</h2>
+        <p>Cloud computing fundamentals and AWS value propositions</p>
+    </div>
+
+    <div class="question-block">
+        <span class="domain-tag">Cloud Concepts</span>
+        <h3>Question 1</h3>
+        <p>Which of the following is a characteristic of cloud computing as defined by NIST?</p>
+        <ol class="options">
+            <li>Fixed monthly pricing regardless of usage</li>
+            <li>On-demand self-service</li>
+            <li>Requires long-term contracts</li>
+            <li>Single geographic location</li>
+        </ol>
+        <button class="show-answer-btn" onclick="toggleAnswer('a1')">Show Answer</button>
+        <div class="answer" id="a1">
+            <strong>Correct Answer: B</strong> — The five essential characteristics of cloud computing per NIST are: on-demand self-service, broad network access, resource pooling, rapid elasticity, and measured service.
+        </div>
+    </div>
+
+    <div class="question-block">
+        <span class="domain-tag">Cloud Concepts</span>
+        <h3>Question 2</h3>
+        <p>A company wants to reduce the capital expenditure (CapEx) of maintaining on-premises data centers. Which benefit of cloud computing addresses this?</p>
+        <ol class="options">
+            <li>Dedicated Hosts</li>
+            <li>Trading fixed expense for variable expense</li>
+            <li>Increased hardware control</li>
+            <li>Longer procurement cycles</li>
+        </ol>
+        <button class="show-answer-btn" onclick="toggleAnswer('a2')">Show Answer</button>
+        <div class="answer" id="a2">
+            <strong>Correct Answer: B</strong> — One of the six advantages of cloud computing is trading fixed expense for variable expense. Instead of investing heavily in data centers before knowing usage, you pay only when you consume resources.
+        </div>
+    </div>
+
+    <div class="question-block">
+        <span class="domain-tag">Cloud Concepts</span>
+        <h3>Question 3</h3>
+        <p>Which cloud computing model provides the customer with the most control over the underlying infrastructure?</p>
+        <ol class="options">
+            <li>Software as a Service (SaaS)</li>
+            <li>Platform as a Service (PaaS)</li>
+            <li>Infrastructure as a Service (IaaS)</li>
+            <li>Function as a Service (FaaS)</li>
+        </ol>
+        <button class="show-answer-btn" onclick="toggleAnswer('a3')">Show Answer</button>
+        <div class="answer" id="a3">
+            <strong>Correct Answer: C</strong> — IaaS provides the most control. The customer manages the OS, middleware, runtime, data, and applications. AWS EC2 is an example of IaaS.
+        </div>
+    </div>
+
+    <!-- DOMAIN 2: SECURITY AND COMPLIANCE -->
+    <div class="section-header">
+        <h2>Domain 2: Security and Compliance (30%)</h2>
+        <p>Shared responsibility model, IAM, and security services</p>
+    </div>
+
+    <div class="question-block">
+        <span class="domain-tag">Security</span>
+        <h3>Question 4</h3>
+        <p>Under the AWS Shared Responsibility Model, which of the following is the customer's responsibility?</p>
+        <ol class="options">
+            <li>Physical security of data centers</li>
+            <li>Patching the hypervisor</li>
+            <li>Configuring security group rules</li>
+            <li>Maintaining network infrastructure hardware</li>
+        </ol>
+        <button class="show-answer-btn" onclick="toggleAnswer('a4')">Show Answer</button>
+        <div class="answer" id="a4">
+            <strong>Correct Answer: C</strong> — Configuring security groups is the customer's responsibility (security IN the cloud). AWS is responsible for the physical infrastructure, hypervisor, and network hardware (security OF the cloud).
+        </div>
+    </div>
+
+    <div class="question-block">
+        <span class="domain-tag">Security</span>
+        <h3>Question 5</h3>
+        <p>Which IAM best practice should be implemented immediately after creating a new AWS account?</p>
+        <ol class="options">
+            <li>Delete the root account</li>
+            <li>Create access keys for the root user</li>
+            <li>Enable multi-factor authentication (MFA) on the root user</li>
+            <li>Share root credentials with the team lead</li>
+        </ol>
+        <button class="show-answer-btn" onclick="toggleAnswer('a5')">Show Answer</button>
+        <div class="answer" id="a5">
+            <strong>Correct Answer: C</strong> — Enabling MFA on the root user is a critical first step. The root account cannot be deleted (A), you should never create root access keys (B), and credentials should never be shared (D).
+        </div>
+    </div>
+
+    <div class="question-block">
+        <span class="domain-tag">Security</span>
+        <h3>Question 6</h3>
+        <p>Which AWS service records API calls made in your AWS account for auditing purposes?</p>
+        <ol class="options">
+            <li>Amazon CloudWatch</li>
+            <li>AWS CloudTrail</li>
+            <li>AWS Config</li>
+            <li>Amazon Inspector</li>
+        </ol>
+        <button class="show-answer-btn" onclick="toggleAnswer('a6')">Show Answer</button>
+        <div class="answer" id="a6">
+            <strong>Correct Answer: B</strong> — AWS CloudTrail records API calls made in your account, providing an audit trail. CloudWatch monitors performance metrics. AWS Config tracks resource configuration changes. Amazon Inspector assesses application security.
+        </div>
+    </div>
+
+    <!-- DOMAIN 3: TECHNOLOGY -->
+    <div class="section-header">
+        <h2>Domain 3: Cloud Technology and Services (34%)</h2>
+        <p>Core AWS services and architecture</p>
+    </div>
+
+    <div class="question-block">
+        <span class="domain-tag">Technology</span>
+        <h3>Question 7</h3>
+        <p>Which AWS service provides resizable compute capacity in the cloud?</p>
+        <ol class="options">
+            <li>Amazon S3</li>
+            <li>Amazon EC2</li>
+            <li>Amazon RDS</li>
+            <li>Amazon VPC</li>
+        </ol>
+        <button class="show-answer-btn" onclick="toggleAnswer('a7')">Show Answer</button>
+        <div class="answer" id="a7">
+            <strong>Correct Answer: B</strong> — Amazon EC2 (Elastic Compute Cloud) provides resizable compute capacity. S3 is object storage, RDS is managed databases, and VPC is networking.
+        </div>
+    </div>
+
+    <div class="question-block">
+        <span class="domain-tag">Technology</span>
+        <h3>Question 8</h3>
+        <p>A company needs to store infrequently accessed data at a lower cost but requires millisecond access when retrieved. Which S3 storage class should they use?</p>
+        <ol class="options">
+            <li>S3 Standard</li>
+            <li>S3 Standard-Infrequent Access (S3 Standard-IA)</li>
+            <li>S3 Glacier Deep Archive</li>
+            <li>S3 One Zone-Infrequent Access</li>
+        </ol>
+        <button class="show-answer-btn" onclick="toggleAnswer('a8')">Show Answer</button>
+        <div class="answer" id="a8">
+            <strong>Correct Answer: B</strong> — S3 Standard-IA is designed for data that is accessed less frequently but still requires rapid access (milliseconds). Glacier Deep Archive has retrieval times of 12+ hours. One Zone-IA stores data in only one AZ, providing less durability.
+        </div>
+    </div>
+
+    <div class="question-block">
+        <span class="domain-tag">Technology</span>
+        <h3>Question 9</h3>
+        <p>Which component of Amazon VPC acts as a stateful firewall at the instance level?</p>
+        <ol class="options">
+            <li>Network Access Control List (NACL)</li>
+            <li>Route Table</li>
+            <li>Security Group</li>
+            <li>Internet Gateway</li>
+        </ol>
+        <button class="show-answer-btn" onclick="toggleAnswer('a9')">Show Answer</button>
+        <div class="answer" id="a9">
+            <strong>Correct Answer: C</strong> — Security groups are stateful firewalls at the instance (ENI) level. NACLs are stateless and operate at the subnet level. Route tables direct traffic, and internet gateways provide internet access.
+        </div>
+    </div>
+
+    <div class="question-block">
+        <span class="domain-tag">Technology</span>
+        <h3>Question 10</h3>
+        <p>Which AWS service is a fully managed NoSQL database that provides single-digit millisecond performance at any scale?</p>
+        <ol class="options">
+            <li>Amazon RDS</li>
+            <li>Amazon Redshift</li>
+            <li>Amazon DynamoDB</li>
+            <li>Amazon Aurora</li>
+        </ol>
+        <button class="show-answer-btn" onclick="toggleAnswer('a10')">Show Answer</button>
+        <div class="answer" id="a10">
+            <strong>Correct Answer: C</strong> — Amazon DynamoDB is a fully managed NoSQL database offering single-digit millisecond latency. RDS and Aurora are relational databases. Redshift is a data warehouse.
+        </div>
+    </div>
+
+    <div class="question-block">
+        <span class="domain-tag">Technology</span>
+        <h3>Question 11</h3>
+        <p>Which AWS service allows you to define your infrastructure as code using JSON or YAML templates?</p>
+        <ol class="options">
+            <li>AWS Elastic Beanstalk</li>
+            <li>AWS CloudFormation</li>
+            <li>AWS CodeDeploy</li>
+            <li>Amazon CloudWatch</li>
+        </ol>
+        <button class="show-answer-btn" onclick="toggleAnswer('a11')">Show Answer</button>
+        <div class="answer" id="a11">
+            <strong>Correct Answer: B</strong> — AWS CloudFormation enables Infrastructure as Code using JSON or YAML templates. Elastic Beanstalk is a PaaS that deploys applications. CodeDeploy automates application deployments. CloudWatch is for monitoring.
+        </div>
+    </div>
+
+    <!-- DOMAIN 4: BILLING AND PRICING -->
+    <div class="section-header">
+        <h2>Domain 4: Billing, Pricing, and Support (12%)</h2>
+        <p>Pricing models, billing tools, and support plans</p>
+    </div>
+
+    <div class="question-block">
+        <span class="domain-tag">Billing</span>
+        <h3>Question 12</h3>
+        <p>Which EC2 pricing model offers the largest discount (up to 90%) compared to On-Demand pricing but can be interrupted by AWS with a 2-minute warning?</p>
+        <ol class="options">
+            <li>Reserved Instances</li>
+            <li>Savings Plans</li>
+            <li>Spot Instances</li>
+            <li>Dedicated Hosts</li>
+        </ol>
+        <button class="show-answer-btn" onclick="toggleAnswer('a12')">Show Answer</button>
+        <div class="answer" id="a12">
+            <strong>Correct Answer: C</strong> — Spot Instances can save up to 90% but can be reclaimed by AWS with a 2-minute notification. They are ideal for fault-tolerant, flexible workloads like batch processing.
+        </div>
+    </div>
+
+    <div class="question-block">
+        <span class="domain-tag">Billing</span>
+        <h3>Question 13</h3>
+        <p>Which AWS tool allows you to set custom budgets and receive alerts when costs or usage exceed your thresholds?</p>
+        <ol class="options">
+            <li>AWS Cost Explorer</li>
+            <li>AWS Budgets</li>
+            <li>AWS Pricing Calculator</li>
+            <li>AWS Trusted Advisor</li>
+        </ol>
+        <button class="show-answer-btn" onclick="toggleAnswer('a13')">Show Answer</button>
+        <div class="answer" id="a13">
+            <strong>Correct Answer: B</strong> — AWS Budgets lets you set custom cost and usage budgets with email or SNS alerts. Cost Explorer visualizes historical costs. Pricing Calculator estimates future costs. Trusted Advisor provides optimization recommendations.
+        </div>
+    </div>
+
+    <div class="question-block">
+        <span class="domain-tag">Billing</span>
+        <h3>Question 14</h3>
+        <p>Which AWS Support plan provides access to a Technical Account Manager (TAM)?</p>
+        <ol class="options">
+            <li>Basic</li>
+            <li>Developer</li>
+            <li>Business</li>
+            <li>Enterprise</li>
+        </ol>
+        <button class="show-answer-btn" onclick="toggleAnswer('a14')">Show Answer</button>
+        <div class="answer" id="a14">
+            <strong>Correct Answer: D</strong> — Only the Enterprise Support plan (and Enterprise On-Ramp) includes a designated Technical Account Manager (TAM). Basic and Developer plans do not include TAM access. Business provides 24/7 support but no TAM.
+        </div>
+    </div>
+
+    <div class="question-block">
+        <span class="domain-tag">Billing</span>
+        <h3>Question 15</h3>
+        <p>Data transfer INTO AWS from the internet is:</p>
+        <ol class="options">
+            <li>Charged at a premium rate</li>
+            <li>Free of charge</li>
+            <li>Charged per GB after the first 100 GB</li>
+            <li>Only free for S3 transfers</li>
+        </ol>
+        <button class="show-answer-btn" onclick="toggleAnswer('a15')">Show Answer</button>
+        <div class="answer" id="a15">
+            <strong>Correct Answer: B</strong> — Data transfer into AWS from the internet is free across all services. Data transfer out from AWS to the internet is where charges apply.
+        </div>
+    </div>
+
+    <hr style="margin: 40px 0; border-color: var(--border-color);">
+
+    <h2>Score Tracker</h2>
+    <p>Record your score: ______ / 15 correct</p>
+    <ul>
+        <li><strong>13-15 correct:</strong> Excellent — you are well-prepared for the exam</li>
+        <li><strong>10-12 correct:</strong> Good foundation — review the topics you missed</li>
+        <li><strong>7-9 correct:</strong> More study needed — focus on your weakest domains</li>
+        <li><strong>Below 7:</strong> Review all modules thoroughly before attempting the exam</li>
+    </ul>
+
+    <div class="success-box">
+        <h3>Lab Complete</h3>
+        <p>You have completed the practice exam questions covering all four domains of the AWS Cloud Practitioner exam (CLF-C02). Review any questions you got wrong and revisit the corresponding module content.</p>
+    </div>
+
+    <h2>Next Steps for Exam Preparation</h2>
+    <ol>
+        <li>Review the <strong>AWS Cloud Practitioner Exam Guide</strong> on the AWS Certification site</li>
+        <li>Complete the free <strong>AWS Cloud Practitioner Essentials</strong> course on AWS Skill Builder</li>
+        <li>Take the official <strong>AWS practice exam</strong> (20 questions, available on AWS Skill Builder)</li>
+        <li>Read the <strong>AWS Well-Architected Framework</strong> whitepaper</li>
+        <li>Read the <strong>AWS Overview of Amazon Web Services</strong> whitepaper</li>
+        <li>Schedule your exam at <strong>aws.amazon.com/certification</strong></li>
+    </ol>
+</body>
+</html>

@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 6: AWS Billing Tools and Cost Optimization</title>
+    <style>
+        :root {
+            --heading-color: #1a365d;
+            --accent-color: #2b6cb0;
+            --success-color: #2f855a;
+            --warning-color: #c05621;
+            --danger-color: #c53030;
+            --text-color: #2d3748;
+            --light-bg: #f7fafc;
+            --border-color: #e2e8f0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.7;
+        }
+        h1 { color: var(--heading-color); border-bottom: 3px solid var(--accent-color); padding-bottom: 12px; font-size: 2em; }
+        h2 { color: var(--accent-color); margin-top: 2em; font-size: 1.4em; }
+        h3 { color: var(--heading-color); font-size: 1.15em; }
+        .lab-meta {
+            background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+            border-left: 5px solid var(--accent-color);
+            padding: 16px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        .lab-meta p { margin: 4px 0; }
+        .objective-box {
+            background: var(--light-bg);
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 20px 0;
+        }
+        .warning-box {
+            background: linear-gradient(135deg, #fffaf0 0%, #feebc8 100%);
+            border-left: 5px solid var(--warning-color);
+            padding: 16px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        .success-box {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border-left: 5px solid var(--success-color);
+            padding: 16px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        .info-box {
+            background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+            border-left: 5px solid var(--accent-color);
+            padding: 16px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        .step {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 12px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .step-number {
+            display: inline-block;
+            background: var(--accent-color);
+            color: #ffffff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: 700;
+            font-size: 0.85em;
+            margin-right: 8px;
+        }
+        code {
+            background: #edf2f7;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.9em;
+        }
+        th {
+            background: var(--heading-color);
+            color: #ffffff;
+            padding: 10px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        tr:nth-child(even) td { background: var(--light-bg); }
+        ol li, ul li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Lab 6: AWS Billing Tools and Cost Optimization</h1>
+
+    <div class="lab-meta">
+        <p><strong>Duration:</strong> 15 minutes</p>
+        <p><strong>Level:</strong> Introductory</p>
+        <p><strong>Prerequisites:</strong> Completed Labs 1-5; AWS console access</p>
+    </div>
+
+    <div class="objective-box">
+        <h3>Lab Objectives</h3>
+        <ul>
+            <li>Explore the AWS Billing and Cost Management Dashboard</li>
+            <li>Use the AWS Pricing Calculator to estimate a solution's cost</li>
+            <li>Create an AWS Budget with alert thresholds</li>
+            <li>Review AWS Trusted Advisor recommendations</li>
+            <li>Explore Cost Explorer to analyze spending patterns</li>
+        </ul>
+    </div>
+
+    <div class="warning-box">
+        <strong>Note:</strong> Some billing features may be restricted in lab/training accounts. If you encounter permission errors, your instructor will demonstrate the step. The AWS Pricing Calculator (Part B) is a public tool and requires no account permissions.
+    </div>
+
+    <h2>Part A: Explore the Billing Dashboard</h2>
+
+    <div class="step">
+        <p><span class="step-number">1</span> In the AWS Management Console, click your <strong>Account name</strong> in the top-right corner and select <strong>Billing and Cost Management</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">2</span> On the Billing Dashboard home page, review the following:</p>
+        <ul>
+            <li><strong>Month-to-date spend</strong> — current charges for the billing period</li>
+            <li><strong>Forecasted month-end charges</strong> — AWS's projection based on current usage</li>
+            <li><strong>Top services by cost</strong> — which services are driving spend</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">3</span> In the left navigation, click <strong>Bills</strong>. Expand a service to see the detailed line items that make up the charge (e.g., EC2 hours, EBS storage, data transfer).</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">4</span> Click <strong>Free Tier</strong> in the left navigation. Review which Free Tier services you have used and how much of each allowance remains. Note the usage percentages.</p>
+    </div>
+
+    <h2>Part B: AWS Pricing Calculator</h2>
+
+    <div class="info-box">
+        <strong>Scenario:</strong> Your company wants to estimate the monthly cost of running a simple web application on AWS with the following architecture: one EC2 instance, an Application Load Balancer, an RDS database, and an S3 bucket for static assets.
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">5</span> Open the <strong>AWS Pricing Calculator</strong> (this is a public web tool — no sign-in required). Your instructor will provide guidance on accessing it.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">6</span> Click <strong>Create estimate</strong>. Add the following services one at a time:</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">7</span> <strong>Add Amazon EC2:</strong></p>
+        <ul>
+            <li>Region: US East (N. Virginia)</li>
+            <li>Operating System: Linux</li>
+            <li>Instance type: t3.medium</li>
+            <li>Pricing model: On-Demand</li>
+            <li>Quantity: 1 instance, running 24/7 (730 hours/month)</li>
+            <li>Storage: 30 GB gp3 EBS volume</li>
+        </ul>
+        <p>Note the estimated monthly cost, then click <strong>Add to my estimate</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">8</span> <strong>Add Elastic Load Balancing:</strong></p>
+        <ul>
+            <li>Type: Application Load Balancer</li>
+            <li>Region: US East (N. Virginia)</li>
+            <li>Number of ALBs: 1</li>
+            <li>Processed bytes: 10 GB/month</li>
+        </ul>
+        <p>Note the estimated monthly cost, then click <strong>Add to my estimate</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">9</span> <strong>Add Amazon RDS:</strong></p>
+        <ul>
+            <li>Engine: MySQL</li>
+            <li>Region: US East (N. Virginia)</li>
+            <li>Instance type: db.t3.micro</li>
+            <li>Deployment: Single-AZ</li>
+            <li>Storage: 20 GB gp3</li>
+            <li>Pricing model: On-Demand</li>
+        </ul>
+        <p>Note the estimated monthly cost, then click <strong>Add to my estimate</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">10</span> <strong>Add Amazon S3:</strong></p>
+        <ul>
+            <li>Region: US East (N. Virginia)</li>
+            <li>Storage class: S3 Standard</li>
+            <li>Storage amount: 50 GB/month</li>
+            <li>GET requests: 100,000/month</li>
+            <li>PUT requests: 10,000/month</li>
+        </ul>
+        <p>Note the estimated monthly cost, then click <strong>Add to my estimate</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">11</span> Review your total estimate. Record the results:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Monthly Cost (USD)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Amazon EC2 (t3.medium + EBS)</td><td></td></tr>
+                <tr><td>Application Load Balancer</td><td></td></tr>
+                <tr><td>Amazon RDS (db.t3.micro)</td><td></td></tr>
+                <tr><td>Amazon S3 (50 GB Standard)</td><td></td></tr>
+                <tr><td><strong>Total Estimated Monthly Cost</strong></td><td></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">12</span> <strong>Challenge:</strong> Go back to the EC2 configuration and change the pricing model from On-Demand to a 1-year Reserved Instance (No Upfront). Note how much the monthly cost decreases. Calculate the percentage savings.</p>
+    </div>
+
+    <h2>Part C: Create an AWS Budget</h2>
+
+    <div class="step">
+        <p><span class="step-number">13</span> Back in the AWS Console, navigate to <strong>Billing and Cost Management</strong> &gt; <strong>Budgets</strong> in the left navigation.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">14</span> Click <strong>Create a budget</strong> and select <strong>Customize (advanced)</strong> &gt; <strong>Cost budget</strong>. Click <strong>Next</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">15</span> Configure the budget:</p>
+        <ul>
+            <li><strong>Budget name:</strong> <code>lab-monthly-budget</code></li>
+            <li><strong>Period:</strong> Monthly</li>
+            <li><strong>Budget renewal type:</strong> Recurring</li>
+            <li><strong>Budgeted amount:</strong> $10.00</li>
+            <li>Click <strong>Next</strong></li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">16</span> Add an alert threshold:</p>
+        <ul>
+            <li><strong>Threshold:</strong> 80% of budgeted amount (Actual cost)</li>
+            <li><strong>Email recipients:</strong> Enter your email address</li>
+            <li>Click <strong>Next</strong>, review, and <strong>Create budget</strong></li>
+        </ul>
+    </div>
+
+    <h2>Part D: Review Trusted Advisor</h2>
+
+    <div class="step">
+        <p><span class="step-number">17</span> Navigate to <strong>Trusted Advisor</strong> (search for it in the console search bar).</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">18</span> Review the available checks across the five categories. For each category, note the status indicators:</p>
+        <ul>
+            <li><strong>Cost Optimization</strong> — idle resources, underutilized instances</li>
+            <li><strong>Performance</strong> — overutilized resources, service limits approaching</li>
+            <li><strong>Security</strong> — open security groups, MFA on root, public S3 buckets</li>
+            <li><strong>Fault Tolerance</strong> — backup configurations, Multi-AZ usage</li>
+            <li><strong>Service Limits</strong> — how close you are to AWS service quotas</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">19</span> Expand the <strong>Security</strong> category. Look for any findings related to:</p>
+        <ul>
+            <li>Security groups with unrestricted access (0.0.0.0/0)</li>
+            <li>MFA on root account</li>
+            <li>IAM password policy strength</li>
+        </ul>
+        <p>Note which checks show green (no issues), yellow (investigation recommended), or red (action recommended).</p>
+    </div>
+
+    <div class="info-box">
+        <strong>Note:</strong> With the Basic and Developer support plans, only a limited set of Trusted Advisor checks are available. Business and Enterprise plans unlock all checks.
+    </div>
+
+    <h2>Part E: Explore Cost Explorer</h2>
+
+    <div class="step">
+        <p><span class="step-number">20</span> Navigate back to <strong>Billing and Cost Management</strong> &gt; <strong>Cost Explorer</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">21</span> If Cost Explorer is enabled, explore the following views:</p>
+        <ul>
+            <li>Change the time range to <strong>Last 3 months</strong></li>
+            <li>Group by <strong>Service</strong> to see which services cost the most</li>
+            <li>Group by <strong>Region</strong> to see cost distribution across regions</li>
+            <li>Try the <strong>Forecast</strong> view to see projected future costs</li>
+        </ul>
+    </div>
+
+    <h2>Part F: Clean Up</h2>
+
+    <div class="step">
+        <p><span class="step-number">22</span> Delete the budget created in Part C:</p>
+        <ul>
+            <li>Navigate to <strong>Budgets</strong></li>
+            <li>Select <code>lab-monthly-budget</code> and click <strong>Delete</strong></li>
+        </ul>
+    </div>
+
+    <div class="success-box">
+        <h3>Lab Complete</h3>
+        <p>You have explored the AWS Billing Dashboard, used the Pricing Calculator to estimate a multi-service architecture, created a budget with alert thresholds, reviewed Trusted Advisor security and cost recommendations, and analyzed spending patterns in Cost Explorer. These are essential skills for managing AWS costs in any organization.</p>
+    </div>
+
+    <h2>Discussion Questions</h2>
+    <ol>
+        <li>How much did switching from On-Demand to Reserved Instance pricing save in your estimate? When would this trade-off not make sense?</li>
+        <li>Why is it important to set up budget alerts before deploying production workloads?</li>
+        <li>Which Trusted Advisor category do you think provides the most immediate value for a new AWS account?</li>
+        <li>How could cost allocation tags help a company with multiple teams sharing a single AWS account?</li>
+        <li>What is the difference between the Billing Dashboard, Cost Explorer, and AWS Budgets — when would you use each?</li>
+    </ol>
+</body>
+</html>

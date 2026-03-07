@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 6: Billing, Pricing &amp; Support</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/white.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/monokai.css">
+    <style>
+        :root {
+            --heading-color: #1a365d;
+            --accent-color: #2b6cb0;
+            --success-color: #2f855a;
+            --warning-color: #c05621;
+            --danger-color: #c53030;
+            --text-color: #2d3748;
+        }
+
+        .reveal {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            font-size: 32px;
+        }
+
+        .reveal h1 {
+            color: var(--heading-color);
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 0.5em;
+        }
+
+        .reveal h2 {
+            color: var(--heading-color);
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 0.4em;
+        }
+
+        .reveal h3 {
+            color: var(--accent-color);
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 0.3em;
+        }
+
+        .reveal h4 {
+            color: var(--accent-color);
+            font-size: 0.95em;
+            font-weight: 600;
+            margin-bottom: 0.2em;
+        }
+
+        /* Title Slide */
+        .title-slide h1 {
+            color: #ffffff;
+            font-size: 2.0em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .title-slide h2 {
+            color: #bee3f8;
+            font-size: 1.3em;
+            font-weight: 400;
+        }
+
+        .title-slide h3 {
+            color: #90cdf4;
+            font-size: 1.0em;
+            font-weight: 300;
+        }
+
+        .course-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 25px;
+            padding: 8px 24px;
+            color: #ffffff;
+            font-size: 0.7em;
+            margin-top: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Highlight Boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+            border-left: 4px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 20px 24px;
+            margin: 15px 0;
+            text-align: left;
+            font-size: 0.85em;
+        }
+
+        .highlight-box.success {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border-left-color: var(--success-color);
+        }
+
+        .highlight-box.warning {
+            background: linear-gradient(135deg, #fffaf0 0%, #feebc8 100%);
+            border-left-color: var(--warning-color);
+        }
+
+        .highlight-box.danger {
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+            border-left-color: var(--danger-color);
+        }
+
+        /* Two Columns */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* Three Columns */
+        .three-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* Card */
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+            border: 1px solid #e2e8f0;
+            padding: 24px;
+            text-align: left;
+        }
+
+        .card h3, .card h4 {
+            margin-top: 0;
+        }
+
+        /* Concept Box */
+        .concept-box {
+            background: #ffffff;
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 24px 28px;
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        /* Key Point */
+        .key-point {
+            text-align: center;
+            font-style: italic;
+            color: var(--accent-color);
+            font-size: 1.15em;
+            font-weight: 600;
+            margin: 20px 0;
+        }
+
+        /* Lab Callout */
+        .lab-callout h2 {
+            color: #ffffff !important;
+        }
+
+        .lab-callout h3 {
+            color: #ffffff !important;
+        }
+
+        .lab-callout p {
+            color: #ffffff !important;
+        }
+
+        .lab-callout li {
+            color: #ffffff !important;
+        }
+
+        .lab-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.25);
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 25px;
+            padding: 8px 28px;
+            color: #ffffff;
+            font-size: 0.75em;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .lab-description {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 24px;
+            color: #ffffff;
+            text-align: left;
+            font-size: 0.85em;
+            margin-top: 15px;
+        }
+
+        .lab-description ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .lab-description ul li::before {
+            content: ">> ";
+            color: #90cdf4;
+            font-weight: bold;
+        }
+
+        /* Section Divider */
+        .section-divider h2 {
+            color: #ffffff;
+            font-size: 1.8em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .section-divider h3 {
+            color: #bee3f8;
+            font-weight: 300;
+        }
+
+        /* Questions Slide */
+        .questions-slide h2 {
+            color: #ffffff;
+            font-size: 2.0em;
+        }
+
+        .questions-slide p {
+            color: #bee3f8;
+            font-size: 1.1em;
+        }
+
+        /* Takeaway List */
+        .takeaway-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .takeaway-list ul li {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px 20px;
+            margin: 8px 0;
+            background: #ffffff;
+            text-align: left;
+            font-size: 0.9em;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        /* Module Progress */
+        .module-progress {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--heading-color);
+            color: #ffffff;
+            border-radius: 25px;
+            padding: 6px 20px;
+            font-size: 0.55em;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Tables */
+        .reveal table {
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 100%;
+            font-size: 0.7em;
+            margin: 15px 0;
+        }
+
+        .reveal table th {
+            background: var(--heading-color);
+            color: #ffffff;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .reveal table td {
+            padding: 10px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+        }
+
+        .reveal table tr:nth-child(even) {
+            background: #f7fafc;
+        }
+
+        .reveal table tr:hover {
+            background: #ebf8ff;
+        }
+
+        /* Lists */
+        .reveal ul, .reveal ol {
+            font-size: 0.85em;
+            text-align: left;
+        }
+
+        .reveal li {
+            font-size: 0.88em;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .reveal li li {
+            font-size: 0.95em;
+            color: #4a5568;
+        }
+
+        /* Blockquote */
+        .reveal blockquote {
+            background: #f7fafc;
+            border-left: 4px solid var(--accent-color);
+            padding: 20px 24px;
+            margin: 20px 0;
+            font-style: italic;
+            color: var(--text-color);
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Slide Number */
+        .reveal .slide-number {
+            background: var(--heading-color);
+            color: #ffffff;
+            font-size: 14px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            right: 10px;
+            bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="title-slide">
+                <h1>Billing, Pricing &amp; Support</h1>
+                <h2>Module 6</h2>
+                <h3>AWS Cloud Practitioner -- 1-Day Course</h3>
+                <div class="course-badge">Module 6 of 6</div>
+                <aside class="notes">
+                    Welcome to the final module of the course. We will cover AWS pricing models, billing and cost management tools, support plans, and cost optimization strategies. Understanding billing and pricing is critical for the Cloud Practitioner exam and for real-world AWS usage.
+                </aside>
+            </section>
+
+            <!-- Module Objectives -->
+            <section>
+                <h2>Module Objectives</h2>
+                <div class="highlight-box">
+                    <p><strong>By the end of this module, you will be able to:</strong></p>
+                </div>
+                <ul>
+                    <li class="fragment fade-up">Explain AWS pricing philosophy and the three pricing pillars</li>
+                    <li class="fragment fade-up">Differentiate EC2 pricing models and when to use each</li>
+                    <li class="fragment fade-up">Navigate AWS billing and cost management tools</li>
+                    <li class="fragment fade-up">Compare AWS Support plans and identify the right plan for a scenario</li>
+                    <li class="fragment fade-up">Describe Trusted Advisor categories and their value</li>
+                    <li class="fragment fade-up">Apply cost optimization strategies for AWS workloads</li>
+                </ul>
+                <aside class="notes">
+                    Walk through each objective. Billing and pricing questions make up a significant portion of the Cloud Practitioner exam. Emphasize that understanding these concepts is essential for both the exam and practical AWS usage. Students should be able to recommend the right pricing model and support plan for a given scenario.
+                </aside>
+            </section>
+
+            <!-- Section: AWS Pricing Fundamentals -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>AWS Pricing Fundamentals</h2>
+                <h3>Understanding how AWS charges for services</h3>
+                <aside class="notes">
+                    We begin with the foundational pricing concepts. AWS pricing can seem complex, but it is built on three simple pillars. Understanding these pillars helps students reason about costs for any AWS service.
+                </aside>
+            </section>
+
+            <!-- AWS Pricing Philosophy -->
+            <section>
+                <h2>AWS Pricing Philosophy</h2>
+                <p class="key-point">Three pillars drive all AWS pricing decisions</p>
+                <div class="three-columns">
+                    <div class="card fragment fade-up">
+                        <h4>Pay-As-You-Go</h4>
+                        <ul>
+                            <li>Pay only for what you consume</li>
+                            <li>No upfront commitments</li>
+                            <li>Scale up or down instantly</li>
+                            <li>Convert fixed cost to variable cost</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Save When You Reserve</h4>
+                        <ul>
+                            <li>Commit to 1-year or 3-year terms</li>
+                            <li>Up to 72% discount vs. On-Demand</li>
+                            <li>Available for EC2, RDS, ElastiCache, Redshift</li>
+                            <li>Predictable workloads benefit most</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Pay Less as You Use More</h4>
+                        <ul>
+                            <li>Volume-based discounts</li>
+                            <li>Tiered pricing for storage</li>
+                            <li>S3: lower per-GB rate at higher volumes</li>
+                            <li>Data transfer discounts at scale</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    These three pillars are a common exam topic. Pay-as-you-go eliminates the need for capacity planning and upfront investment. Reservations reward commitment with significant discounts. Volume discounts reward scale. Ask students which pillar applies to their current workloads.
+                </aside>
+            </section>
+
+            <!-- AWS Free Tier -->
+            <section>
+                <h2>AWS Free Tier</h2>
+                <p class="key-point">Three types of free offers help you explore AWS at no cost</p>
+                <div class="three-columns">
+                    <div class="card fragment fade-up">
+                        <h4>Always Free</h4>
+                        <ul>
+                            <li>Never expires</li>
+                            <li>Lambda: 1M requests/month</li>
+                            <li>DynamoDB: 25 GB storage</li>
+                            <li>SNS: 1M publishes</li>
+                            <li>CloudWatch: 10 custom metrics</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>12 Months Free</h4>
+                        <ul>
+                            <li>From account sign-up date</li>
+                            <li>EC2: 750 hrs/month (t2.micro)</li>
+                            <li>S3: 5 GB standard storage</li>
+                            <li>RDS: 750 hrs/month (db.t2.micro)</li>
+                            <li>CloudFront: 50 GB data out</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Trials</h4>
+                        <ul>
+                            <li>Short-term from activation</li>
+                            <li>SageMaker: 2 months free</li>
+                            <li>Redshift: 2-month trial</li>
+                            <li>Inspector: 15-day trial</li>
+                            <li>Lightsail: 3 months free</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Emphasize the distinction between these three tiers. Always Free services never expire regardless of account age. The 12-month offers are common exam traps -- students should know the clock starts at account creation, not first use. Trials vary by service. Warn students to monitor usage to avoid unexpected charges when free tier limits are exceeded.
+                </aside>
+            </section>
+
+            <!-- Key Pricing Drivers -->
+            <section>
+                <h2>Key Pricing Drivers</h2>
+                <div class="concept-box">
+                    <h3>What Drives AWS Costs?</h3>
+                    <p>Nearly all AWS pricing can be broken down into three fundamental cost drivers:</p>
+                </div>
+                <div class="three-columns" style="margin-top: 20px;">
+                    <div class="card fragment fade-up">
+                        <h4>Compute</h4>
+                        <ul>
+                            <li>Charged per hour or per second</li>
+                            <li>Varies by instance type and size</li>
+                            <li>OS and software licensing adds cost</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Storage</h4>
+                        <ul>
+                            <li>Charged per GB per month</li>
+                            <li>Varies by storage class/type</li>
+                            <li>Provisioned vs. consumed models</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Data Transfer</h4>
+                        <ul>
+                            <li>Inbound data: free</li>
+                            <li>Outbound data: charged per GB</li>
+                            <li>Inter-region transfers: charged both ways</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    These three drivers are the building blocks of almost every AWS bill. Compute is typically the largest cost for most organizations. Storage costs are usually modest but can grow quickly with data accumulation. Data transfer is often the most surprising cost -- especially inter-region and internet-bound traffic. Emphasize that inbound data transfer is always free.
+                </aside>
+            </section>
+
+            <!-- EC2 Pricing Models -->
+            <section>
+                <h2>EC2 Pricing Models</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Commitment</th>
+                            <th>Discount</th>
+                            <th>Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment fade-up">
+                            <td><strong>On-Demand</strong></td>
+                            <td>None</td>
+                            <td>None (baseline)</td>
+                            <td>Short-term, irregular, unpredictable workloads</td>
+                        </tr>
+                        <tr class="fragment fade-up">
+                            <td><strong>Reserved Instances</strong></td>
+                            <td>1 year or 3 years</td>
+                            <td>Up to 72%</td>
+                            <td>Steady-state, predictable usage</td>
+                        </tr>
+                        <tr class="fragment fade-up">
+                            <td><strong>Savings Plans</strong></td>
+                            <td>1 year or 3 years</td>
+                            <td>Up to 72%</td>
+                            <td>Flexible compute commitment (any region, family, OS)</td>
+                        </tr>
+                        <tr class="fragment fade-up">
+                            <td><strong>Spot Instances</strong></td>
+                            <td>None</td>
+                            <td>Up to 90%</td>
+                            <td>Fault-tolerant, flexible start/stop workloads</td>
+                        </tr>
+                        <tr class="fragment fade-up">
+                            <td><strong>Dedicated Hosts</strong></td>
+                            <td>None or Reserved</td>
+                            <td>Varies</td>
+                            <td>Compliance, licensing, regulatory requirements</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <aside class="notes">
+                    This table is critical exam material. On-Demand is the default with no commitment. Reserved Instances offer the best discount for predictable workloads -- 1-year or 3-year terms with partial or full upfront payment options. Savings Plans are more flexible than RIs because they apply across instance families and regions. Spot Instances offer the deepest discounts but can be interrupted with 2-minute notice. Dedicated Hosts are for licensing or compliance needs. Ask students to identify which model fits different scenarios.
+                </aside>
+            </section>
+
+            <!-- S3 Pricing Factors -->
+            <section>
+                <h2>S3 Pricing Factors</h2>
+                <div class="two-columns">
+                    <div class="card fragment fade-up">
+                        <h4>Storage Class Rates</h4>
+                        <ul>
+                            <li><strong>S3 Standard:</strong> highest availability, highest cost per GB</li>
+                            <li><strong>S3 Standard-IA:</strong> lower storage cost, retrieval fee applies</li>
+                            <li><strong>S3 Glacier:</strong> archival pricing, minutes to hours retrieval</li>
+                            <li><strong>S3 Glacier Deep Archive:</strong> lowest cost, 12-hour retrieval</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Request and Transfer Pricing</h4>
+                        <ul>
+                            <li><strong>PUT/COPY/POST:</strong> charged per 1,000 requests</li>
+                            <li><strong>GET/SELECT:</strong> charged per 1,000 requests (lower rate)</li>
+                            <li><strong>Data transfer out:</strong> per GB after first 100 GB/month</li>
+                            <li><strong>Transfer between regions:</strong> charged per GB</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 15px;">
+                    <p><strong>Key Insight:</strong> Choosing the right storage class based on access patterns is one of the most effective ways to reduce S3 costs. Use S3 Intelligent-Tiering for unpredictable access patterns.</p>
+                </div>
+                <aside class="notes">
+                    S3 pricing has multiple dimensions: storage volume, storage class, number of requests, and data transfer. Students should understand that cheaper storage classes have retrieval costs or delays. S3 Intelligent-Tiering automatically moves objects between tiers based on access patterns -- useful when you cannot predict how often data will be accessed. Emphasize that lifecycle policies can automate transitions to cheaper classes over time.
+                </aside>
+            </section>
+
+            <!-- Lambda Pricing -->
+            <section>
+                <h2>Lambda Pricing</h2>
+                <div class="highlight-box">
+                    <h3>Serverless Pay-Per-Use Model</h3>
+                    <p>Lambda pricing is based on two dimensions:</p>
+                </div>
+                <div class="two-columns" style="margin-top: 20px;">
+                    <div class="card fragment fade-up">
+                        <h4>Request Charges</h4>
+                        <ul>
+                            <li>$0.20 per 1 million requests</li>
+                            <li>First 1M requests free (Always Free tier)</li>
+                            <li>Each invocation counts as one request</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Compute Duration</h4>
+                        <ul>
+                            <li>Measured in GB-seconds</li>
+                            <li>Memory allocated x execution time</li>
+                            <li>400,000 GB-seconds free per month</li>
+                            <li>Billed in 1ms increments</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="key-point fragment fade-up">No charge when your code is not running -- true pay-per-use</p>
+                <aside class="notes">
+                    Lambda pricing is straightforward and is a great example of pay-as-you-go. There is no charge for idle time, unlike EC2 where you pay for a running instance whether it is processing or not. The free tier for Lambda is generous: 1 million requests and 400,000 GB-seconds per month. Many lightweight workloads can run entirely within the free tier. GB-seconds means memory allocation multiplied by execution duration.
+                </aside>
+            </section>
+
+            <!-- RDS/Database Pricing -->
+            <section>
+                <h2>RDS and Database Pricing</h2>
+                <div class="card">
+                    <h3>Key Cost Components for Managed Databases</h3>
+                    <div class="two-columns" style="margin-top: 15px;">
+                        <div>
+                            <ul>
+                                <li class="fragment fade-up"><strong>Instance Hours:</strong> based on instance class (db.t3.micro to db.r5.24xlarge), billed per hour</li>
+                                <li class="fragment fade-up"><strong>Storage:</strong> provisioned SSD (gp2/gp3) or Provisioned IOPS (io1), charged per GB/month</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <ul>
+                                <li class="fragment fade-up"><strong>I/O Requests:</strong> for magnetic and Aurora I/O-Optimized, charged per million requests</li>
+                                <li class="fragment fade-up"><strong>Data Transfer:</strong> outbound data charged per GB; inbound and same-AZ traffic free</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box warning" style="margin-top: 15px;">
+                    <p><strong>Remember:</strong> Multi-AZ deployments roughly double the instance and storage costs but provide high availability. Reserved Instances also apply to RDS for predictable database workloads.</p>
+                </div>
+                <aside class="notes">
+                    RDS pricing mirrors EC2 in many ways -- instance hours, storage, and data transfer. The key difference is the I/O component, which matters for high-throughput databases. Multi-AZ is an important cost consideration: it doubles the infrastructure cost but is essential for production workloads. Aurora pricing differs slightly with per-I/O charges. RDS Reserved Instances offer the same discount structure as EC2 RIs.
+                </aside>
+            </section>
+
+            <!-- Section: Billing & Cost Management Tools -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>Billing &amp; Cost Management Tools</h2>
+                <h3>Visibility, control, and optimization for AWS spending</h3>
+                <aside class="notes">
+                    Now we move to the tools AWS provides to help you understand, track, and manage your costs. AWS offers a comprehensive suite of billing tools, each serving a different purpose. Understanding which tool to use in a given scenario is a frequent exam topic.
+                </aside>
+            </section>
+
+            <!-- AWS Billing Dashboard -->
+            <section>
+                <h2>AWS Billing Dashboard</h2>
+                <div class="concept-box">
+                    <h3>Your Central Billing Hub</h3>
+                    <p>The Billing Dashboard provides a high-level overview of your AWS spending:</p>
+                    <ul>
+                        <li class="fragment fade-up"><strong>Month-to-Date Spend:</strong> current charges broken down by service</li>
+                        <li class="fragment fade-up"><strong>Top Services:</strong> quick view of which services are driving costs</li>
+                        <li class="fragment fade-up"><strong>Forecasted Costs:</strong> projected end-of-month spend based on current usage</li>
+                        <li class="fragment fade-up"><strong>Free Tier Usage:</strong> track usage against free tier limits</li>
+                        <li class="fragment fade-up"><strong>Cost Trends:</strong> month-over-month comparison of spending</li>
+                    </ul>
+                </div>
+                <aside class="notes">
+                    The Billing Dashboard is the first place to check for a quick understanding of your AWS costs. It is accessible from the AWS Management Console under Billing and Cost Management. Highlight the forecasted costs feature, which helps avoid surprises at the end of the month. The Free Tier Usage tracker is especially important for new accounts to avoid unexpected charges.
+                </aside>
+            </section>
+
+            <!-- AWS Cost Explorer -->
+            <section>
+                <h2>AWS Cost Explorer</h2>
+                <div class="concept-box">
+                    <h3>Visualize and Analyze Your Costs</h3>
+                    <p>Cost Explorer provides detailed cost and usage data with powerful filtering and forecasting:</p>
+                </div>
+                <div class="two-columns" style="margin-top: 15px;">
+                    <div class="card fragment fade-up">
+                        <h4>Key Features</h4>
+                        <ul>
+                            <li>Visualize costs over custom time ranges (daily, monthly)</li>
+                            <li>Filter by service, region, account, or tag</li>
+                            <li>Group by dimensions for drill-down analysis</li>
+                            <li>View Reserved Instance utilization and coverage</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Forecasting</h4>
+                        <ul>
+                            <li>Predict future spending using historical trends</li>
+                            <li>Up to 12 months forward projection</li>
+                            <li>Confidence intervals for estimates</li>
+                            <li>Helps with budgeting and capacity planning</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Cost Explorer is the primary tool for understanding where your money is going. It goes beyond the Billing Dashboard by allowing deep filtering and custom reports. The forecasting feature uses machine learning on historical data. Emphasize that Cost Explorer can reveal trends -- such as a service whose cost is gradually increasing -- that would be missed in a simple monthly view. Students should know this is distinct from Budgets, which is for setting alerts.
+                </aside>
+            </section>
+
+            <!-- AWS Budgets -->
+            <section>
+                <h2>AWS Budgets</h2>
+                <div class="two-columns">
+                    <div class="card fragment fade-up">
+                        <h4>Set Custom Budgets</h4>
+                        <ul>
+                            <li>Define spending thresholds for cost, usage, reservation, or savings plans</li>
+                            <li>Set monthly, quarterly, or annual budget periods</li>
+                            <li>Track actual vs. budgeted amounts</li>
+                            <li>Filter budgets by service, linked account, or tag</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Alerts and Actions</h4>
+                        <ul>
+                            <li>Email and SNS notifications at custom thresholds (e.g., 80%, 100%)</li>
+                            <li>Automated actions: apply IAM policy, stop EC2, apply SCP</li>
+                            <li>Alerts on actual or forecasted amounts</li>
+                            <li>Up to 5 alerts per budget</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 15px;">
+                    <p><strong>Four Budget Types:</strong> Cost budgets (dollar amounts), Usage budgets (service consumption), Reservation budgets (RI utilization), and Savings Plans budgets (commitment tracking).</p>
+                </div>
+                <aside class="notes">
+                    AWS Budgets is the proactive cost management tool. While Cost Explorer shows you what happened, Budgets warns you before costs get out of control. Walk through a real scenario: setting a monthly budget of $500 with alerts at 80% and 100%. Mention that Budget Actions can automatically enforce cost controls, such as restricting resource creation via IAM policy. This is a key exam topic -- students should distinguish Budgets from Cost Explorer.
+                </aside>
+            </section>
+
+            <!-- AWS Cost and Usage Reports -->
+            <section>
+                <h2>AWS Cost and Usage Reports (CUR)</h2>
+                <div class="highlight-box">
+                    <h3>The Most Detailed Cost Data Available</h3>
+                    <p>CUR provides the most comprehensive set of cost and usage data for your AWS account:</p>
+                    <ul>
+                        <li class="fragment fade-up"><strong>Line-item detail:</strong> every charge broken down by resource, operation, and pricing dimension</li>
+                        <li class="fragment fade-up"><strong>Delivered to S3:</strong> reports are automatically delivered to an S3 bucket on your schedule</li>
+                        <li class="fragment fade-up"><strong>Integration with analytics:</strong> query with Amazon Athena, visualize with QuickSight, or load into Redshift</li>
+                        <li class="fragment fade-up"><strong>Customizable:</strong> include resource IDs, split costs by usage type, hourly or daily granularity</li>
+                    </ul>
+                </div>
+                <p class="key-point fragment fade-up">CUR is the go-to tool when you need granular, programmatic access to billing data</p>
+                <aside class="notes">
+                    CUR is the most detailed billing data source AWS offers. It is designed for organizations that need to build custom reports, run analysis in Athena, or feed data into third-party tools. It is not a console experience like Cost Explorer -- instead, it delivers CSV or Parquet files to S3. This is the answer when the exam asks about the most detailed or comprehensive billing data. It is commonly used by FinOps teams in large organizations.
+                </aside>
+            </section>
+
+            <!-- AWS Pricing Calculator -->
+            <section>
+                <h2>AWS Pricing Calculator</h2>
+                <div class="concept-box">
+                    <h3>Estimate Costs Before You Deploy</h3>
+                    <p>The AWS Pricing Calculator helps you model and estimate costs for new architectures:</p>
+                    <ul>
+                        <li class="fragment fade-up">Select services and configure resources to match your planned architecture</li>
+                        <li class="fragment fade-up">Compare pricing across regions and instance types</li>
+                        <li class="fragment fade-up">Generate shareable cost estimates via URL</li>
+                        <li class="fragment fade-up">Export estimates as CSV for procurement and budgeting</li>
+                        <li class="fragment fade-up">Available at <strong>calculator.aws</strong> -- no AWS account required</li>
+                    </ul>
+                </div>
+                <div class="highlight-box success" style="margin-top: 15px;">
+                    <p><strong>Exam Tip:</strong> When a question asks about estimating costs for a proposed architecture or migration, the answer is the AWS Pricing Calculator.</p>
+                </div>
+                <aside class="notes">
+                    The Pricing Calculator is a web-based tool that does not require an AWS account. It replaced the older Simple Monthly Calculator. Walk students through a quick demo during the lab if time permits. Students should remember that this is the pre-deployment cost estimation tool, while Cost Explorer and Budgets are for tracking actual costs post-deployment.
+                </aside>
+            </section>
+
+            <!-- Consolidated Billing -->
+            <section>
+                <h2>Consolidated Billing with AWS Organizations</h2>
+                <div class="two-columns">
+                    <div class="card fragment fade-up">
+                        <h4>How It Works</h4>
+                        <ul>
+                            <li>Single payment method for all member accounts</li>
+                            <li>Combined usage across accounts for volume discounts</li>
+                            <li>One bill for the entire organization</li>
+                            <li>Management account pays for all linked accounts</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Benefits</h4>
+                        <ul>
+                            <li><strong>Volume discounts:</strong> aggregate S3, EC2, data transfer usage</li>
+                            <li><strong>RI sharing:</strong> Reserved Instances apply across accounts</li>
+                            <li><strong>Detailed billing:</strong> per-account breakdowns still available</li>
+                            <li><strong>Free feature:</strong> no additional cost for consolidated billing</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 15px;">
+                    <p><strong>Example:</strong> If Account A uses 80 TB of S3 and Account B uses 60 TB, consolidated billing combines them to 140 TB, reaching a higher volume discount tier than either account alone.</p>
+                </div>
+                <aside class="notes">
+                    Consolidated billing is a feature of AWS Organizations and is commonly tested on the exam. The key benefits are a single bill, volume discount aggregation, and RI sharing. Emphasize that each account still maintains its independence -- resources are not shared, only billing is consolidated. The volume discount example with S3 is a classic exam question format.
+                </aside>
+            </section>
+
+            <!-- Cost Allocation Tags -->
+            <section>
+                <h2>Cost Allocation Tags</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>AWS-Generated Tags</th>
+                            <th>User-Defined Tags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment fade-up">
+                            <td><strong>Created By</strong></td>
+                            <td>AWS automatically</td>
+                            <td>You define and apply them</td>
+                        </tr>
+                        <tr class="fragment fade-up">
+                            <td><strong>Prefix</strong></td>
+                            <td>aws: (e.g., aws:createdBy)</td>
+                            <td>user: (e.g., user:Project)</td>
+                        </tr>
+                        <tr class="fragment fade-up">
+                            <td><strong>Activation</strong></td>
+                            <td>Must be activated in Billing Console</td>
+                            <td>Must be activated in Billing Console</td>
+                        </tr>
+                        <tr class="fragment fade-up">
+                            <td><strong>Use Cases</strong></td>
+                            <td>Track who created resources</td>
+                            <td>Track by project, team, environment, cost center</td>
+                        </tr>
+                        <tr class="fragment fade-up">
+                            <td><strong>Example</strong></td>
+                            <td>aws:createdBy = iam-user/admin</td>
+                            <td>user:Environment = Production</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="key-point fragment fade-up">Tags must be activated in the Billing Console before they appear in cost reports</p>
+                <aside class="notes">
+                    Cost allocation tags are essential for organizations that need to track costs by project, department, or environment. Emphasize that tags must be activated in the Billing Console -- simply tagging a resource is not enough. A common best practice is to enforce tagging policies using AWS Organizations SCPs or AWS Config rules. Tags are retroactive only from the activation date forward, not for past usage.
+                </aside>
+            </section>
+
+            <!-- AWS Cost Anomaly Detection -->
+            <section>
+                <h2>AWS Cost Anomaly Detection</h2>
+                <div class="concept-box">
+                    <h3>ML-Powered Spending Monitoring</h3>
+                    <ul>
+                        <li class="fragment fade-up"><strong>Machine learning:</strong> automatically learns your spending patterns over time</li>
+                        <li class="fragment fade-up"><strong>Anomaly detection:</strong> identifies unusual spending that deviates from historical norms</li>
+                        <li class="fragment fade-up"><strong>Root cause analysis:</strong> pinpoints the service, account, region, or usage type causing the anomaly</li>
+                        <li class="fragment fade-up"><strong>Alerts:</strong> sends notifications via SNS or email when anomalies are detected</li>
+                        <li class="fragment fade-up"><strong>Customizable monitors:</strong> create monitors by AWS service, linked account, cost allocation tag, or cost category</li>
+                    </ul>
+                </div>
+                <div class="highlight-box success" style="margin-top: 15px;">
+                    <p><strong>No manual threshold required:</strong> Unlike Budgets, Cost Anomaly Detection uses ML to determine what is "unusual" based on your historical spending patterns.</p>
+                </div>
+                <aside class="notes">
+                    Cost Anomaly Detection complements Budgets. While Budgets requires you to set a fixed threshold, Cost Anomaly Detection learns what normal looks like and alerts you when spending deviates. This is useful for catching unexpected cost spikes from misconfigurations, runaway resources, or security incidents. It is a free feature in the Cost Management console. Emphasize the distinction from Budgets on the exam.
+                </aside>
+            </section>
+
+            <!-- Section: AWS Support Plans -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>AWS Support Plans</h2>
+                <h3>Choosing the right level of technical and account support</h3>
+                <aside class="notes">
+                    Support plans are a heavily tested topic on the Cloud Practitioner exam. Students need to know the five tiers, their key features, and which plan fits a given scenario. Pay special attention to response times and the TAM, which are common differentiators in exam questions.
+                </aside>
+            </section>
+
+            <!-- Support Plan Comparison Table -->
+            <section>
+                <h2>AWS Support Plans Comparison</h2>
+                <table style="font-size: 0.6em;">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Basic</th>
+                            <th>Developer</th>
+                            <th>Business</th>
+                            <th>Enterprise On-Ramp</th>
+                            <th>Enterprise</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment fade-up">
+                            <td><strong>Price</strong></td>
+                            <td>Free</td>
+                            <td>$29/mo or 3% of usage</td>
+                            <td>$100/mo or 10% of usage</td>
+                            <td>$5,500/mo</td>
+                            <td>$15,000/mo</td>
+                        </tr>
+                        <tr class="fragment fade-up">
+                            <td><strong>Technical Support</strong></td>
+                            <td>None</td>
+                            <td>Business-hours email</td>
+                            <td>24/7 phone, email, chat</td>
+                            <td>24/7 phone, email, chat</td>
+                            <td>24/7 phone, email, chat</td>
+                        </tr>
+                        <tr class="fragment fade-up">
+                            <td><strong>Response: Critical</strong></td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>1 hour</td>
+                            <td>30 minutes</td>
+                            <td>15 minutes</td>
+                        </tr>
+                        <tr class="fragment fade-up">
+                            <td><strong>Trusted Advisor</strong></td>
+                            <td>7 core checks</td>
+                            <td>7 core checks</td>
+                            <td>Full checks</td>
+                            <td>Full checks</td>
+                            <td>Full checks</td>
+                        </tr>
+                        <tr class="fragment fade-up">
+                            <td><strong>TAM</strong></td>
+                            <td>No</td>
+                            <td>No</td>
+                            <td>No</td>
+                            <td>Pool of TAMs</td>
+                            <td>Designated TAM</td>
+                        </tr>
+                        <tr class="fragment fade-up">
+                            <td><strong>Concierge</strong></td>
+                            <td>No</td>
+                            <td>No</td>
+                            <td>No</td>
+                            <td>No</td>
+                            <td>Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <aside class="notes">
+                    Walk through each tier carefully. Basic is included with every account. Developer is for testing and development. Business is the first tier with 24/7 support and full Trusted Advisor. Enterprise On-Ramp is a newer tier that provides a pool of TAMs at a lower price point than full Enterprise. Enterprise includes a designated TAM and a Concierge Support Team for billing and account questions. Response times for critical issues are a very common exam question.
+                </aside>
+            </section>
+
+            <!-- When to Choose Each Plan -->
+            <section>
+                <h2>Choosing the Right Support Plan</h2>
+                <div class="highlight-box success fragment fade-up">
+                    <p><strong>Basic:</strong> Individual learning or experimenting with AWS. Only documentation, whitepapers, and community forums for support.</p>
+                </div>
+                <div class="highlight-box success fragment fade-up">
+                    <p><strong>Developer:</strong> Testing and development environments. Need general guidance during business hours but no production workloads.</p>
+                </div>
+                <div class="highlight-box success fragment fade-up">
+                    <p><strong>Business:</strong> Production workloads in AWS. Need 24/7 access to Cloud Support Engineers and full Trusted Advisor checks.</p>
+                </div>
+                <div class="highlight-box success fragment fade-up">
+                    <p><strong>Enterprise On-Ramp:</strong> Production and business-critical workloads. Need a pool of Technical Account Managers for proactive guidance.</p>
+                </div>
+                <div class="highlight-box success fragment fade-up">
+                    <p><strong>Enterprise:</strong> Mission-critical workloads. Need a designated TAM, Concierge team, and 15-minute critical response time.</p>
+                </div>
+                <aside class="notes">
+                    Frame each plan as a scenario-based decision. On the exam, questions typically describe a situation and ask which plan is appropriate. The key differentiators to remember: Developer is business-hours only. Business is the first 24/7 tier. Enterprise On-Ramp has pooled TAMs. Enterprise has a dedicated TAM and Concierge. If a question mentions a TAM, the answer is always Enterprise tier (On-Ramp or full).
+                </aside>
+            </section>
+
+            <!-- AWS Trusted Advisor -->
+            <section>
+                <h2>AWS Trusted Advisor</h2>
+                <p class="key-point">Automated best-practice checks across five categories</p>
+                <div class="three-columns">
+                    <div class="card fragment fade-up">
+                        <h4>Cost Optimization</h4>
+                        <ul>
+                            <li>Idle EC2 instances</li>
+                            <li>Underutilized EBS volumes</li>
+                            <li>Unassociated Elastic IPs</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Performance</h4>
+                        <ul>
+                            <li>High-utilization instances</li>
+                            <li>CloudFront optimization</li>
+                            <li>EC2 to EBS throughput</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Security</h4>
+                        <ul>
+                            <li>Open security groups</li>
+                            <li>IAM access key rotation</li>
+                            <li>MFA on root account</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="two-columns" style="margin-top: 20px;">
+                    <div class="card fragment fade-up">
+                        <h4>Fault Tolerance</h4>
+                        <ul>
+                            <li>EBS snapshots age</li>
+                            <li>Multi-AZ RDS</li>
+                            <li>Auto Scaling groups</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Service Limits</h4>
+                        <ul>
+                            <li>VPC limits</li>
+                            <li>EC2 instance limits</li>
+                            <li>IAM policy limits</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Trusted Advisor is an automated inspection tool that evaluates your AWS environment against best practices. All accounts get 7 core checks covering basic security items like S3 bucket permissions and MFA on root. Business and Enterprise plans unlock the full set of checks across all five categories. The five categories are a very common exam question. Remember the mnemonic: Cost, Performance, Security, Fault tolerance, Service limits.
+                </aside>
+            </section>
+
+            <!-- Trusted Advisor Checks by Plan -->
+            <section>
+                <h2>Trusted Advisor: Checks by Plan Tier</h2>
+                <div class="two-columns">
+                    <div class="card fragment fade-up">
+                        <h4>Basic and Developer Plans</h4>
+                        <p>7 Core Checks:</p>
+                        <ul>
+                            <li>S3 bucket permissions</li>
+                            <li>Security groups (unrestricted ports)</li>
+                            <li>IAM use (at least one IAM user)</li>
+                            <li>MFA on root account</li>
+                            <li>EBS public snapshots</li>
+                            <li>RDS public snapshots</li>
+                            <li>Service limits</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Business and Enterprise Plans</h4>
+                        <p>Full Suite of Checks:</p>
+                        <ul>
+                            <li>All 7 core checks plus</li>
+                            <li>Cost optimization recommendations</li>
+                            <li>Performance improvement suggestions</li>
+                            <li>Additional security checks</li>
+                            <li>Fault tolerance assessments</li>
+                            <li>Programmatic access via API</li>
+                            <li>CloudWatch integration for alerts</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    The distinction between core checks and full checks is important for the exam. If a question asks about cost optimization checks in Trusted Advisor, the answer requires at least a Business support plan. The 7 core checks focus on security and service limits. Programmatic access via the AWS Support API is also limited to Business and Enterprise tiers.
+                </aside>
+            </section>
+
+            <!-- Health Dashboards -->
+            <section>
+                <h2>Health Dashboards</h2>
+                <div class="two-columns">
+                    <div class="card fragment fade-up">
+                        <h4>AWS Personal Health Dashboard</h4>
+                        <ul>
+                            <li>Personalized view of service health</li>
+                            <li>Shows events affecting <strong>your</strong> resources</li>
+                            <li>Proactive notifications for scheduled maintenance</li>
+                            <li>Remediation guidance for affected resources</li>
+                            <li>EventBridge integration for automated responses</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>AWS Service Health Dashboard</h4>
+                        <ul>
+                            <li>General view of <strong>all</strong> AWS service status</li>
+                            <li>Shows current and historical outages</li>
+                            <li>Region-by-region service availability</li>
+                            <li>Public RSS feeds for status updates</li>
+                            <li>No account login required</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 15px;">
+                    <p><strong>Key Difference:</strong> Personal Health Dashboard shows events relevant to your specific resources. Service Health Dashboard shows the status of all AWS services globally.</p>
+                </div>
+                <aside class="notes">
+                    The exam frequently asks about the difference between these two dashboards. The Personal Health Dashboard is the answer when a question mentions being notified about events affecting your specific resources or accounts. The Service Health Dashboard is the answer for general AWS service status. The Personal Health Dashboard is now integrated into the AWS Health Dashboard in the console. EventBridge integration allows automated remediation when issues are detected.
+                </aside>
+            </section>
+
+            <!-- AWS Partner Network and Marketplace -->
+            <section>
+                <h2>AWS Partner Network and Marketplace</h2>
+                <div class="two-columns">
+                    <div class="card fragment fade-up">
+                        <h4>AWS Partner Network (APN)</h4>
+                        <ul>
+                            <li><strong>Technology Partners:</strong> provide software solutions on or integrated with AWS</li>
+                            <li><strong>Consulting Partners:</strong> help design, architect, and manage AWS workloads</li>
+                            <li>Tiered partnership levels (Select, Advanced, Premier)</li>
+                            <li>Access to training, resources, and co-selling programs</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>AWS Marketplace</h4>
+                        <ul>
+                            <li>Digital catalog of third-party software</li>
+                            <li>One-click deployment to your AWS account</li>
+                            <li>Consolidated billing through your AWS bill</li>
+                            <li>AMIs, containers, SaaS, and data products</li>
+                            <li>Free trials and BYOL options available</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    The AWS Partner Network and Marketplace are supplemental topics for the exam. APN partners fall into two categories: Technology Partners who build on AWS, and Consulting Partners who help customers use AWS. AWS Marketplace simplifies procurement by allowing third-party software purchases to appear on your AWS bill. This can simplify procurement processes for enterprises. Brief coverage is sufficient here.
+                </aside>
+            </section>
+
+            <!-- Section: Cost Optimization Strategies -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
+                <h2>Cost Optimization Strategies</h2>
+                <h3>Practical approaches to reducing your AWS bill</h3>
+                <aside class="notes">
+                    This section pulls together everything we have covered into actionable cost optimization strategies. These strategies are both exam-relevant and practically valuable. Cost optimization is one of the five pillars of the Well-Architected Framework covered in the previous module.
+                </aside>
+            </section>
+
+            <!-- Right-Sizing -->
+            <section>
+                <h2>Right-Sizing Instances</h2>
+                <div class="concept-box">
+                    <h3>Match Instance Type to Workload Requirements</h3>
+                    <ul>
+                        <li class="fragment fade-up"><strong>Analyze utilization:</strong> use CloudWatch metrics to identify instances running below 40% CPU or memory utilization</li>
+                        <li class="fragment fade-up"><strong>Downsize over-provisioned instances:</strong> move from m5.xlarge to m5.large if metrics support it</li>
+                        <li class="fragment fade-up"><strong>Change instance families:</strong> switch from general-purpose to compute- or memory-optimized based on workload profile</li>
+                        <li class="fragment fade-up"><strong>Use AWS Compute Optimizer:</strong> ML-driven recommendations for optimal instance types based on actual usage</li>
+                    </ul>
+                </div>
+                <div class="highlight-box warning" style="margin-top: 15px;">
+                    <p><strong>Common Mistake:</strong> Choosing the largest instance "just in case." Over-provisioning is one of the top sources of wasted cloud spend.</p>
+                </div>
+                <aside class="notes">
+                    Right-sizing is the first and most impactful cost optimization strategy. Many organizations migrate to the cloud with the same sizing mentality as on-premises, leading to massive over-provisioning. AWS Compute Optimizer analyzes CloudWatch metrics and recommends optimal instance types. This should be an ongoing process, not a one-time exercise. Mention that Trusted Advisor also flags underutilized instances.
+                </aside>
+            </section>
+
+            <!-- Reserved Instances and Savings Plans -->
+            <section>
+                <h2>Reserved Instances and Savings Plans</h2>
+                <div class="two-columns">
+                    <div class="card fragment fade-up">
+                        <h4>Reserved Instances</h4>
+                        <ul>
+                            <li>Best for steady-state workloads</li>
+                            <li>Standard RIs: up to 72% discount, limited flexibility</li>
+                            <li>Convertible RIs: up to 66% discount, can change instance attributes</li>
+                            <li>Payment options: All Upfront, Partial Upfront, No Upfront</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Savings Plans</h4>
+                        <ul>
+                            <li>Commit to a consistent $/hour of compute usage</li>
+                            <li><strong>Compute Savings Plans:</strong> apply across EC2, Lambda, Fargate</li>
+                            <li><strong>EC2 Instance Savings Plans:</strong> specific to instance family and region</li>
+                            <li>More flexible than RIs, same discount levels</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box success" style="margin-top: 15px;">
+                    <p><strong>Strategy:</strong> Start with Savings Plans for flexibility, then layer in Standard RIs for workloads you are confident will not change.</p>
+                </div>
+                <aside class="notes">
+                    This slide deepens the earlier pricing models discussion with optimization strategy. The key decision is between RIs and Savings Plans. Savings Plans are generally recommended for new commitments because they offer more flexibility. The discount is applied automatically to matching usage. All Upfront payment gives the highest discount, No Upfront gives the least. A common exam scenario presents a workload description and asks which commitment model provides the best savings.
+                </aside>
+            </section>
+
+            <!-- Spot Instances, Lifecycle Policies, Monitoring -->
+            <section>
+                <h2>Additional Optimization Strategies</h2>
+                <div class="three-columns">
+                    <div class="card fragment fade-up">
+                        <h4>Spot Instances</h4>
+                        <ul>
+                            <li>Up to 90% off On-Demand</li>
+                            <li>Ideal for batch processing, CI/CD, data analysis</li>
+                            <li>Use Spot Fleet for availability</li>
+                            <li>Handle interruptions gracefully</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>S3 Lifecycle Policies</h4>
+                        <ul>
+                            <li>Automate transitions between storage classes</li>
+                            <li>Move to Standard-IA after 30 days</li>
+                            <li>Archive to Glacier after 90 days</li>
+                            <li>Delete expired objects automatically</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Monitoring and Alerts</h4>
+                        <ul>
+                            <li>Set AWS Budgets with alert thresholds</li>
+                            <li>Enable Cost Anomaly Detection</li>
+                            <li>Review Trusted Advisor weekly</li>
+                            <li>Use Cost Explorer for trends</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="concept-box" style="margin-top: 20px;">
+                    <p class="key-point">Cost optimization is an ongoing process, not a one-time activity</p>
+                </div>
+                <aside class="notes">
+                    These three strategies complement right-sizing and reservations. Spot Instances are powerful for workloads that can tolerate interruptions -- batch jobs, rendering, testing. S3 Lifecycle Policies automate the process of moving data to cheaper tiers as it ages. Monitoring ties everything together: you cannot optimize what you do not measure. The key takeaway is that cost optimization requires continuous attention and iteration. Encourage students to establish a regular review cadence for their AWS costs.
+                </aside>
+            </section>
+
+            <!-- Lab Callout -->
+            <section data-background-color="#1a365d" class="lab-callout">
+                <div class="lab-badge">Hands-On Lab</div>
+                <h2>Lab 6: AWS Billing Tools and Cost Optimization</h2>
+                <p>Apply billing and cost management concepts in the AWS Console</p>
+                <div class="lab-description">
+                    <ul>
+                        <li>Explore the AWS Billing Dashboard and review current account charges</li>
+                        <li>Use the AWS Pricing Calculator to estimate costs for a sample architecture</li>
+                        <li>Set up a monthly cost budget with email alert thresholds</li>
+                        <li>Review Trusted Advisor recommendations and identify optimization opportunities</li>
+                    </ul>
+                </div>
+                <aside class="notes">
+                    This lab gives students hands-on experience with the billing tools discussed in this module. Guide students to the Billing Dashboard first to orient them. The Pricing Calculator exercise should model a simple web application with EC2, RDS, and S3. For Budgets, have them set a low threshold budget with their email for alerts. For Trusted Advisor, walk through the core checks available on the Basic plan and discuss what additional checks are available on higher plans. Allow approximately 30-40 minutes for this lab.
+                </aside>
+            </section>
+
+            <!-- Key Takeaways -->
+            <section class="takeaway-list">
+                <h2>Key Takeaways</h2>
+                <ul>
+                    <li class="fragment fade-up"><strong>Three Pricing Pillars:</strong> Pay-as-you-go, save when you reserve, and pay less as you use more form the foundation of all AWS pricing.</li>
+                    <li class="fragment fade-up"><strong>EC2 Pricing Models:</strong> On-Demand for flexibility, Reserved/Savings Plans for steady workloads (up to 72% savings), Spot for fault-tolerant jobs (up to 90% savings).</li>
+                    <li class="fragment fade-up"><strong>Billing Tools:</strong> Use Cost Explorer for analysis, Budgets for alerts, CUR for granular data, and the Pricing Calculator for pre-deployment estimates.</li>
+                    <li class="fragment fade-up"><strong>Support Plans:</strong> Basic is free, Business is first 24/7 tier, Enterprise includes a designated TAM and 15-minute critical response.</li>
+                    <li class="fragment fade-up"><strong>Trusted Advisor:</strong> Five categories of automated best-practice checks; full checks require Business or Enterprise support.</li>
+                    <li class="fragment fade-up"><strong>Cost Optimization:</strong> Right-size instances, leverage commitments, use Spot where possible, automate lifecycle policies, and monitor continuously.</li>
+                </ul>
+                <aside class="notes">
+                    Review each takeaway and ask if there are any questions before moving to the course summary. These six points capture the essential knowledge for the billing and pricing domain of the Cloud Practitioner exam. Reinforce that cost optimization is a continuous process and that AWS provides a rich set of tools to support it.
+                </aside>
+            </section>
+
+            <!-- Course Summary -->
+            <section>
+                <h2>Course Summary</h2>
+                <div class="highlight-box">
+                    <p><strong>A full day of AWS Cloud Practitioner foundations:</strong></p>
+                </div>
+                <ul>
+                    <li class="fragment fade-up"><strong>Module 1 -- Cloud Concepts:</strong> Cloud computing fundamentals, AWS global infrastructure, and the value proposition of the cloud.</li>
+                    <li class="fragment fade-up"><strong>Module 2 -- IAM &amp; Security:</strong> Identity management, authentication, authorization, and the shared responsibility model.</li>
+                    <li class="fragment fade-up"><strong>Module 3 -- Networking &amp; Compute:</strong> VPC architecture, EC2 instances, Lambda, and container services.</li>
+                    <li class="fragment fade-up"><strong>Module 4 -- Storage:</strong> S3, EBS, EFS, and storage class strategies for different workloads.</li>
+                    <li class="fragment fade-up"><strong>Module 5 -- Databases &amp; Monitoring:</strong> RDS, DynamoDB, CloudWatch, CloudTrail, and the Well-Architected Framework.</li>
+                    <li class="fragment fade-up"><strong>Module 6 -- Billing &amp; Support:</strong> Pricing models, cost management tools, support plans, and optimization strategies.</li>
+                </ul>
+                <aside class="notes">
+                    Take a moment to recap the entire day. Each module builds on the previous ones. Cloud concepts set the foundation, security ensures safe usage, networking and compute are the core infrastructure, storage and databases handle data, monitoring provides visibility, and billing ensures cost efficiency. Congratulate students on completing the course and encourage them to continue practicing with the AWS Free Tier.
+                </aside>
+            </section>
+
+            <!-- Questions Slide -->
+            <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="questions-slide">
+                <h2>Questions?</h2>
+                <p>Thank you for completing the AWS Cloud Practitioner 1-Day Course</p>
+                <p>Continue exploring with the AWS Free Tier and practice exams</p>
+                <aside class="notes">
+                    Open the floor for any final questions. Remind students about additional resources: AWS Free Tier for hands-on practice, AWS Skill Builder for practice exams, and the official AWS documentation. If there is an appendix with exam preparation material, direct students there for further study. Thank everyone for their participation throughout the day.
+                </aside>
+            </section>
+
+        </div>
+    </div>
+
+    <div class="module-progress">Module 6: Billing, Pricing &amp; Support</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/notes/notes.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide',
+            plugins: [RevealHighlight, RevealNotes]
+        });
+    </script>
+</body>
+</html>
