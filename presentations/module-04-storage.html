@@ -849,10 +849,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="highlight-box success fragment" style="margin-top: 15px;">
-                    <p style="font-size:0.75em;"><strong>Key Concept:</strong> Snapshots are the primary mechanism for backing up EBS volumes and migrating data across AZs and Regions.</p>
-                </div>
-                <aside class="notes">EBS snapshots are essential for data protection and migration strategies. The first snapshot is a full copy, but subsequent snapshots are incremental — only the blocks that have changed since the last snapshot are saved. This makes them storage-efficient and cost-effective. You can create a new EBS volume from a snapshot in any Availability Zone within the same region, which is how you migrate data between AZs. You can also copy snapshots across regions for disaster recovery. Amazon Data Lifecycle Manager automates the creation, retention, and deletion of snapshots based on policies you define. Snapshots can also be shared with other AWS accounts for collaboration or multi-account architectures.</aside>
+                <aside class="notes">Snapshots are the primary mechanism for backing up EBS volumes and migrating data across AZs and Regions. EBS snapshots are essential for data protection and migration strategies. The first snapshot is a full copy, but subsequent snapshots are incremental — only the blocks that have changed since the last snapshot are saved. This makes them storage-efficient and cost-effective. You can create a new EBS volume from a snapshot in any Availability Zone within the same region, which is how you migrate data between AZs. You can also copy snapshots across regions for disaster recovery. Amazon Data Lifecycle Manager automates the creation, retention, and deletion of snapshots based on policies you define. Snapshots can also be shared with other AWS accounts for collaboration or multi-account architectures.</aside>
             </section>
 
             <!-- Amazon EFS -->
@@ -996,7 +993,7 @@
                         <li>Clean up by emptying and deleting the bucket</li>
                     </ul>
                 </div>
-                <aside class="notes">This lab gives participants hands-on experience with S3. They will create a bucket, upload objects, enable versioning, configure lifecycle policies, and work with bucket policies. Allow approximately 15 minutes for this lab. Encourage participants to explore the S3 console and review the properties and permissions tabs for each bucket.</aside>
+                <aside class="notes">This lab gives participants hands-on experience with S3. They will create a bucket, upload objects, enable versioning, configure static website hosting, and work with bucket policies. Allow approximately 15 minutes for this lab. Encourage participants to explore the S3 console and review the properties and permissions tabs for each bucket.</aside>
             </section>
 
             <!-- Key Takeaways -->

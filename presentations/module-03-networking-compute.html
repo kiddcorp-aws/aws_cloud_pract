@@ -670,30 +670,18 @@
             <!-- EC2 Instance Types -->
             <section>
                 <h2>EC2 Instance Families</h2>
-                <div class="three-columns" style="font-size:0.82em;">
-                    <div class="card">
-                        <h4>General Purpose (M, T, A)</h4>
-                        <p style="font-size:0.85em;">Balanced compute, memory, networking — web servers, dev environments</p>
-                    </div>
-                    <div class="card">
-                        <h4>Compute Optimized (C)</h4>
-                        <p style="font-size:0.85em;">High-performance processors — batch processing, HPC, media encoding</p>
-                    </div>
-                    <div class="card">
-                        <h4>Memory Optimized (R, X, z)</h4>
-                        <p style="font-size:0.85em;">Large in-memory data sets — in-memory databases, real-time analytics</p>
-                    </div>
-                </div>
-                <div class="two-columns" style="margin-top:20px;font-size:0.82em;">
-                    <div class="card">
-                        <h4>Storage Optimized (I, D, H)</h4>
-                        <p style="font-size:0.85em;">High sequential read/write — data warehousing, distributed file systems</p>
-                    </div>
-                    <div class="card">
-                        <h4>Accelerated Computing (P, G, Inf, Trn)</h4>
-                        <p style="font-size:0.85em;">Hardware accelerators (GPUs/FPGAs) — ML training, graphics rendering</p>
-                    </div>
-                </div>
+                <table style="font-size: 0.65em; margin-top: 15px;">
+                    <thead>
+                        <tr><th>Family</th><th>Optimized For</th><th>Use Cases</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment"><td><strong>General Purpose</strong> (M, T, A)</td><td>Balanced compute, memory, networking</td><td>Web servers, dev environments</td></tr>
+                        <tr class="fragment"><td><strong>Compute Optimized</strong> (C)</td><td>High-performance processors</td><td>Batch processing, HPC, media encoding</td></tr>
+                        <tr class="fragment"><td><strong>Memory Optimized</strong> (R, X, z)</td><td>Large in-memory data sets</td><td>In-memory databases, real-time analytics</td></tr>
+                        <tr class="fragment"><td><strong>Storage Optimized</strong> (I, D, H)</td><td>High sequential read/write</td><td>Data warehousing, distributed file systems</td></tr>
+                        <tr class="fragment"><td><strong>Accelerated Computing</strong> (P, G, Inf, Trn)</td><td>Hardware accelerators (GPUs/FPGAs)</td><td>ML training, graphics rendering</td></tr>
+                    </tbody>
+                </table>
                 <aside class="notes">
                     AWS organizes instance types into families optimized for different workloads. For the Cloud Practitioner exam, you need to know the general categories and their use cases. You do not need to memorize specific instance specifications, but understanding which family fits which workload is important.
                 </aside>
@@ -1057,7 +1045,7 @@
                     </ul>
                 </div>
                 <aside class="notes">
-                    This lab brings together everything we covered in this module. Participants will build a VPC from scratch, configure networking components, and launch an EC2 instance. This hands-on experience reinforces the relationship between VPCs, subnets, security groups, and EC2 instances.
+                    This lab brings together everything we covered in this module. Participants will explore the default VPC and its components, then launch an EC2 instance with a security group and user data script. This hands-on experience reinforces the relationship between VPCs, subnets, security groups, and EC2 instances.
                 </aside>
             </section>
 

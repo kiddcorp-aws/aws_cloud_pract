@@ -1022,8 +1022,7 @@
                     <li class="fragment"><strong>Use Groups</strong> to assign permissions to users, and <strong>Roles</strong> for services and cross-account access</li>
                     <li class="fragment"><strong>Policies are JSON documents</strong> with Effect, Action, and Resource -- explicit Deny always wins</li>
                     <li class="fragment"><strong>Apply least privilege</strong> -- start with no permissions, add only what is needed</li>
-                    <li class="fragment"><strong>Enable MFA everywhere</strong> and never embed access keys in code</li>
-                    <li class="fragment"><strong>IAM Identity Center</strong> is the recommended solution for workforce access management</li>
+                    <li class="fragment"><strong>Enable MFA everywhere</strong> -- use IAM Identity Center for enterprise workforce access</li>
                 </ul>
                 <aside class="notes">
                     Let us review the key points. IAM is the security backbone of AWS. The root account should be locked away. Groups simplify user permission management. Roles are for services and cross-account access. Policies use JSON with Allow and Deny effects, and Deny always takes precedence. Least privilege is the guiding principle. MFA should be enabled on every account. And IAM Identity Center is the modern approach for enterprise workforce access.

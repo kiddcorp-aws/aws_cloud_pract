@@ -302,8 +302,7 @@
                         <li class="fragment fade-up">Describe AWS and its value propositions</li>
                         <li class="fragment fade-up">Explain the AWS Global Infrastructure (Regions, AZs, Edge Locations)</li>
                         <li class="fragment fade-up">Articulate the Shared Responsibility Model</li>
-                        <li class="fragment fade-up">Identify major AWS service categories and access methods</li>
-                        <li class="fragment fade-up">Describe the AWS Cloud Adoption Framework and common migration strategies</li>
+                        <li class="fragment fade-up">Describe the Cloud Adoption Framework, migration strategies, and AWS service categories</li>
                     </ul>
                 </div>
                 <aside class="notes">
@@ -522,36 +521,19 @@
             <!-- AWS Value Propositions -->
             <section>
                 <h2>AWS Value Propositions</h2>
-                <div class="two-columns">
-                    <div>
-                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
-                            <h4>On-Demand Provisioning</h4>
-                            <p>Launch resources in minutes with no long-term commitments.</p>
-                        </div>
-                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
-                            <h4>Elasticity</h4>
-                            <p>Scale resources automatically with demand.</p>
-                        </div>
-                        <div class="card fragment fade-up">
-                            <h4>Pay-As-You-Go</h4>
-                            <p>Pay only for what you consume, with no upfront costs.</p>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
-                            <h4>Global Reach</h4>
-                            <p>Deploy in multiple regions worldwide to reduce latency.</p>
-                        </div>
-                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
-                            <h4>Innovation</h4>
-                            <p>Access AI/ML, IoT, and serverless without building from scratch.</p>
-                        </div>
-                        <div class="card fragment fade-up">
-                            <h4>Security</h4>
-                            <p>Secure foundation with compliance certifications and extensive controls.</p>
-                        </div>
-                    </div>
-                </div>
+                <table style="font-size: 0.7em; margin-top: 15px;">
+                    <thead>
+                        <tr><th>Proposition</th><th>What It Means</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment fade-up"><td><strong>On-Demand Provisioning</strong></td><td>Launch resources in minutes with no long-term commitments</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Elasticity</strong></td><td>Scale resources automatically with demand</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Pay-As-You-Go</strong></td><td>Pay only for what you consume, with no upfront costs</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Global Reach</strong></td><td>Deploy in multiple regions worldwide to reduce latency</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Innovation</strong></td><td>Access AI/ML, IoT, and serverless without building from scratch</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Security</strong></td><td>Secure foundation with compliance certifications and extensive controls</td></tr>
+                    </tbody>
+                </table>
                 <aside class="notes">
                     These are the core reasons organizations choose AWS. On-demand provisioning eliminates the wait time of traditional IT. Elasticity means you do not have to guess capacity. Pay-as-you-go aligns costs with actual usage. Global reach lets you serve customers anywhere. AWS continuously innovates, releasing thousands of new features annually.
                 </aside>
@@ -560,36 +542,14 @@
             <!-- Six Advantages of Cloud Computing -->
             <section>
                 <h2>Six Advantages of Cloud Computing</h2>
-                <div class="two-columns">
-                    <div>
-                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
-                            <h4>1. Trade Fixed Expense for Variable Expense</h4>
-                            <p>Pay only when you consume resources instead of investing heavily upfront.</p>
-                        </div>
-                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
-                            <h4>2. Benefit from Massive Economies of Scale</h4>
-                            <p>AWS aggregates usage across customers to achieve lower prices.</p>
-                        </div>
-                        <div class="card fragment fade-up">
-                            <h4>3. Stop Guessing Capacity</h4>
-                            <p>Scale up or down as required with only minutes of notice.</p>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
-                            <h4>4. Increase Speed and Agility</h4>
-                            <p>Provision new IT resources in minutes instead of weeks.</p>
-                        </div>
-                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
-                            <h4>5. Stop Spending Money Running Data Centers</h4>
-                            <p>Focus on your business instead of infrastructure heavy lifting.</p>
-                        </div>
-                        <div class="card fragment fade-up">
-                            <h4>6. Go Global in Minutes</h4>
-                            <p>Deploy across multiple AWS Regions with just a few clicks.</p>
-                        </div>
-                    </div>
-                </div>
+                <ol style="font-size: 0.7em; line-height: 1.6;">
+                    <li class="fragment fade-up"><strong>Trade Fixed Expense for Variable Expense</strong> -- Pay only when you consume resources instead of investing heavily upfront</li>
+                    <li class="fragment fade-up"><strong>Benefit from Massive Economies of Scale</strong> -- AWS aggregates usage across customers to achieve lower prices</li>
+                    <li class="fragment fade-up"><strong>Stop Guessing Capacity</strong> -- Scale up or down as required with only minutes of notice</li>
+                    <li class="fragment fade-up"><strong>Increase Speed and Agility</strong> -- Provision new IT resources in minutes instead of weeks</li>
+                    <li class="fragment fade-up"><strong>Stop Spending Money Running Data Centers</strong> -- Focus on your business instead of infrastructure heavy lifting</li>
+                    <li class="fragment fade-up"><strong>Go Global in Minutes</strong> -- Deploy across multiple AWS Regions with just a few clicks</li>
+                </ol>
                 <aside class="notes">
                     These six advantages come directly from AWS whitepapers and are a staple of the Cloud Practitioner exam. Students should be able to recall and explain each one. Emphasize the shift from CapEx to OpEx (advantage 1), the benefit of AWS pooling demand across customers (advantage 2), and how elasticity removes the need to guess capacity (advantage 3). Speed, agility, and global reach are what make cloud transformative for organizations of all sizes.
                 </aside>
@@ -702,39 +662,21 @@
             <!-- AWS Cloud Adoption Framework (CAF) -->
             <section>
                 <h2>AWS Cloud Adoption Framework (CAF)</h2>
-                <p>The CAF organizes guidance into six areas of focus, called <strong>perspectives</strong>:</p>
-                <div class="two-columns" style="margin-top: 20px;">
-                    <div>
-                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
-                            <h4>Business</h4>
-                            <p>Aligns IT investment with business outcomes.</p>
-                        </div>
-                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
-                            <h4>People</h4>
-                            <p>Addresses staffing and organizational change management.</p>
-                        </div>
-                        <div class="card fragment fade-up">
-                            <h4>Governance</h4>
-                            <p>Maximizes IT value while minimizing risk.</p>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
-                            <h4>Platform</h4>
-                            <p>Guides architecture and infrastructure design for the cloud.</p>
-                        </div>
-                        <div class="card fragment fade-up" style="margin-bottom: 15px;">
-                            <h4>Security</h4>
-                            <p>Ensures visibility, auditability, control, and agility objectives are met.</p>
-                        </div>
-                        <div class="card fragment fade-up">
-                            <h4>Operations</h4>
-                            <p>Defines how business operations are conducted in the cloud.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="concept-box fragment fade-up" style="margin-top: 20px;">
-                    <h4>Why CAF Matters</h4>
+                <p>The CAF organizes guidance into six <strong>perspectives</strong>:</p>
+                <table style="font-size: 0.65em; margin-top: 15px;">
+                    <thead>
+                        <tr><th>Perspective</th><th>Focus Area</th><th>Orientation</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment fade-up"><td><strong>Business</strong></td><td>Aligns IT investment with business outcomes</td><td>Business</td></tr>
+                        <tr class="fragment fade-up"><td><strong>People</strong></td><td>Staffing and organizational change management</td><td>Business</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Governance</strong></td><td>Maximizes IT value while minimizing risk</td><td>Business</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Platform</strong></td><td>Architecture and infrastructure design for cloud</td><td>Technical</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Security</strong></td><td>Visibility, auditability, control, and agility</td><td>Technical</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Operations</strong></td><td>How business operations run in the cloud</td><td>Technical</td></tr>
+                    </tbody>
+                </table>
+                <div class="concept-box fragment fade-up" style="margin-top: 15px;">
                     <p>The CAF helps organizations identify and address gaps in skills and processes during cloud adoption.</p>
                 </div>
                 <aside class="notes">
@@ -945,58 +887,19 @@
             <!-- Service Categories -->
             <section>
                 <h2>AWS Service Categories</h2>
-                <div class="three-columns">
-                    <div class="card fragment fade-up">
-                        <h4>Compute</h4>
-                        <ul>
-                            <li>EC2 (Virtual Servers)</li>
-                            <li>Lambda (Serverless)</li>
-                            <li>ECS / EKS (Containers)</li>
-                        </ul>
-                    </div>
-                    <div class="card fragment fade-up">
-                        <h4>Storage</h4>
-                        <ul>
-                            <li>S3 (Object Storage)</li>
-                            <li>EBS (Block Storage)</li>
-                            <li>S3 Glacier (Archive)</li>
-                        </ul>
-                    </div>
-                    <div class="card fragment fade-up">
-                        <h4>Database</h4>
-                        <ul>
-                            <li>RDS (Relational)</li>
-                            <li>DynamoDB (NoSQL)</li>
-                            <li>Aurora (Cloud-native)</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="three-columns" style="margin-top: 20px;">
-                    <div class="card fragment fade-up">
-                        <h4>Networking</h4>
-                        <ul>
-                            <li>VPC (Virtual Network)</li>
-                            <li>CloudFront (CDN)</li>
-                            <li>Route 53 (DNS)</li>
-                        </ul>
-                    </div>
-                    <div class="card fragment fade-up">
-                        <h4>Security</h4>
-                        <ul>
-                            <li>IAM (Access Control)</li>
-                            <li>KMS (Encryption Keys)</li>
-                            <li>WAF (Web Firewall)</li>
-                        </ul>
-                    </div>
-                    <div class="card fragment fade-up">
-                        <h4>Management</h4>
-                        <ul>
-                            <li>CloudWatch (Monitoring)</li>
-                            <li>CloudTrail (Audit)</li>
-                            <li>Trusted Advisor</li>
-                        </ul>
-                    </div>
-                </div>
+                <table style="font-size: 0.6em; margin-top: 15px;">
+                    <thead>
+                        <tr><th>Category</th><th>Key Services</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment fade-up"><td><strong>Compute</strong></td><td>EC2 (Virtual Servers), Lambda (Serverless), ECS/EKS (Containers)</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Storage</strong></td><td>S3 (Object), EBS (Block), S3 Glacier (Archive)</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Database</strong></td><td>RDS (Relational), DynamoDB (NoSQL), Aurora (Cloud-native)</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Networking</strong></td><td>VPC (Virtual Network), CloudFront (CDN), Route 53 (DNS)</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Security</strong></td><td>IAM (Access Control), KMS (Encryption), WAF (Web Firewall)</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Management</strong></td><td>CloudWatch (Monitoring), CloudTrail (Audit), Trusted Advisor</td></tr>
+                    </tbody>
+                </table>
                 <aside class="notes">
                     This is a high-level overview of the most important service categories. We will dive deeper into specific services in later modules. For the Cloud Practitioner exam, you need to know what each service does at a high level and which category it belongs to. There are over 200 services, but these are the core ones you should know.
                 </aside>
