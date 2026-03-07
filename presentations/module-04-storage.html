@@ -505,7 +505,7 @@
             <!-- S3 Storage Classes -->
             <section>
                 <h2>S3 Storage Classes</h2>
-                <table>
+                <table style="font-size: 0.7em;">
                     <thead>
                         <tr>
                             <th>Storage Class</th>
@@ -795,39 +795,29 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="fragment fade-up">
+                        <tr class="fragment">
                             <td><strong>Persistence</strong></td>
                             <td>Data lost on stop, terminate, or failure</td>
                             <td>Persists independently of instance lifecycle</td>
                         </tr>
-                        <tr class="fragment fade-up">
-                            <td><strong>Performance</strong></td>
-                            <td>Highest I/O — physically attached to host</td>
-                            <td>High I/O — network-attached storage</td>
-                        </tr>
-                        <tr class="fragment fade-up">
-                            <td><strong>Attachment</strong></td>
-                            <td>Cannot be detached or reattached</td>
-                            <td>Can detach and reattach to another instance (same AZ)</td>
-                        </tr>
-                        <tr class="fragment fade-up">
+                        <tr class="fragment">
                             <td><strong>Backup</strong></td>
                             <td>No built-in backup mechanism</td>
                             <td>Supports snapshots for point-in-time backups</td>
                         </tr>
-                        <tr class="fragment fade-up">
+                        <tr class="fragment">
                             <td><strong>Cost</strong></td>
                             <td>Included in instance price</td>
                             <td>Separate charge based on volume type and size</td>
                         </tr>
-                        <tr class="fragment fade-up">
+                        <tr class="fragment">
                             <td><strong>Use Case</strong></td>
                             <td>Buffers, caches, scratch data, temporary content</td>
                             <td>Databases, boot volumes, persistent application data</td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="highlight-box warning fragment fade-up" style="margin-top: 15px;">
+                <div class="highlight-box warning fragment" style="margin-top: 15px;">
                     <p style="font-size:0.75em;"><strong>Important:</strong> Instance store data is LOST when the instance is stopped or terminated — this is a frequently tested concept.</p>
                 </div>
                 <aside class="notes">This comparison is critical for the exam. Instance store volumes are physically attached to the host machine, giving them the best possible I/O performance. However, the data is ephemeral — if the instance stops, terminates, or the underlying hardware fails, all data on the instance store is lost. EBS volumes are network-attached and persist independently. You can stop an instance and start it again without losing EBS data. You can also detach an EBS volume and attach it to a different instance in the same Availability Zone. For anything that needs to survive an instance lifecycle event, always use EBS.</aside>
@@ -840,15 +830,16 @@
                     <p><strong>EBS Snapshots</strong> are point-in-time backups of EBS volumes, stored in Amazon S3. They capture the state of a volume at the moment the snapshot is initiated.</p>
                 </div>
                 <div class="two-columns" style="margin-top: 15px;">
-                    <div class="card fragment fade-up">
+                    <div class="card fragment">
                         <h4>Snapshot Features</h4>
                         <ul style="font-size:0.7em;">
                             <li><strong>Incremental</strong> — only changed blocks are saved after the first snapshot</li>
                             <li>Stored durably in Amazon S3</li>
                             <li>Persist independently even after the source volume is deleted</li>
+                            <li>Automated via <strong>Amazon Data Lifecycle Manager</strong></li>
                         </ul>
                     </div>
-                    <div class="card fragment fade-up">
+                    <div class="card fragment">
                         <h4>Snapshot Use Cases</h4>
                         <ul style="font-size:0.7em;">
                             <li>Backup and restore of EBS volumes</li>
@@ -858,11 +849,7 @@
                         </ul>
                     </div>
                 </div>
-                <ul style="font-size:0.7em; margin-top: 15px;">
-                    <li class="fragment fade-up">Snapshots can be <strong>shared with other AWS accounts</strong></li>
-                    <li class="fragment fade-up">Snapshot lifecycle can be <strong>automated via Amazon Data Lifecycle Manager</strong></li>
-                </ul>
-                <div class="highlight-box success fragment fade-up" style="margin-top: 15px;">
+                <div class="highlight-box success fragment" style="margin-top: 15px;">
                     <p style="font-size:0.75em;"><strong>Key Concept:</strong> Snapshots are the primary mechanism for backing up EBS volumes and migrating data across AZs and Regions.</p>
                 </div>
                 <aside class="notes">EBS snapshots are essential for data protection and migration strategies. The first snapshot is a full copy, but subsequent snapshots are incremental — only the blocks that have changed since the last snapshot are saved. This makes them storage-efficient and cost-effective. You can create a new EBS volume from a snapshot in any Availability Zone within the same region, which is how you migrate data between AZs. You can also copy snapshots across regions for disaster recovery. Amazon Data Lifecycle Manager automates the creation, retention, and deletion of snapshots based on policies you define. Snapshots can also be shared with other AWS accounts for collaboration or multi-account architectures.</aside>

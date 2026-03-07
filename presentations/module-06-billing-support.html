@@ -883,7 +883,7 @@
             <!-- Support Plan Comparison Table -->
             <section>
                 <h2>AWS Support Plans Comparison</h2>
-                <table style="font-size: 0.6em;">
+                <table style="font-size: 0.58em;">
                     <thead>
                         <tr>
                             <th>Feature</th>
@@ -953,20 +953,14 @@
             <!-- When to Choose Each Plan -->
             <section>
                 <h2>Choosing the Right Support Plan</h2>
-                <div class="highlight-box success fragment fade-up">
-                    <p><strong>Basic:</strong> Individual learning or experimenting with AWS. Only documentation, whitepapers, and community forums for support.</p>
-                </div>
-                <div class="highlight-box success fragment fade-up">
-                    <p><strong>Developer:</strong> Testing and development environments. Need general guidance during business hours but no production workloads.</p>
-                </div>
-                <div class="highlight-box success fragment fade-up">
-                    <p><strong>Business:</strong> Production workloads in AWS. Need 24/7 access to Cloud Support Engineers and full Trusted Advisor checks.</p>
-                </div>
-                <div class="highlight-box success fragment fade-up">
-                    <p><strong>Enterprise On-Ramp:</strong> Production and business-critical workloads. Need a pool of Technical Account Managers for proactive guidance.</p>
-                </div>
-                <div class="highlight-box success fragment fade-up">
-                    <p><strong>Enterprise:</strong> Mission-critical workloads. Need a designated TAM, Concierge team, and 15-minute critical response time.</p>
+                <div class="concept-box">
+                    <ul>
+                        <li class="fragment fade-up"><strong>Basic:</strong> Individual learning or experimenting; documentation and community forums only</li>
+                        <li class="fragment fade-up"><strong>Developer:</strong> Testing and development; general guidance during business hours</li>
+                        <li class="fragment fade-up"><strong>Business:</strong> Production workloads; 24/7 Cloud Support Engineers and full Trusted Advisor</li>
+                        <li class="fragment fade-up"><strong>Enterprise On-Ramp:</strong> Business-critical workloads; pooled Technical Account Managers</li>
+                        <li class="fragment fade-up"><strong>Enterprise:</strong> Mission-critical workloads; designated TAM, Concierge team, 15-minute critical response</li>
+                    </ul>
                 </div>
                 <aside class="notes">
                     Frame each plan as a scenario-based decision. On the exam, questions typically describe a situation and ask which plan is appropriate. The key differentiators to remember: Developer is business-hours only. Business is the first 24/7 tier. Enterprise On-Ramp has pooled TAMs. Enterprise has a dedicated TAM and Concierge. If a question mentions a TAM, the answer is always Enterprise tier (On-Ramp or full).
@@ -983,7 +977,6 @@
                         <ul>
                             <li>Idle EC2 instances</li>
                             <li>Underutilized EBS volumes</li>
-                            <li>Unassociated Elastic IPs</li>
                         </ul>
                     </div>
                     <div class="card fragment fade-up">
@@ -991,14 +984,12 @@
                         <ul>
                             <li>High-utilization instances</li>
                             <li>CloudFront optimization</li>
-                            <li>EC2 to EBS throughput</li>
                         </ul>
                     </div>
                     <div class="card fragment fade-up">
                         <h4>Security</h4>
                         <ul>
                             <li>Open security groups</li>
-                            <li>IAM access key rotation</li>
                             <li>MFA on root account</li>
                         </ul>
                     </div>
@@ -1009,7 +1000,6 @@
                         <ul>
                             <li>EBS snapshots age</li>
                             <li>Multi-AZ RDS</li>
-                            <li>Auto Scaling groups</li>
                         </ul>
                     </div>
                     <div class="card fragment fade-up">
@@ -1017,7 +1007,6 @@
                         <ul>
                             <li>VPC limits</li>
                             <li>EC2 instance limits</li>
-                            <li>IAM policy limits</li>
                         </ul>
                     </div>
                 </div>
@@ -1231,10 +1220,11 @@
                 <p>Apply billing and cost management concepts in the AWS Console</p>
                 <div class="lab-description">
                     <ul>
-                        <li>Explore the AWS Billing Dashboard and review current account charges</li>
-                        <li>Use the AWS Pricing Calculator to estimate costs for a sample architecture</li>
-                        <li>Set up a monthly cost budget with email alert thresholds</li>
-                        <li>Review Trusted Advisor recommendations and identify optimization opportunities</li>
+                        <li>Explore the AWS Billing Dashboard and review charges and Free Tier usage</li>
+                        <li>Use the AWS Pricing Calculator to estimate costs for a multi-service architecture</li>
+                        <li>Create a monthly cost budget with alert thresholds</li>
+                        <li>Review Trusted Advisor recommendations across security and cost categories</li>
+                        <li>Explore Cost Explorer to analyze spending patterns and forecasts</li>
                     </ul>
                 </div>
                 <aside class="notes">

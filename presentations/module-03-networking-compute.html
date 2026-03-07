@@ -1032,16 +1032,11 @@
                 <div class="highlight-box">
                     <strong>A launch template specifies:</strong>
                     <ul>
-                        <li class="fragment fade-up">AMI ID and instance type</li>
-                        <li class="fragment fade-up">Key pair and security groups</li>
-                        <li class="fragment fade-up">Network settings (subnet, public IP)</li>
+                        <li class="fragment fade-up">AMI ID, instance type, and key pair</li>
+                        <li class="fragment fade-up">Security groups and network settings</li>
                         <li class="fragment fade-up">Storage (EBS volumes)</li>
-                        <li class="fragment fade-up">User data scripts for bootstrapping</li>
-                        <li class="fragment fade-up">IAM instance profile</li>
+                        <li class="fragment fade-up">User data scripts and IAM instance profile</li>
                     </ul>
-                </div>
-                <div class="highlight-box success fragment fade-up">
-                    <strong>Best Practice:</strong> Use launch templates instead of launch configurations. Launch templates support versioning and are required by current-generation Auto Scaling features.
                 </div>
                 <aside class="notes">
                     Launch templates are the modern way to define instance configurations. They replaced launch configurations and offer versioning, which means you can iterate on your instance setup without creating entirely new templates. Auto Scaling groups reference launch templates to know how to launch new instances.
