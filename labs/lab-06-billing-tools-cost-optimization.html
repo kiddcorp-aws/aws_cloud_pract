@@ -113,7 +113,7 @@
     <h1>Lab 6: AWS Billing Tools and Cost Optimization</h1>
 
     <div class="lab-meta">
-        <p><strong>Duration:</strong> 15 minutes</p>
+        <p><strong>Duration:</strong> 45 minutes</p>
         <p><strong>Level:</strong> Introductory</p>
         <p><strong>Prerequisites:</strong> Completed Labs 1-5; AWS console access</p>
     </div>
@@ -123,9 +123,13 @@
         <ul>
             <li>Explore the AWS Billing and Cost Management Dashboard</li>
             <li>Use the AWS Pricing Calculator to estimate a solution's cost</li>
-            <li>Create an AWS Budget with alert thresholds</li>
+            <li>Compare pricing across multiple architectures (EC2 vs. serverless)</li>
+            <li>Create both cost-based and usage-based AWS Budgets with alert thresholds</li>
             <li>Review AWS Trusted Advisor recommendations</li>
             <li>Explore Cost Explorer to analyze spending patterns</li>
+            <li>Configure cost allocation tags for tracking spend by project and team</li>
+            <li>Compare AWS Support plans and understand their features</li>
+            <li>Review AWS Free Tier categories and monitor usage allowances</li>
         </ul>
     </div>
 
@@ -163,7 +167,7 @@
     </div>
 
     <div class="step">
-        <p><span class="step-number">5</span> Open the <strong>AWS Pricing Calculator</strong> (this is a public web tool — no sign-in required). Your instructor will provide guidance on accessing it.</p>
+        <p><span class="step-number">5</span> Open the <strong>AWS Pricing Calculator</strong> at <code>https://calculator.aws/</code> (this is a public web tool — no sign-in required).</p>
     </div>
 
     <div class="step">
@@ -236,6 +240,7 @@
                 <tr><td><strong>Total Estimated Monthly Cost</strong></td><td></td></tr>
             </tbody>
         </table>
+        <p><strong>Typical ranges:</strong> EC2 t3.medium ~$30-35/mo, ALB ~$20-25/mo, RDS db.t3.micro ~$15-20/mo, S3 50GB ~$2-3/mo. Your estimates may vary slightly.</p>
     </div>
 
     <div class="step">
@@ -319,19 +324,310 @@
         </ul>
     </div>
 
-    <h2>Part F: Clean Up</h2>
+    <h2>Part F: Compare Pricing Across Architectures</h2>
+
+    <div class="info-box">
+        <strong>Scenario:</strong> You now want to evaluate whether the architecture from Part B is the most cost-effective approach. You will compare three different architectures for the same workload: the original single EC2 instance, a horizontally scaled EC2 approach, and a fully serverless alternative.
+    </div>
 
     <div class="step">
-        <p><span class="step-number">22</span> Delete the budget created in Part C:</p>
+        <p><span class="step-number">22</span> Return to the <strong>AWS Pricing Calculator</strong>. Create a new estimate (or duplicate and modify your existing one) for <strong>Architecture 2: Horizontally Scaled EC2</strong>. Replace the single t3.medium instance with the following:</p>
         <ul>
-            <li>Navigate to <strong>Budgets</strong></li>
-            <li>Select <code>lab-monthly-budget</code> and click <strong>Delete</strong></li>
+            <li><strong>Amazon EC2:</strong> 2x t3.small instances (instead of 1x t3.medium)</li>
+            <li>Region: US East (N. Virginia)</li>
+            <li>Operating System: Linux</li>
+            <li>Pricing model: On-Demand</li>
+            <li>Quantity: 2 instances, running 24/7 (730 hours/month each)</li>
+            <li>Storage: 20 GB gp3 EBS volume per instance</li>
+            <li>Keep the same ALB, RDS, and S3 configurations from Part B</li>
         </ul>
+        <p>Record the total monthly cost. Is 2x t3.small more or less expensive than 1x t3.medium?</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">23</span> Create another new estimate for <strong>Architecture 3: Serverless</strong>. Remove EC2 and the ALB entirely, and replace them with:</p>
+        <ul>
+            <li><strong>AWS Lambda:</strong>
+                <ul>
+                    <li>Region: US East (N. Virginia)</li>
+                    <li>Number of requests: 1,000,000 per month</li>
+                    <li>Memory allocated: 512 MB</li>
+                    <li>Average duration per request: 200 ms</li>
+                </ul>
+            </li>
+            <li><strong>Amazon API Gateway</strong> (a managed service that creates, publishes, and manages REST APIs that route HTTP requests to backend services like Lambda)<strong>:</strong>
+                <ul>
+                    <li>API type: REST API</li>
+                    <li>Region: US East (N. Virginia)</li>
+                    <li>Number of API calls: 1,000,000 per month</li>
+                </ul>
+            </li>
+            <li>Keep the same <strong>RDS</strong> and <strong>S3</strong> configurations from Part B</li>
+        </ul>
+        <p>Record the total monthly cost for this serverless architecture.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">24</span> Compare all three architectures. Fill in the table below with your estimates:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Architecture</th>
+                    <th>Monthly Cost (USD)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1x t3.medium + ALB + RDS + S3</td><td></td></tr>
+                <tr><td>2x t3.small + ALB + RDS + S3</td><td></td></tr>
+                <tr><td>Lambda + API Gateway + RDS + S3</td><td></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">25</span> <strong>Discussion:</strong> Consider the following with your instructor or lab partner:</p>
+        <ul>
+            <li>At what request volume does the serverless architecture become more expensive than EC2?</li>
+            <li>What are the non-cost advantages of serverless (e.g., no patching, auto-scaling to zero)?</li>
+            <li>When would 2x smaller instances be preferable to 1x larger instance, even if costs are similar?</li>
+            <li>How would adding Reserved Instances or Savings Plans change the EC2 comparison?</li>
+        </ul>
+    </div>
+
+    <h2>Part G: Cost Allocation Tags</h2>
+
+    <div class="info-box">
+        <strong>Why tags matter:</strong> Cost allocation tags allow organizations to categorize AWS costs by project, team, environment, or any custom dimension. Without tags, all costs appear as a single line item per service, making it difficult to understand who is spending what.
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">26</span> Navigate to <strong>Billing and Cost Management</strong> &gt; <strong>Cost allocation tags</strong> in the left navigation.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">27</span> Review the two types of cost allocation tags:</p>
+        <ul>
+            <li><strong>AWS-generated tags:</strong> Automatically created by AWS (e.g., <code>aws:createdBy</code>). These track which IAM user or role created a resource.</li>
+            <li><strong>User-defined tags:</strong> Tags you applied to resources in earlier labs (e.g., <code>Environment=Lab</code>, <code>Name=my-instance</code>).</li>
+        </ul>
+        <p>If you see any user-defined tags listed (from resources tagged in earlier labs), select them and click <strong>Activate</strong>. Note that it can take up to 24 hours for activated tags to appear in cost reports.</p>
+        <div class="warning-box">
+            <strong>Note:</strong> If no user-defined tags appear, this is normal for new accounts. The key concept is understanding that tags must be activated here before they appear in Cost Explorer reports. You can skip activation and continue to the next step.
+        </div>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">28</span> Navigate to <strong>Cost Explorer</strong>. In the grouping options, look for <strong>Tag</strong> as a group-by dimension. If you have activated tags with associated cost data, try grouping by a tag such as <code>Environment</code> or <code>Name</code>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">29</span> <strong>Discussion:</strong> Consider how an organization would use a tagging strategy in practice:</p>
+        <ul>
+            <li><strong>Project</strong> — track costs per application or initiative (e.g., <code>Project=WebApp</code>)</li>
+            <li><strong>Team</strong> — attribute costs to the team responsible (e.g., <code>Team=Backend</code>)</li>
+            <li><strong>Environment</strong> — separate development, staging, and production costs (e.g., <code>Environment=Production</code>)</li>
+            <li><strong>CostCenter</strong> — map costs to internal accounting codes</li>
+        </ul>
+        <p>A well-enforced tagging policy is one of the most important cost management practices in AWS. Many organizations use AWS Organizations Service Control Policies (SCPs) or tag policies to enforce mandatory tags on all resources.</p>
+    </div>
+
+    <h2>Part H: Create a Usage-Based Budget</h2>
+
+    <div class="info-box">
+        <strong>Why usage budgets?</strong> Cost budgets alert you when spending exceeds a dollar threshold. Usage budgets alert you when <em>consumption</em> of a specific resource type exceeds a threshold — useful for staying within Free Tier limits or tracking resource utilization independently of cost.
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">30</span> Navigate to <strong>Billing and Cost Management</strong> &gt; <strong>Budgets</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">31</span> Click <strong>Create a budget</strong> and select <strong>Customize (advanced)</strong> &gt; <strong>Usage budget</strong>. Click <strong>Next</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">32</span> Configure the usage budget:</p>
+        <ul>
+            <li><strong>Budget name:</strong> <code>lab-ec2-hours-budget</code></li>
+            <li><strong>Period:</strong> Monthly</li>
+            <li><strong>Budget renewal type:</strong> Recurring</li>
+            <li><strong>Usage type group:</strong> Select <strong>EC2: Running Hours</strong> (or the closest available option for EC2 instance hours)</li>
+            <li><strong>Budgeted amount:</strong> 750 hours (this matches the Free Tier monthly limit for a single t2.micro/t3.micro instance)</li>
+            <li>Click <strong>Next</strong></li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">33</span> Add an alert threshold:</p>
+        <ul>
+            <li><strong>Threshold:</strong> 80% of budgeted amount (Actual usage)</li>
+            <li><strong>Email recipients:</strong> Enter your email address</li>
+            <li>Click <strong>Next</strong>, review, and <strong>Create budget</strong></li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">34</span> Review the <strong>Budgets dashboard</strong>. You should now see both budgets:</p>
+        <ul>
+            <li><code>lab-monthly-budget</code> — tracks dollar spend (from Part C)</li>
+            <li><code>lab-ec2-hours-budget</code> — tracks EC2 running hours (just created)</li>
+        </ul>
+        <p><strong>Discussion:</strong> When would a usage budget be more useful than a cost budget? Consider a scenario where you are within Free Tier — cost is $0, but usage is climbing toward the Free Tier limit. A cost budget would never trigger, but a usage budget would alert you before you start incurring charges.</p>
+    </div>
+
+    <h2>Part I: Explore AWS Support Plan Comparison</h2>
+
+    <div class="step">
+        <p><span class="step-number">35</span> In the AWS Console, click the <strong>?</strong> (question mark) icon in the top-right navigation bar, or search for <strong>Support Center</strong> in the console search bar.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">36</span> Identify your current support plan (this is most likely the <strong>Basic</strong> plan for lab accounts). Check whether you have access to <strong>Trusted Advisor</strong> checks, <strong>technical support cases</strong>, and <strong>response time guarantees</strong> at this tier.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">37</span> Navigate to the support plan comparison page (click <strong>View all plans</strong> or look for a link to compare plans). Review the four support tiers and fill in the following comparison table:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Basic</th>
+                    <th>Developer</th>
+                    <th>Business</th>
+                    <th>Enterprise</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Trusted Advisor checks</td>
+                    <td>7 core checks</td>
+                    <td>7 core checks</td>
+                    <td>All checks</td>
+                    <td>All checks</td>
+                </tr>
+                <tr>
+                    <td>Technical support</td>
+                    <td>None</td>
+                    <td>Business hours (email)</td>
+                    <td>24/7 phone, email, chat</td>
+                    <td>24/7 + TAM</td>
+                </tr>
+                <tr>
+                    <td>Response time (critical/system down)</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    <td>1 hour</td>
+                    <td>15 minutes</td>
+                </tr>
+                <tr>
+                    <td>Starting price</td>
+                    <td>Free</td>
+                    <td>From $29/mo</td>
+                    <td>From $100/mo</td>
+                    <td>From $15,000/mo</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">38</span> <strong>Discussion:</strong> Which support plan would you recommend for each of the following scenarios?</p>
+        <ul>
+            <li><strong>A startup experimenting with AWS</strong> — low budget, non-critical workloads, team is learning</li>
+            <li><strong>A mid-size company running production workloads</strong> — needs 24/7 support, uses many AWS services, cannot afford extended downtime</li>
+            <li><strong>A large enterprise with mission-critical applications</strong> — requires a designated Technical Account Manager (TAM), proactive guidance, and 15-minute response for system-down events</li>
+        </ul>
+        <p>Note how the cost of a support plan must be weighed against the cost of downtime for your business.</p>
+    </div>
+
+    <h2>Part J: Review the AWS Free Tier in Detail</h2>
+
+    <div class="step">
+        <p><span class="step-number">39</span> Navigate to <strong>Billing and Cost Management</strong> &gt; <strong>Free Tier</strong> in the left navigation.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">40</span> Review the Free Tier dashboard. AWS offers three categories of Free Tier benefits. Identify examples of each:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>12-Month Free</strong></td>
+                    <td>Services free for 12 months after account signup</td>
+                    <td>EC2 t2.micro/t3.micro — 750 hrs/mo; S3 — 5 GB; RDS db.t2.micro/db.t3.micro — 750 hrs/mo</td>
+                </tr>
+                <tr>
+                    <td><strong>Always Free</strong></td>
+                    <td>Services free indefinitely, up to specified limits</td>
+                    <td>Lambda — 1M requests/mo; DynamoDB — 25 GB storage; CloudWatch — 10 custom metrics</td>
+                </tr>
+                <tr>
+                    <td><strong>Trials</strong></td>
+                    <td>Short-term free trials for specific services</td>
+                    <td>Amazon Inspector — 15-day trial; Amazon GuardDuty — 30-day trial</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">41</span> For each service you used in the previous labs (EC2, S3, RDS, VPC, IAM, CloudWatch), find its Free Tier allowance on this page. Record the following:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Free Tier Allowance</th>
+                    <th>Current Usage %</th>
+                    <th>Category (12-month / Always / Trial)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Amazon EC2</td><td></td><td></td><td></td></tr>
+                <tr><td>Amazon S3</td><td></td><td></td><td></td></tr>
+                <tr><td>Amazon RDS</td><td></td><td></td><td></td></tr>
+                <tr><td>Amazon CloudWatch</td><td></td><td></td><td></td></tr>
+                <tr><td>AWS Lambda</td><td></td><td></td><td></td></tr>
+                <tr><td>Amazon DynamoDB</td><td></td><td></td><td></td></tr>
+            </tbody>
+        </table>
+        <p>To find these values, navigate to <strong>Billing and Cost Management</strong> &gt; <strong>Free Tier</strong> in the left navigation. Each service shows a bar chart with current usage percentage and the monthly allowance.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">42</span> <strong>Discussion:</strong> How do you avoid accidental charges after the Free Tier period ends?</p>
+        <ul>
+            <li>Set up <strong>usage budgets</strong> (as you did in Part H) to alert before exceeding Free Tier limits</li>
+            <li>Enable <strong>Free Tier usage alerts</strong> in Billing Preferences (Billing &gt; Preferences &gt; check "Receive Free Tier Usage Alerts")</li>
+            <li>Regularly review the <strong>Free Tier dashboard</strong> to monitor consumption</li>
+            <li>Terminate or delete resources you are no longer using — stopped EC2 instances still incur EBS storage charges</li>
+            <li>Be aware that some services (like NAT Gateways and Elastic IPs not attached to running instances) are <em>not</em> part of the Free Tier and incur charges immediately</li>
+        </ul>
+    </div>
+
+    <h2>Part K: Clean Up</h2>
+
+    <div class="step">
+        <p><span class="step-number">43</span> Delete both budgets created in this lab:</p>
+        <ul>
+            <li>Navigate to <strong>Billing and Cost Management</strong> &gt; <strong>Budgets</strong></li>
+            <li>Select <code>lab-monthly-budget</code> and click <strong>Delete</strong></li>
+            <li>Select <code>lab-ec2-hours-budget</code> and click <strong>Delete</strong></li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">44</span> If you activated any cost allocation tags in Part G, those do not need to be deactivated for cleanup — they do not incur charges. However, in a production environment you would manage tag activation carefully to keep reports clean.</p>
     </div>
 
     <div class="success-box">
         <h3>Lab Complete</h3>
-        <p>You have explored the AWS Billing Dashboard, used the Pricing Calculator to estimate a multi-service architecture, created a budget with alert thresholds, reviewed Trusted Advisor security and cost recommendations, and analyzed spending patterns in Cost Explorer. These are essential skills for managing AWS costs in any organization.</p>
+        <p>You have explored the AWS Billing Dashboard, used the Pricing Calculator to estimate and compare three different architectures (EC2, horizontally scaled EC2, and serverless), created both cost and usage budgets with alert thresholds, configured cost allocation tags, reviewed Trusted Advisor security and cost recommendations, compared AWS Support plans, examined AWS Free Tier categories in detail, and analyzed spending patterns in Cost Explorer. These are essential skills for managing AWS costs in any organization.</p>
     </div>
 
     <h2>Discussion Questions</h2>
@@ -341,6 +637,9 @@
         <li>Which Trusted Advisor category do you think provides the most immediate value for a new AWS account?</li>
         <li>How could cost allocation tags help a company with multiple teams sharing a single AWS account?</li>
         <li>What is the difference between the Billing Dashboard, Cost Explorer, and AWS Budgets — when would you use each?</li>
+        <li>Comparing the three architectures you estimated: at what scale of traffic would you choose serverless over EC2, and vice versa? What factors beyond cost (e.g., cold starts, operational overhead, team expertise) influence that decision?</li>
+        <li>Your company has 10 teams sharing one AWS account. Design a tagging strategy: what tag keys would you require, and how would you enforce compliance? What happens to untagged resources in cost reports?</li>
+        <li>A startup is deciding between the Basic and Business support plans. The Business plan costs $100/month, but last month the team spent 8 hours debugging an issue that AWS support could have resolved in 1 hour. How would you frame the cost-benefit analysis for upgrading?</li>
     </ol>
 </body>
 </html>

@@ -871,9 +871,8 @@
                         </ul>
                     </div>
                 </div>
-                <p class="key-point fragment">Alarms are the bridge between monitoring and automated remediation.</p>
                 <aside class="notes">
-                    CloudWatch Alarms are essential for proactive operations. A common pattern is setting a CPU utilization alarm that triggers Auto Scaling to add instances when demand spikes. You can also create composite alarms that combine multiple alarm states.
+                    Amazon SNS (Simple Notification Service) delivers alarm notifications. You create a topic, subscribe an email or SMS endpoint, confirm the subscription, and CloudWatch sends alerts to all subscribers when an alarm triggers. CloudWatch Alarms are essential for proactive operations. A common pattern is setting a CPU utilization alarm that triggers Auto Scaling to add instances when demand spikes. SNS is the notification backbone — you create a topic, subscribe endpoints (email, SMS, Lambda), and any alarm or event can publish to that topic. In the lab, students will create an SNS topic and subscribe their email to receive alarm notifications. You can also create composite alarms that combine multiple alarm states.
                 </aside>
             </section>
 
@@ -904,11 +903,8 @@
                         </ul>
                     </div>
                 </div>
-                <div class="highlight-box danger fragment">
-                    <p><strong>Exam Tip:</strong> CloudTrail answers "who did what?" while CloudWatch answers "how is the system performing?" These are distinct but complementary services.</p>
-                </div>
                 <aside class="notes">
-                    CloudTrail is enabled by default on all AWS accounts, recording the last 90 days of management events at no charge. For long-term retention, you create a trail that delivers logs to an S3 bucket. CloudTrail is essential for compliance frameworks like PCI DSS, HIPAA, and SOC.
+                    Exam Tip: CloudTrail answers "who did what?" while CloudWatch answers "how is the system performing?" These are distinct but complementary services. CloudTrail is enabled by default on all AWS accounts, recording the last 90 days of management events at no charge. For long-term retention, you create a trail that delivers logs to an S3 bucket. CloudTrail is essential for compliance frameworks like PCI DSS, HIPAA, and SOC.
                 </aside>
             </section>
 
@@ -919,30 +915,18 @@
                 <div class="highlight-box success">
                     <p><strong>AWS Trusted Advisor</strong> inspects your AWS environment and provides real-time recommendations across five categories to help you follow AWS best practices.</p>
                 </div>
-                <div class="three-columns fragment" style="font-size: 0.85em;">
-                    <div class="card">
-                        <h4>Cost Optimization</h4>
-                        <p>Identify idle resources and underutilized instances.</p>
-                    </div>
-                    <div class="card">
-                        <h4>Performance</h4>
-                        <p>Check for overutilized resources and service limits.</p>
-                    </div>
-                    <div class="card">
-                        <h4>Security</h4>
-                        <p>Flag open ports and missing MFA on root.</p>
-                    </div>
-                </div>
-                <div class="two-columns fragment" style="margin-top: 15px; font-size: 0.85em;">
-                    <div class="card">
-                        <h4>Fault Tolerance</h4>
-                        <p>Check Multi-AZ and backup configurations.</p>
-                    </div>
-                    <div class="card">
-                        <h4>Service Limits</h4>
-                        <p>Monitor usage against service quotas.</p>
-                    </div>
-                </div>
+                <table style="font-size: 0.65em; margin-top: 15px;">
+                    <thead>
+                        <tr><th>Category</th><th>What It Checks</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment"><td><strong>Cost Optimization</strong></td><td>Idle resources, underutilized instances</td></tr>
+                        <tr class="fragment"><td><strong>Performance</strong></td><td>Overutilized resources, service limits approaching</td></tr>
+                        <tr class="fragment"><td><strong>Security</strong></td><td>Open ports, missing MFA on root, public S3 buckets</td></tr>
+                        <tr class="fragment"><td><strong>Fault Tolerance</strong></td><td>Multi-AZ and backup configurations</td></tr>
+                        <tr class="fragment"><td><strong>Service Limits</strong></td><td>Usage against service quotas</td></tr>
+                    </tbody>
+                </table>
                 <aside class="notes">
                     Trusted Advisor is like having an AWS expert review your account. Basic checks are available to all accounts. Business and Enterprise Support plans unlock the full set of checks. Common exam questions ask about which category a specific recommendation falls into.
                 </aside>
@@ -975,11 +959,8 @@
                         </ul>
                     </div>
                 </div>
-                <div class="highlight-box warning fragment">
-                    <p><strong>Key Distinction:</strong> CloudTrail records API activity (who did what). Config records resource state (what changed and whether it is compliant).</p>
-                </div>
                 <aside class="notes">
-                    AWS Config provides a detailed view of the configuration of AWS resources. It enables compliance-as-code through Config Rules. For example, you can create a rule that checks whether all S3 buckets have encryption enabled and automatically remediate non-compliant resources.
+                    Key Distinction: CloudTrail records API activity (who did what). Config records resource state (what changed and whether it is compliant). AWS Config provides a detailed view of the configuration of AWS resources. It enables compliance-as-code through Config Rules. For example, you can create a rule that checks whether all S3 buckets have encryption enabled and automatically remediate non-compliant resources.
                 </aside>
             </section>
 
@@ -1051,9 +1032,8 @@
                         </ul>
                     </div>
                 </div>
-                <p class="key-point fragment">You upload your code; Beanstalk handles everything else. You retain full control of the underlying resources.</p>
                 <aside class="notes">
-                    Elastic Beanstalk is the fastest way to deploy a web application on AWS. It creates and manages the underlying infrastructure for you. Unlike a true PaaS where you cannot access the underlying resources, Beanstalk gives you full access to the EC2 instances, load balancers, and other resources it creates.
+                    You upload your code; Beanstalk handles everything else. You retain full control of the underlying resources. Elastic Beanstalk is the fastest way to deploy a web application on AWS. It creates and manages the underlying infrastructure for you. Unlike a true PaaS where you cannot access the underlying resources, Beanstalk gives you full access to the EC2 instances, load balancers, and other resources it creates.
                 </aside>
             </section>
 
@@ -1113,14 +1093,14 @@
                 <div class="lab-description">
                     <p>In this lab, you will:</p>
                     <ul>
-                        <li>Explore CloudWatch metrics for AWS services including Billing</li>
-                        <li>Create a custom CloudWatch dashboard with metric widgets</li>
-                        <li>Create a billing alarm with SNS email notification</li>
-                        <li>Explore CloudTrail event history to review recent API calls</li>
+                        <li>Create a CloudWatch dashboard, billing alarm, and custom metric alarm</li>
+                        <li>Publish custom metrics and push log events via the CLI</li>
+                        <li>Create a CloudWatch Logs log group and verify log entries</li>
+                        <li>Filter and analyze CloudTrail events by source, user, and action</li>
                     </ul>
                 </div>
                 <aside class="notes">
-                    This lab gives students hands-on experience with CloudWatch. Walk through creating a dashboard first, then demonstrate alarm creation. Ensure students understand the three alarm states. If time permits, show CloudTrail event history in the console.
+                    This is a 45-minute lab. Students will create dashboards and alarms, publish custom metrics, work with CloudWatch Logs, and do deeper CloudTrail exploration filtering by event source and user. This builds practical monitoring and auditing skills.
                 </aside>
             </section>
 

@@ -608,9 +608,8 @@
                         </ul>
                     </div>
                 </div>
-                <p class="key-point fragment fade-up">No charge when your code is not running -- true pay-per-use</p>
                 <aside class="notes">
-                    Lambda pricing is straightforward and is a great example of pay-as-you-go. There is no charge for idle time, unlike EC2 where you pay for a running instance whether it is processing or not. The free tier for Lambda is generous: 1 million requests and 400,000 GB-seconds per month. Many lightweight workloads can run entirely within the free tier. GB-seconds means memory allocation multiplied by execution duration.
+                    No charge when your code is not running -- true pay-per-use. Lambda pricing is straightforward and is a great example of pay-as-you-go. There is no charge for idle time, unlike EC2 where you pay for a running instance whether it is processing or not. The free tier for Lambda is generous: 1 million requests and 400,000 GB-seconds per month. Many lightweight workloads can run entirely within the free tier. GB-seconds means memory allocation multiplied by execution duration.
                 </aside>
             </section>
 
@@ -971,45 +970,18 @@
             <section>
                 <h2>AWS Trusted Advisor</h2>
                 <p class="key-point">Automated best-practice checks across five categories</p>
-                <div class="three-columns">
-                    <div class="card fragment fade-up">
-                        <h4>Cost Optimization</h4>
-                        <ul>
-                            <li>Idle EC2 instances</li>
-                            <li>Underutilized EBS volumes</li>
-                        </ul>
-                    </div>
-                    <div class="card fragment fade-up">
-                        <h4>Performance</h4>
-                        <ul>
-                            <li>High-utilization instances</li>
-                            <li>CloudFront optimization</li>
-                        </ul>
-                    </div>
-                    <div class="card fragment fade-up">
-                        <h4>Security</h4>
-                        <ul>
-                            <li>Open security groups</li>
-                            <li>MFA on root account</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="two-columns" style="margin-top: 20px;">
-                    <div class="card fragment fade-up">
-                        <h4>Fault Tolerance</h4>
-                        <ul>
-                            <li>EBS snapshots age</li>
-                            <li>Multi-AZ RDS</li>
-                        </ul>
-                    </div>
-                    <div class="card fragment fade-up">
-                        <h4>Service Limits</h4>
-                        <ul>
-                            <li>VPC limits</li>
-                            <li>EC2 instance limits</li>
-                        </ul>
-                    </div>
-                </div>
+                <table style="font-size: 0.65em; margin-top: 15px;">
+                    <thead>
+                        <tr><th>Category</th><th>Example Checks</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment fade-up"><td><strong>Cost Optimization</strong></td><td>Idle EC2 instances, underutilized EBS volumes</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Performance</strong></td><td>High-utilization instances, CloudFront optimization</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Security</strong></td><td>Open security groups, MFA on root account</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Fault Tolerance</strong></td><td>EBS snapshot age, Multi-AZ RDS</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Service Limits</strong></td><td>VPC limits, EC2 instance limits</td></tr>
+                    </tbody>
+                </table>
                 <aside class="notes">
                     Trusted Advisor is an automated inspection tool that evaluates your AWS environment against best practices. All accounts get 7 core checks covering basic security items like S3 bucket permissions and MFA on root. Business and Enterprise plans unlock the full set of checks across all five categories. The five categories are a very common exam question. Remember the mnemonic: Cost, Performance, Security, Fault tolerance, Service limits.
                 </aside>
@@ -1217,15 +1189,15 @@
                 <p>Apply billing and cost management concepts in the AWS Console</p>
                 <div class="lab-description">
                     <ul>
-                        <li>Explore the AWS Billing Dashboard and review charges and Free Tier usage</li>
-                        <li>Use the AWS Pricing Calculator to estimate costs for a multi-service architecture</li>
-                        <li>Create a monthly cost budget with alert thresholds</li>
-                        <li>Review Trusted Advisor recommendations across security and cost categories</li>
-                        <li>Explore Cost Explorer to analyze spending patterns and forecasts</li>
+                        <li>Explore Billing Dashboard, Cost Explorer, and Free Tier usage in detail</li>
+                        <li>Compare three architectures in the Pricing Calculator (EC2, split EC2, serverless)</li>
+                        <li>Create both cost and usage budgets with alert thresholds</li>
+                        <li>Activate cost allocation tags and review Trusted Advisor recommendations</li>
+                        <li>Compare AWS Support Plans and review Free Tier categories</li>
                     </ul>
                 </div>
                 <aside class="notes">
-                    This lab gives students hands-on experience with the billing tools discussed in this module. Guide students to the Billing Dashboard first to orient them. The Pricing Calculator exercise should model a simple web application with EC2, RDS, and S3. For Budgets, have them set a low threshold budget with their email for alerts. For Trusted Advisor, walk through the core checks available on the Basic plan and discuss what additional checks are available on higher plans. Allow approximately 30-40 minutes for this lab.
+                    This is a 45-minute lab. Students will work through billing tools, compare three architecture pricing scenarios, create multiple budget types, explore cost allocation tags, compare support plans, and review Free Tier details. This is the most comprehensive lab and ties together cost optimization concepts.
                 </aside>
             </section>
 

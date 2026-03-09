@@ -425,26 +425,17 @@
             <!-- Cloud Deployment Models -->
             <section>
                 <h2>Cloud Deployment Models</h2>
-                <div class="two-columns">
-                    <div class="card fragment fade-up">
-                        <h4>Public Cloud</h4>
-                        <p>Resources owned and operated by a third-party provider, delivered over the internet. Examples: AWS, Azure, GCP.</p>
-                    </div>
-                    <div class="card fragment fade-up">
-                        <h4>Private Cloud</h4>
-                        <p>Cloud infrastructure operated solely for a single organization. Higher cost but greater control and compliance.</p>
-                    </div>
-                </div>
-                <div class="two-columns" style="margin-top: 20px;">
-                    <div class="card fragment fade-up">
-                        <h4>Hybrid Cloud</h4>
-                        <p>Combines public and private clouds with data and application portability. Most enterprises adopt this model.</p>
-                    </div>
-                    <div class="card fragment fade-up">
-                        <h4>Community Cloud</h4>
-                        <p>Shared infrastructure for a specific community with common concerns such as security and compliance.</p>
-                    </div>
-                </div>
+                <table style="font-size: 0.7em; margin-top: 15px;">
+                    <thead>
+                        <tr><th>Model</th><th>Description</th><th>Example</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment fade-up"><td><strong>Public Cloud</strong></td><td>Resources owned by a third-party provider, delivered over the internet</td><td>AWS, Azure, GCP</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Private Cloud</strong></td><td>Infrastructure operated solely for a single organization</td><td>VMware, OpenStack</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Hybrid Cloud</strong></td><td>Combines public and private with data and app portability</td><td>AWS Outposts</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Community Cloud</strong></td><td>Shared infrastructure for a community with common concerns</td><td>GovCloud</td></tr>
+                    </tbody>
+                </table>
                 <aside class="notes">
                     Public cloud is what most people think of when they hear "cloud." Private cloud is often used by organizations with strict regulatory requirements. Hybrid cloud is increasingly popular as organizations migrate gradually. AWS supports all of these models -- for example, AWS Outposts brings AWS infrastructure on-premises for hybrid deployments.
                 </aside>
@@ -468,19 +459,16 @@
                 <div class="three-columns" style="margin-top: 20px;">
                     <div class="card fragment fade-up">
                         <h4>200+ Services</h4>
-                        <p>Compute, storage, databases, machine learning, IoT, security, and more.</p>
+                        <p>Compute, storage, databases, ML, IoT, security, and more.</p>
                     </div>
                     <div class="card fragment fade-up">
                         <h4>30+ Regions</h4>
-                        <p>Global presence across the Americas, Europe, Asia Pacific, Middle East, and Africa as of 2026.</p>
+                        <p>Global presence across Americas, Europe, Asia Pacific, Middle East, and Africa.</p>
                     </div>
                     <div class="card fragment fade-up">
                         <h4>600+ Edge Locations</h4>
-                        <p>Content delivery and edge computing locations worldwide for low-latency access.</p>
+                        <p>Content delivery and edge computing for low-latency access. AWS leads the global cloud market.</p>
                     </div>
-                </div>
-                <div class="highlight-box success fragment fade-up" style="margin-top: 20px;">
-                    <strong>Market Position:</strong> AWS holds the largest share of the global cloud infrastructure market, ahead of Microsoft Azure and Google Cloud Platform.
                 </div>
                 <aside class="notes">
                     AWS started with simple services like S3 (storage) and EC2 (compute) and has since expanded to over 200 fully featured services. The breadth and depth of AWS services is unmatched. As of 2026, AWS has more than 30 Regions globally, each containing multiple Availability Zones.
@@ -635,26 +623,17 @@
             <!-- Choosing a Region -->
             <section>
                 <h2>How to Choose a Region</h2>
-                <p>Consider these four factors when selecting an AWS Region:</p>
-                <div class="two-columns" style="margin-top: 20px;">
-                    <div class="card fragment fade-up" style="margin-bottom: 15px;">
-                        <h4>1. Compliance</h4>
-                        <p>Does your data need to stay within a specific geographic boundary? Regulations like GDPR may dictate where data must reside.</p>
-                        <div class="highlight-box danger">This is often the most important factor and should be evaluated first.</div>
-                    </div>
-                    <div class="card fragment fade-up" style="margin-bottom: 15px;">
-                        <h4>2. Latency</h4>
-                        <p>Choose a Region close to your end users to minimize network latency and improve user experience.</p>
-                    </div>
-                    <div class="card fragment fade-up" style="margin-bottom: 15px;">
-                        <h4>3. Service Availability</h4>
-                        <p>Not all AWS services are available in every Region. Verify that the services you need are offered in your chosen Region.</p>
-                    </div>
-                    <div class="card fragment fade-up" style="margin-bottom: 15px;">
-                        <h4>4. Pricing</h4>
-                        <p>Pricing varies by Region. Some Regions are more expensive due to local costs. Compare pricing for your primary services.</p>
-                    </div>
-                </div>
+                <table style="font-size: 0.75em; margin-top: 15px;">
+                    <thead>
+                        <tr><th>Factor</th><th>Consideration</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment fade-up"><td><strong>1. Compliance</strong></td><td>Does data need to stay in a specific geography? (GDPR, data sovereignty) — evaluate first</td></tr>
+                        <tr class="fragment fade-up"><td><strong>2. Latency</strong></td><td>Choose a Region close to end users to minimize network latency</td></tr>
+                        <tr class="fragment fade-up"><td><strong>3. Service Availability</strong></td><td>Not all services are in every Region — verify before choosing</td></tr>
+                        <tr class="fragment fade-up"><td><strong>4. Pricing</strong></td><td>Pricing varies by Region — compare costs for your primary services</td></tr>
+                    </tbody>
+                </table>
                 <aside class="notes">
                     Region selection is a foundational architectural decision. Compliance always comes first -- if regulations require data to stay in a country, that narrows your options immediately. After compliance, proximity to users reduces latency. Check that needed services exist in the Region. Finally, pricing can vary significantly -- for example, the Sao Paulo Region is typically more expensive than US East (N. Virginia).
                 </aside>
@@ -718,14 +697,9 @@
                             <td>Replacing an on-premises CRM with Salesforce</td>
                         </tr>
                         <tr class="fragment fade-up">
-                            <td><strong>Retire</strong></td>
-                            <td>Decommission applications that are no longer needed</td>
-                            <td>Shutting down legacy systems with no active users</td>
-                        </tr>
-                        <tr class="fragment fade-up">
-                            <td><strong>Retain</strong></td>
-                            <td>Keep in the current environment for now; revisit later</td>
-                            <td>Mainframe applications with complex dependencies</td>
+                            <td><strong>Retire / Retain</strong></td>
+                            <td>Decommission unneeded apps or keep them on-premises for now</td>
+                            <td>Legacy systems with no users; mainframes with complex dependencies</td>
                         </tr>
                         <tr class="fragment fade-up">
                             <td><strong>Relocate</strong></td>
@@ -801,13 +775,7 @@
                             <td>AWS</td>
                         </tr>
                         <tr>
-                            <td>Operating System</td>
-                            <td>Customer</td>
-                            <td>AWS</td>
-                            <td>AWS</td>
-                        </tr>
-                        <tr>
-                            <td>Patching</td>
+                            <td>OS &amp; Patching</td>
                             <td>Customer</td>
                             <td>AWS</td>
                             <td>AWS</td>
@@ -947,6 +915,61 @@
                 </aside>
             </section>
 
+            <!-- CloudShell, Resource Groups & Tags -->
+            <section>
+                <h2>CloudShell, Resource Groups &amp; Tags</h2>
+                <div class="two-columns">
+                    <div class="card fragment fade-up">
+                        <h4>AWS CloudShell</h4>
+                        <ul>
+                            <li>Browser-based shell in the console (terminal icon in top nav)</li>
+                            <li>Pre-authenticated with your console credentials</li>
+                            <li>AWS CLI, Python, Node.js pre-installed</li>
+                            <li>No local setup required</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Resource Groups &amp; Tags</h4>
+                        <ul>
+                            <li><strong>Tags</strong> are key-value pairs you attach to resources (e.g., Environment=Lab)</li>
+                            <li>Used for cost allocation, automation, and access control</li>
+                            <li><strong>Tag Editor</strong> lets you find and tag resources across services and regions</li>
+                            <li><strong>Resource Groups</strong> organize resources by shared tags</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    CloudShell is the fastest way to run CLI commands without installing anything. It opens right in the console and inherits your IAM permissions. Tags are fundamental to AWS operations — they enable cost tracking, automation, and security policies. In the lab, students will use CloudShell to query services and Tag Editor to discover and tag resources.
+                </aside>
+            </section>
+
+            <!-- AWS Support & Documentation -->
+            <section>
+                <h2>AWS Support &amp; Documentation</h2>
+                <div class="two-columns">
+                    <div class="card fragment fade-up">
+                        <h4>Support Center &amp; Plans</h4>
+                        <ul>
+                            <li>Access via the <strong>?</strong> icon in the console</li>
+                            <li>Four tiers: Basic, Developer, Business, Enterprise</li>
+                            <li>Basic plan includes documentation, forums, and service health</li>
+                            <li>Detailed comparison in Module 6</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment fade-up">
+                        <h4>Documentation &amp; Health</h4>
+                        <ul>
+                            <li><strong>AWS Documentation</strong> — official guides, API references, FAQs</li>
+                            <li><strong>Service Health Dashboard</strong> — real-time status of all AWS services</li>
+                            <li><strong>Personal Health Dashboard</strong> — events affecting your resources</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    AWS provides extensive free documentation for every service. The Service Health Dashboard shows global service status, while the Personal Health Dashboard shows events specific to your account. We will cover support plans in detail in Module 6, but students will preview the Support Center in this lab.
+                </aside>
+            </section>
+
             <!-- ===================== LAB CALLOUT ===================== -->
             <section data-background-color="#1a365d" class="lab-callout">
                 <h2>Lab 1</h2>
@@ -954,15 +977,14 @@
                 <div class="highlight-box" style="margin-top: 30px;">
                     <p>In this lab, you will:</p>
                     <ul>
-                        <li>Sign in to the AWS Management Console and explore the interface</li>
-                        <li>Navigate to key services including EC2, S3, IAM, VPC, and CloudWatch</li>
-                        <li>Explore the Region selector and understand global vs regional services</li>
-                        <li>Review account billing dashboard and Free Tier usage</li>
-                        <li>Use AWS CloudShell to run basic CLI commands</li>
+                        <li>Sign in to the console, navigate key services, and explore Regions</li>
+                        <li>Use CloudShell to query VPCs, IAM users, S3 buckets, and AZs across regions</li>
+                        <li>Use Resource Groups and Tag Editor to discover and tag resources</li>
+                        <li>Explore AWS Support Center, documentation, and the Service Health Dashboard</li>
                     </ul>
                 </div>
                 <aside class="notes">
-                    This is a guided exploration lab. Students should log in to their provided AWS accounts and spend time navigating the Console. Encourage them to switch Regions and observe how service availability changes. Have them locate key services like EC2, S3, and IAM. This hands-on experience reinforces the concepts covered in this module.
+                    This is an expanded 45-minute exploration lab. Students will navigate the Console, use CloudShell for CLI queries across multiple services and regions, work with Resource Groups and tagging, and explore the support ecosystem. Encourage them to compare CLI output across regions.
                 </aside>
             </section>
 

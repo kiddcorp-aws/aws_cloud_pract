@@ -7,21 +7,21 @@ This intensive 1-day course prepares participants for the AWS Certified Cloud Pr
 
 | Time | Module | Topic |
 |------|--------|-------|
-| 9:00 - 10:00 | Module 1 | Cloud Concepts & AWS Overview |
-| 10:00 - 10:15 | Lab 1 | Exploring the AWS Management Console |
-| 10:15 - 10:30 | Break | |
-| 10:30 - 11:15 | Module 2 | AWS Identity & Access Management (IAM) |
-| 11:15 - 11:30 | Lab 2 | IAM Users, Groups, and Policies |
-| 11:30 - 12:30 | Module 3 | Networking & Compute — VPC & EC2 |
-| 12:30 - 12:45 | Lab 3 | Launching an EC2 Instance in a VPC |
-| 12:45 - 1:30 | Lunch | |
-| 1:30 - 2:15 | Module 4 | Storage Services — S3, EBS & More |
-| 2:15 - 2:30 | Lab 4 | Working with S3 Buckets and Objects |
-| 2:30 - 3:15 | Module 5 | Databases, Monitoring & Additional Services |
-| 3:15 - 3:30 | Lab 5 | CloudWatch Dashboards and Alarms |
-| 3:30 - 3:45 | Break | |
-| 3:45 - 4:30 | Module 6 | Billing, Pricing & Support |
-| 4:30 - 4:45 | Lab 6 | AWS Billing Tools and Cost Optimization |
+| 9:00 - 9:20 | Module 1 | Cloud Concepts & AWS Overview |
+| 9:20 - 10:05 | Lab 1 | Exploring the AWS Management Console |
+| 10:05 - 10:20 | Break | |
+| 10:20 - 10:40 | Module 2 | AWS Identity & Access Management (IAM) |
+| 10:40 - 11:25 | Lab 2 | IAM Users, Groups, and Policies |
+| 11:25 - 11:45 | Module 3 | Networking & Compute — VPC & EC2 |
+| 11:45 - 12:30 | Lab 3 | Launching an EC2 Instance in a VPC |
+| 12:30 - 1:15 | Lunch | |
+| 1:15 - 1:35 | Module 4 | Storage Services — S3, EBS & More |
+| 1:35 - 2:20 | Lab 4 | Working with S3 Buckets and Objects |
+| 2:20 - 2:35 | Break | |
+| 2:35 - 2:55 | Module 5 | Databases, Monitoring & Additional Services |
+| 2:55 - 3:40 | Lab 5 | CloudWatch Dashboards and Alarms |
+| 3:40 - 4:00 | Module 6 | Billing, Pricing & Support |
+| 4:00 - 4:45 | Lab 6 | AWS Billing Tools and Cost Optimization |
 | 4:45 - 5:00 | Wrap-up | Q&A and Next Steps |
 
 ## Modules (presentations/)

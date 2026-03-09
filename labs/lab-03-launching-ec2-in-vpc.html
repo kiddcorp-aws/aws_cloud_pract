@@ -98,7 +98,7 @@
     <h1>Lab 3: Launching an EC2 Instance in a VPC</h1>
 
     <div class="lab-meta">
-        <p><strong>Duration:</strong> 15 minutes</p>
+        <p><strong>Duration:</strong> 45 minutes</p>
         <p><strong>Level:</strong> Introductory</p>
         <p><strong>Prerequisites:</strong> Completed Labs 1-2; AWS console access with EC2 and VPC permissions</p>
     </div>
@@ -110,7 +110,11 @@
             <li>Review subnets, route tables, and internet gateways</li>
             <li>Launch an EC2 instance with a security group</li>
             <li>Connect to the instance using EC2 Instance Connect</li>
-            <li>Terminate the instance and clean up</li>
+            <li>Query instance metadata using both IMDSv1 and IMDSv2</li>
+            <li>Modify security group rules and observe the effects on connectivity</li>
+            <li>Create, attach, format, and mount an EBS volume</li>
+            <li>Create an EBS snapshot for backup</li>
+            <li>Terminate the instance and clean up all resources</li>
         </ul>
     </div>
 
@@ -207,19 +211,163 @@ echo "&lt;h1&gt;Hello from $(hostname -f)&lt;/h1&gt;&lt;p&gt;AWS Cloud Practitio
 curl http://169.254.169.254/latest/meta-data/placement/availability-zone</pre>
     </div>
 
-    <h2>Part D: Clean Up</h2>
+    <h2>Part D: Explore Instance Details and Metadata</h2>
 
     <div class="step">
-        <p><span class="step-number">14</span> Select the instance, click <strong>Instance state</strong> &gt; <strong>Terminate instance</strong>. Confirm the termination.</p>
+        <p><span class="step-number">14</span> In the EC2 console, select your <code>lab-web-server</code> instance. Select your instance and review each tab in the lower panel: <strong>Details</strong>, <strong>Security</strong>, <strong>Networking</strong>, <strong>Storage</strong>, <strong>Status checks</strong>. For each tab, note the following:</p>
+        <ul>
+            <li><strong>Details</strong> — Note the instance ID, AMI ID, instance type, and key pair name</li>
+            <li><strong>Security</strong> — Review the assigned security group and its inbound/outbound rules</li>
+            <li><strong>Networking</strong> — Note the private IPv4 address, public IPv4 address, subnet ID, and Availability Zone</li>
+            <li><strong>Storage</strong> — Note the root volume ID, size, and volume type</li>
+            <li><strong>Status checks</strong> — Confirm both the instance status check and system status check are passing</li>
+        </ul>
     </div>
 
     <div class="step">
-        <p><span class="step-number">15</span> Navigate to <strong>Security Groups</strong>, select <code>lab-web-sg</code>, and delete it (you may need to wait until the instance is fully terminated).</p>
+        <p><span class="step-number">15</span> Connect to the instance using <strong>EC2 Instance Connect</strong>. Run the following metadata queries to retrieve instance information from within the instance:</p>
+        <pre>curl http://169.254.169.254/latest/meta-data/ami-id
+curl http://169.254.169.254/latest/meta-data/local-ipv4
+curl http://169.254.169.254/latest/meta-data/public-ipv4
+curl http://169.254.169.254/latest/meta-data/security-groups</pre>
+        <p>Compare the values returned with what you noted in the console tabs.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">16</span> Now use <strong>IMDSv2</strong> (Instance Metadata Service version 2), which requires a session token. Run this command to retrieve the instance ID using IMDSv2:</p>
+        <pre>TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600") && curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/instance-id</pre>
+        <p>IMDSv2 is more secure than IMDSv1 because it uses a session-based token, which mitigates certain types of attacks such as Server-Side Request Forgery (SSRF). AWS recommends using IMDSv2 for all new instances.</p>
+    </div>
+
+    <h2>Part E: Modify Security Group Rules</h2>
+
+    <div class="step">
+        <p><span class="step-number">17</span> In the EC2 console, click <strong>Security Groups</strong> in the left navigation (under Network &amp; Security). Select the <code>lab-web-sg</code> security group.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">18</span> Click the <strong>Inbound rules</strong> tab, then click <strong>Edit inbound rules</strong>. <strong>Delete</strong> the HTTP (port 80) rule and click <strong>Save rules</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">19</span> Go back to the browser tab where you opened your web page (<code>http://&lt;public-ip&gt;</code>) and <strong>refresh</strong> the page. The page should time out or fail to load because port 80 is now blocked.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">20</span> Return to the security group. Click <strong>Edit inbound rules</strong> and add the HTTP rule back:</p>
+        <ul>
+            <li><strong>Type:</strong> HTTP</li>
+            <li><strong>Source:</strong> 0.0.0.0/0</li>
+        </ul>
+        <p>Click <strong>Save rules</strong>. Refresh your web page browser tab — it should load again.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">21</span> Add one more inbound rule to the security group:</p>
+        <ul>
+            <li><strong>Type:</strong> HTTPS</li>
+            <li><strong>Port:</strong> 443</li>
+            <li><strong>Source:</strong> 0.0.0.0/0</li>
+        </ul>
+        <p>Click <strong>Save rules</strong>. Note that security groups are <strong>stateful</strong> — when you allow inbound traffic on a port, the return (outbound) traffic is automatically allowed without needing an explicit outbound rule.</p>
+    </div>
+
+    <h2>Part F: Create and Attach an EBS Volume</h2>
+
+    <div class="step">
+        <p><span class="step-number">22</span> In the EC2 console, click <strong>Volumes</strong> in the left navigation (under Elastic Block Store). Click <strong>Create volume</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">23</span> Configure the volume:</p>
+        <ul>
+            <li><strong>Volume type:</strong> General Purpose SSD (gp3)</li>
+            <li><strong>Size:</strong> 10 GiB</li>
+            <li><strong>Availability Zone:</strong> Select the <strong>same AZ</strong> as your running instance (check the instance details if needed)</li>
+        </ul>
+        <p>Click <strong>Create volume</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">24</span> Select the new volume, click the <strong>Name</strong> field (or use Tags), and name it <code>lab-extra-volume</code>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">25</span> With the volume selected, click <strong>Actions</strong> &gt; <strong>Attach volume</strong>. Select your <code>lab-web-server</code> instance and set the device name to <code>/dev/sdf</code>. Click <strong>Attach volume</strong>.</p>
+    </div>
+
+    <div class="warning-box">
+        <strong>Important:</strong> The EBS volume must be in the <strong>same Availability Zone</strong> as the instance. EBS volumes cannot be attached across AZs.
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">26</span> Connect to your instance via <strong>EC2 Instance Connect</strong> and run the following commands to format, mount, and use the new volume:</p>
+        <pre># Verify the new volume appears as a block device
+lsblk
+
+# Format the volume with the XFS filesystem
+sudo mkfs -t xfs /dev/xvdf
+
+# Note: Linux may rename the device from /dev/sdf to /dev/xvdf.
+# If lsblk shows a different name, use that name in the commands below.
+
+# Create a mount point and mount the volume
+sudo mkdir /data
+sudo mount /dev/xvdf /data
+
+# Write a test file to the volume
+sudo sh -c 'echo "Hello from EBS" > /data/test.txt'
+
+# Verify the file
+cat /data/test.txt</pre>
+        <p>You should see <code>Hello from EBS</code> printed to the terminal. This data is stored on the EBS volume, which persists independently of the instance — if you stop or terminate the instance, the data on this volume remains intact (as long as the volume is not set to delete on termination).</p>
+    </div>
+
+    <h2>Part G: Create an EBS Snapshot</h2>
+
+    <div class="step">
+        <p><span class="step-number">27</span> Back in the EC2 console, go to <strong>Volumes</strong>. Select the <code>lab-extra-volume</code> and click <strong>Actions</strong> &gt; <strong>Create snapshot</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">28</span> Add a description such as <code>lab-snapshot</code> and click <strong>Create snapshot</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">29</span> Navigate to <strong>Snapshots</strong> in the left navigation (under Elastic Block Store). Wait for the snapshot status to change to <strong>Completed</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">30</span> Select the snapshot and explore its details:</p>
+        <ul>
+            <li><strong>Size</strong> — matches the original volume size (10 GiB)</li>
+            <li><strong>Status</strong> — Completed</li>
+            <li><strong>Encryption</strong> — whether the snapshot is encrypted</li>
+        </ul>
+        <p>Snapshots are point-in-time copies of EBS volumes stored in Amazon S3. They enable backups, disaster recovery, and cross-AZ or cross-Region volume migration by creating new volumes from snapshots in different locations.</p>
+    </div>
+
+    <h2>Part H: Clean Up</h2>
+
+    <div class="step">
+        <p><span class="step-number">31</span> Navigate to <strong>Instances</strong>. Select <code>lab-web-server</code>, click <strong>Instance state</strong> &gt; <strong>Terminate instance</strong>. Confirm the termination.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">32</span> Navigate to <strong>Snapshots</strong>. Select the <code>lab-snapshot</code>, click <strong>Actions</strong> &gt; <strong>Delete snapshot</strong>. Confirm the deletion.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">33</span> Navigate to <strong>Volumes</strong>. Wait for the instance to fully terminate (the root volume will be deleted automatically). Select <code>lab-extra-volume</code>, click <strong>Actions</strong> &gt; <strong>Delete volume</strong>. Confirm the deletion.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">34</span> Navigate to <strong>Security Groups</strong>. Select <code>lab-web-sg</code> and delete it (you may need to wait until the instance is fully terminated).</p>
     </div>
 
     <div class="success-box">
         <h3>Lab Complete</h3>
-        <p>You have explored VPC components, launched an EC2 instance with a user data script, verified web server connectivity, connected via EC2 Instance Connect, and cleaned up all resources.</p>
+        <p>You have explored VPC components, launched an EC2 instance with a user data script, verified web server connectivity, queried instance metadata using IMDSv1 and IMDSv2, modified security group rules to observe their effect on traffic, created and mounted an EBS volume, taken a snapshot for backup, and cleaned up all resources.</p>
     </div>
 
     <h2>Discussion Questions</h2>
@@ -228,6 +376,8 @@ curl http://169.254.169.254/latest/meta-data/placement/availability-zone</pre>
         <li>Why did we need an internet gateway and a public IP for the web server to be accessible?</li>
         <li>What would happen if you removed the HTTP inbound rule from the security group?</li>
         <li>How is the user data script useful for automating instance configuration?</li>
+        <li>Why must an EBS volume be in the same Availability Zone as the instance it is attached to, and how can snapshots help overcome this limitation?</li>
+        <li>Security groups are described as "stateful." What does this mean in practice, and how does it differ from Network ACLs, which are "stateless"?</li>
     </ol>
 </body>
 </html>

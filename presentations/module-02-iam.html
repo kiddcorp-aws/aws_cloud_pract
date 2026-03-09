@@ -724,7 +724,6 @@
                         <li>Examples: Elastic Load Balancing, Amazon RDS, AWS Config</li>
                     </ul>
                 </div>
-                <p class="key-point fragment">Service-linked roles simplify setup by providing pre-configured permissions that the service needs.</p>
                 <aside class="notes">
                     Service-linked roles are a special category. They are created and managed by AWS services. You cannot modify their permissions because the service itself defines exactly what it needs. For example, when you create an Elastic Load Balancer, AWS automatically creates a service-linked role that allows ELB to register and deregister instances, perform health checks, and other necessary actions. You will see these in your IAM console, and it is important to understand that they are normal and expected.
                 </aside>
@@ -1000,15 +999,14 @@
                 <div class="lab-description">
                     <p>In this lab, you will apply what you have learned about IAM by working in a live AWS environment.</p>
                     <ul>
-                        <li class="fragment">Create an IAM user group with AWS managed policies attached</li>
-                        <li class="fragment">Create an IAM user with console access and add to the group</li>
-                        <li class="fragment">Create a custom inline policy with Allow and Deny statements</li>
-                        <li class="fragment">Test permissions by signing in as the new user in an incognito window</li>
-                        <li class="fragment">Verify least privilege by confirming read-only access and denied actions</li>
+                        <li class="fragment">Create groups, users, managed policies, and custom resource-level policies</li>
+                        <li class="fragment">Test least privilege by signing in as a restricted user in incognito</li>
+                        <li class="fragment">Use the IAM Policy Simulator to validate access before deployment</li>
+                        <li class="fragment">Generate and review the IAM Credential Report and Access Analyzer</li>
                     </ul>
                 </div>
                 <aside class="notes">
-                    This lab gives students hands-on experience with IAM. Walk them through creating users, organizing them into groups, and attaching policies. Have them test the principle of least privilege by logging in as a user with restricted permissions and verifying they cannot perform unauthorized actions. Enabling MFA is an important step to include.
+                    This is a 45-minute lab. Students will create multiple groups with different permissions, write a custom resource-level JSON policy, test access using the Policy Simulator, and explore security auditing tools like the Credential Report and Access Analyzer.
                 </aside>
             </section>
 

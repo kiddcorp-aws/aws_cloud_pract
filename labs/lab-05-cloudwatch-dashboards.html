@@ -98,7 +98,7 @@
     <h1>Lab 5: CloudWatch Dashboards and Alarms</h1>
 
     <div class="lab-meta">
-        <p><strong>Duration:</strong> 15 minutes</p>
+        <p><strong>Duration:</strong> 45 minutes</p>
         <p><strong>Level:</strong> Introductory</p>
         <p><strong>Prerequisites:</strong> Completed Labs 1-4; AWS console access with CloudWatch permissions</p>
     </div>
@@ -109,15 +109,18 @@
             <li>Explore CloudWatch metrics for AWS services</li>
             <li>Create a custom CloudWatch dashboard</li>
             <li>Add metric widgets to the dashboard</li>
-            <li>Create a CloudWatch alarm</li>
-            <li>Explore CloudTrail event history</li>
+            <li>Create a CloudWatch alarm with SNS notification</li>
+            <li>Publish custom metrics using the AWS CLI</li>
+            <li>Create and explore CloudWatch Log groups and log events</li>
+            <li>Configure alarms on custom metrics</li>
+            <li>Explore CloudTrail event history with filters</li>
         </ul>
     </div>
 
     <h2>Part A: Explore CloudWatch Metrics</h2>
 
     <div class="step">
-        <p><span class="step-number">1</span> Navigate to <strong>CloudWatch</strong> in the AWS Management Console. Ensure you are in <code>us-east-1</code>.</p>
+        <p><span class="step-number">1</span> In the AWS Management Console, type <strong>CloudWatch</strong> in the search bar and click <strong>CloudWatch</strong> from the results. Ensure you are in <code>us-east-1</code>.</p>
     </div>
 
     <div class="step">
@@ -127,6 +130,7 @@
             <li><strong>S3</strong> — Bucket-level metrics</li>
             <li><strong>Billing</strong> — Estimated charges (available in us-east-1 only)</li>
         </ul>
+        <p>If no namespaces appear, it may take a few minutes for metrics to populate. Try refreshing the page. At minimum, you should see the <strong>Billing</strong> namespace if you are in us-east-1.</p>
     </div>
 
     <div class="step">
@@ -153,7 +157,7 @@
     </div>
 
     <div class="step">
-        <p><span class="step-number">7</span> Click <strong>Add widget</strong> again. This time select <strong>Number</strong> type. Add another metric of your choice. This creates a single-value display.</p>
+        <p><span class="step-number">7</span> Click <strong>Add widget</strong> again. This time select <strong>Number</strong> type. Choose <strong>EC2</strong> &gt; <strong>Per-Instance Metrics</strong> &gt; <strong>NetworkIn</strong> (or <strong>Billing</strong> &gt; <strong>EstimatedCharges</strong> if no instances are running). This creates a single-value display.</p>
     </div>
 
     <div class="step">
@@ -201,7 +205,7 @@
     <h2>Part D: Explore CloudTrail</h2>
 
     <div class="step">
-        <p><span class="step-number">14</span> Navigate to <strong>CloudTrail</strong> in the AWS Management Console.</p>
+        <p><span class="step-number">14</span> Type <strong>CloudTrail</strong> in the console search bar and click <strong>CloudTrail</strong> from the results.</p>
     </div>
 
     <div class="step">
@@ -214,20 +218,147 @@
         </ul>
     </div>
 
-    <h2>Part E: Clean Up</h2>
+    <h2>Part E: Publish Custom Metrics with CloudShell</h2>
 
     <div class="step">
-        <p><span class="step-number">16</span> Delete the resources created in this lab:</p>
+        <p><span class="step-number">16</span> Open <strong>CloudShell</strong> by clicking the terminal icon in the top navigation bar of the AWS Management Console. Wait for the environment to initialize (you will see a <code>$</code> command prompt when ready, typically 15-30 seconds).</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">17</span> Publish a custom metric using the AWS CLI. Run the following command:</p>
+        <pre>aws cloudwatch put-metric-data --namespace "LabCustomMetrics" --metric-name "PageViews" --value 100 --unit Count</pre>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">18</span> Publish a few more data points with different values to create a visible trend:</p>
+        <pre>aws cloudwatch put-metric-data --namespace "LabCustomMetrics" --metric-name "PageViews" --value 250 --unit Count</pre>
+        <pre>aws cloudwatch put-metric-data --namespace "LabCustomMetrics" --metric-name "PageViews" --value 75 --unit Count</pre>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">19</span> In the CloudWatch console, go to <strong>Metrics</strong> &gt; <strong>All metrics</strong>. Find the <strong>LabCustomMetrics</strong> namespace in the custom namespaces section. Click into it and select the <strong>PageViews</strong> metric to view the graph.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">20</span> Navigate to <strong>Dashboards</strong> and open <code>cloud-pract-lab-dashboard</code>. Click <strong>Add widget</strong>, select <strong>Number</strong> type, and add the <strong>LabCustomMetrics &gt; PageViews</strong> metric. Click <strong>Create widget</strong>, then <strong>Save</strong> the dashboard.</p>
+    </div>
+
+    <h2>Part F: CloudWatch Logs</h2>
+
+    <div class="step">
+        <p><span class="step-number">21</span> Navigate to <strong>CloudWatch</strong> &gt; <strong>Logs</strong> &gt; <strong>Log groups</strong> in the left navigation. Note how many log groups exist and their names (e.g., CloudTrail or VPC flow logs). If none exist, that is expected for a new account.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">22</span> Click <strong>Create log group</strong>. Configure the following:</p>
         <ul>
-            <li>Delete the CloudWatch alarm <code>billing-over-10-usd</code></li>
-            <li>Delete the CloudWatch dashboard <code>cloud-pract-lab-dashboard</code></li>
+            <li><strong>Log group name:</strong> <code>/lab/test-logs</code></li>
+            <li><strong>Retention setting:</strong> 1 day</li>
+        </ul>
+        <p>Click <strong>Create</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">23</span> Switch to <strong>CloudShell</strong> and create a log stream within the new log group:</p>
+        <pre>aws logs create-log-stream --log-group-name "/lab/test-logs" --log-stream-name "test-stream"</pre>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">24</span> Push a log event to the stream:</p>
+        <pre>aws logs put-log-events --log-group-name "/lab/test-logs" --log-stream-name "test-stream" --log-events timestamp=$(date +%s000),message="Lab 5 test log entry - Hello from CloudWatch Logs"</pre>
+        <p><strong>Note:</strong> This command uses bash syntax and must be run in CloudShell (not a local Windows terminal).</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">25</span> Go back to the CloudWatch console. Click on the <code>/lab/test-logs</code> log group, then click on the <strong>test-stream</strong> log stream. Verify you can see the log entry you just pushed.</p>
+    </div>
+
+    <div class="warning-box">
+        <strong>Key Concept:</strong> CloudWatch Logs centralize logging from EC2 instances, Lambda functions, containers, API Gateway, and many other AWS services. The CloudWatch Logs agent or SDK can push application logs from your workloads into CloudWatch for centralized analysis and monitoring.
+    </div>
+
+    <h2>Part G: CloudWatch Alarms — Additional Configuration</h2>
+
+    <div class="step">
+        <p><span class="step-number">26</span> Navigate to <strong>CloudWatch</strong> &gt; <strong>Alarms</strong> &gt; <strong>All alarms</strong>, then click <strong>Create alarm</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">27</span> Click <strong>Select metric</strong>. Navigate to <strong>LabCustomMetrics</strong> &gt; <strong>Metrics with no dimensions</strong> and select the <strong>PageViews</strong> metric. Click <strong>Select metric</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">28</span> Configure the alarm conditions:</p>
+        <ul>
+            <li><strong>Statistic:</strong> Average</li>
+            <li><strong>Period:</strong> 1 minute</li>
+            <li><strong>Threshold type:</strong> Static</li>
+            <li><strong>Whenever PageViews is:</strong> Greater than <code>200</code></li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">29</span> For <strong>Notification</strong>, select <strong>In alarm</strong> and choose the existing SNS topic <code>billing-alerts</code>. Name the alarm <code>high-page-views</code> and click <strong>Create alarm</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">30</span> In <strong>CloudShell</strong>, push a high metric value to trigger the alarm:</p>
+        <pre>aws cloudwatch put-metric-data --namespace "LabCustomMetrics" --metric-name "PageViews" --value 500 --unit Count</pre>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">31</span> Wait 1-2 minutes, then refresh the Alarms page. The <code>high-page-views</code> alarm should transition to the <strong>In alarm</strong> state. Click on the alarm to view the <strong>History</strong> tab and observe the state change events.</p>
+    </div>
+
+    <div class="warning-box">
+        <strong>Key Concept:</strong> CloudWatch alarms can trigger more than just notifications. They can also trigger Auto Scaling actions (scale out/in), EC2 actions (stop, terminate, reboot), and Systems Manager actions. This makes alarms a core building block for automated operational responses.
+    </div>
+
+    <h2>Part H: CloudTrail — Deeper Exploration</h2>
+
+    <div class="step">
+        <p><span class="step-number">32</span> Navigate to <strong>CloudTrail</strong> &gt; <strong>Event history</strong>. Clear any existing filters first, then use the <strong>Lookup attributes</strong> filter dropdown to explore events by source:</p>
+        <ul>
+            <li>Filter by <strong>Event source</strong>: <code>s3.amazonaws.com</code> — observe all S3 API calls made during your labs</li>
+            <li>Filter by <strong>Event source</strong>: <code>iam.amazonaws.com</code> — observe IAM API calls from Lab 2</li>
+            <li>Filter by <strong>User name</strong>: your IAM user — see all actions you have performed</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">33</span> Click on a specific event to view the full event details in JSON format. Identify the following fields in the event record:</p>
+        <ul>
+            <li><strong>userIdentity</strong> — Who made the call?</li>
+            <li><strong>eventName</strong> — What action was performed?</li>
+            <li><strong>eventTime</strong> — When did it happen?</li>
+            <li><strong>sourceIPAddress</strong> — From which IP address?</li>
+        </ul>
+    </div>
+
+    <div class="warning-box">
+        <strong>Key Concept:</strong> CloudTrail provides the audit trail required for compliance and security investigations. Every API call made to AWS is recorded, including the identity of the caller, the time, the source IP, and the request/response details. This is essential for governance, compliance, and forensic analysis.
+    </div>
+
+    <h2>Part I: Clean Up</h2>
+
+    <div class="step">
+        <p><span class="step-number">34</span> Delete the resources created in this lab:</p>
+        <ul>
+            <li>Delete the CloudWatch alarm <code>billing-over-10-usd</code> (Alarms &gt; select alarm &gt; Actions &gt; Delete)</li>
+            <li>Delete the CloudWatch alarm <code>high-page-views</code></li>
+            <li>Delete the CloudWatch dashboard <code>cloud-pract-lab-dashboard</code> (Dashboards &gt; select &gt; Delete)</li>
+            <li>Delete the log group <code>/lab/test-logs</code> (Logs &gt; Log groups &gt; select &gt; Actions &gt; Delete)</li>
             <li>Optionally delete the SNS topic <code>billing-alerts</code> (Navigate to SNS &gt; Topics)</li>
         </ul>
     </div>
 
+    <div class="warning-box">
+        <strong>Note:</strong> The custom metric namespace <code>LabCustomMetrics</code> will automatically expire after 15 months of no new data being published to it. There is no manual deletion step required.
+    </div>
+
     <div class="success-box">
         <h3>Lab Complete</h3>
-        <p>You have explored CloudWatch metrics, created a custom dashboard, configured a billing alarm with SNS notification, and reviewed CloudTrail event history for auditing purposes.</p>
+        <p>You have explored CloudWatch metrics, created a custom dashboard, configured billing and custom metric alarms with SNS notifications, published custom metrics via the CLI, created and explored CloudWatch Log groups, and performed deeper CloudTrail event analysis for auditing and compliance purposes.</p>
     </div>
 
     <h2>Discussion Questions</h2>
@@ -236,6 +367,8 @@
         <li>How could you use CloudWatch alarms to implement auto-scaling?</li>
         <li>What is the difference between CloudWatch (performance monitoring) and CloudTrail (API audit logging)?</li>
         <li>How does setting up a billing alarm help with cost management?</li>
+        <li>What are some use cases for publishing custom metrics, and how might an application use them to track business-level KPIs?</li>
+        <li>How do CloudWatch Logs differ from traditional server-based logging, and what advantages does centralized log management provide?</li>
     </ol>
 </body>
 </html>

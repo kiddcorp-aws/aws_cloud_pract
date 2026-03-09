@@ -405,26 +405,17 @@
             <!-- Core VPC Components -->
             <section>
                 <h2>Core VPC Components</h2>
-                <div class="two-columns">
-                    <div class="card">
-                        <h4>Subnets</h4>
-                        <p style="font-size:0.8em;">Subdivisions of a VPC's IP range, each in a single AZ. Can be public or private.</p>
-                    </div>
-                    <div class="card">
-                        <h4>Route Tables</h4>
-                        <p style="font-size:0.8em;">Rules that determine where network traffic is directed. Each subnet has one associated route table.</p>
-                    </div>
-                </div>
-                <div class="two-columns" style="margin-top:20px;">
-                    <div class="card">
-                        <h4>Internet Gateway (IGW)</h4>
-                        <p style="font-size:0.8em;">Allows communication between resources in a VPC and the internet. Horizontally scaled and highly available.</p>
-                    </div>
-                    <div class="card">
-                        <h4>NAT Gateway</h4>
-                        <p style="font-size:0.8em;">Enables private subnet resources to access the internet for outbound traffic while remaining unreachable from inbound.</p>
-                    </div>
-                </div>
+                <table style="font-size: 0.65em; margin-top: 15px;">
+                    <thead>
+                        <tr><th>Component</th><th>Purpose</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment fade-up"><td><strong>Subnets</strong></td><td>Subdivisions of a VPC's IP range, each in a single AZ. Can be public or private.</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Route Tables</strong></td><td>Rules that determine where network traffic is directed. Each subnet has one associated route table.</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Internet Gateway (IGW)</strong></td><td>Allows communication between VPC resources and the internet. Horizontally scaled and highly available.</td></tr>
+                        <tr class="fragment fade-up"><td><strong>NAT Gateway</strong></td><td>Enables private subnet resources to make outbound internet connections while remaining unreachable from inbound.</td></tr>
+                    </tbody>
+                </table>
                 <aside class="notes">
                     These four components form the backbone of VPC networking. Subnets segment your network, route tables control traffic flow, the internet gateway provides public internet access, and the NAT gateway lets private resources make outbound connections without exposing them to inbound internet traffic.
                 </aside>
@@ -632,11 +623,8 @@
                         </ul>
                     </div>
                 </div>
-                <div class="highlight-box success fragment fade-up">
-                    <strong>Key takeaway:</strong> VPC Endpoints keep traffic within the AWS network, improving security and reducing data transfer costs.
-                </div>
                 <aside class="notes">
-                    VPC Endpoints remove the need for an internet gateway, NAT device, or VPN connection to reach AWS services. Gateway Endpoints are free and work by adding a route to your route table -- they are available only for S3 and DynamoDB. Interface Endpoints use AWS PrivateLink and create an ENI in your subnet with a private IP address, supporting a much broader set of services but at a per-hour and per-GB cost. For the exam, remember the distinction: Gateway Endpoints are free and limited to S3 and DynamoDB; Interface Endpoints cost money but cover many more services.
+                    VPC Endpoints keep traffic within the AWS network, improving security and reducing data transfer costs. They remove the need for an internet gateway, NAT device, or VPN connection to reach AWS services. Gateway Endpoints are free and work by adding a route to your route table -- they are available only for S3 and DynamoDB. Interface Endpoints use AWS PrivateLink and create an ENI in your subnet with a private IP address, supporting a much broader set of services but at a per-hour and per-GB cost. For the exam, remember the distinction: Gateway Endpoints are free and limited to S3 and DynamoDB; Interface Endpoints cost money but cover many more services.
                 </aside>
             </section>
 
@@ -826,6 +814,35 @@
                 </aside>
             </section>
 
+            <!-- Instance Metadata Service -->
+            <section>
+                <h2>EC2 Instance Metadata</h2>
+                <div class="concept-box">
+                    <p>The <strong>Instance Metadata Service (IMDS)</strong> provides information about a running instance from within the instance itself (IP address, instance type, security groups, IAM role credentials).</p>
+                </div>
+                <div class="two-columns fragment">
+                    <div class="card">
+                        <h4>IMDSv1 (Legacy)</h4>
+                        <ul>
+                            <li>Simple GET request to <code>169.254.169.254</code></li>
+                            <li>No authentication required</li>
+                            <li>Vulnerable to SSRF attacks</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>IMDSv2 (Recommended)</h4>
+                        <ul>
+                            <li>Requires a session token via PUT request</li>
+                            <li>Token-based, more secure</li>
+                            <li>AWS recommends requiring IMDSv2</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Instance metadata is how applications running on EC2 discover information about their environment. It is available at a link-local address (169.254.169.254) that is only reachable from the instance itself. IMDSv2 adds a token requirement that protects against server-side request forgery (SSRF) attacks. In the lab, students will query metadata using both versions.
+                </aside>
+            </section>
+
             <!-- Amazon EBS Overview -->
             <section>
                 <h2>Amazon EBS Overview</h2>
@@ -863,11 +880,8 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="highlight-box success fragment fade-up">
-                    <strong>Key fact:</strong> EBS volumes are AZ-scoped and can only attach to instances in the same AZ. Use EBS Snapshots to copy data across AZs or Regions.
-                </div>
                 <aside class="notes">
-                    EBS is the primary storage mechanism for EC2. gp3 is the default and recommended volume type for most workloads, offering a good balance of price and performance. io2 is for I/O-intensive database workloads. HDD options are cheaper for sequential access patterns but cannot be used as boot volumes.
+                    Key fact: EBS volumes are AZ-scoped and can only attach to instances in the same AZ. Use EBS Snapshots to copy data across AZs or Regions. EBS is the primary storage mechanism for EC2. gp3 is the default and recommended volume type for most workloads, offering a good balance of price and performance. io2 is for I/O-intensive database workloads. HDD options are cheaper for sequential access patterns but cannot be used as boot volumes.
                 </aside>
             </section>
 
@@ -926,11 +940,8 @@
                         </ul>
                     </div>
                 </div>
-                <div class="highlight-box success fragment fade-up">
-                    <strong>Lambda</strong> is the foundation of serverless architecture on AWS -- no servers to manage, no idle cost.
-                </div>
                 <aside class="notes">
-                    Lambda vs EC2 is a common exam comparison. EC2 gives you full control over a virtual server that runs continuously (or on a schedule you manage), while Lambda runs code only in response to events and scales automatically. Lambda is ideal for short-duration, event-driven tasks such as processing an uploaded file, handling an API request, or reacting to a database change. EC2 is better suited for long-running processes, applications that need persistent state on disk, or workloads that require a specific operating system configuration. Remember the 15-minute execution limit -- if your workload runs longer than that, Lambda is not the right fit.
+                    Lambda is the foundation of serverless architecture on AWS -- no servers to manage, no idle cost. Lambda vs EC2 is a common exam comparison. EC2 gives you full control over a virtual server that runs continuously (or on a schedule you manage), while Lambda runs code only in response to events and scales automatically. Lambda is ideal for short-duration, event-driven tasks such as processing an uploaded file, handling an API request, or reacting to a database change. EC2 is better suited for long-running processes, applications that need persistent state on disk, or workloads that require a specific operating system configuration. Remember the 15-minute execution limit -- if your workload runs longer than that, Lambda is not the right fit.
                 </aside>
             </section>
 
@@ -1037,15 +1048,14 @@
                 <h2>Lab 3: Launching an EC2 Instance in a VPC</h2>
                 <div class="lab-description">
                     <ul>
-                        <li>Explore the default VPC, subnets, route tables, and internet gateway</li>
-                        <li>Launch an EC2 instance with a security group allowing HTTP and SSH</li>
-                        <li>Configure a user data script to install and start a web server</li>
-                        <li>Verify web server connectivity via the instance's public IP</li>
-                        <li>Connect to the instance using EC2 Instance Connect</li>
+                        <li>Explore the default VPC, launch an EC2 web server with user data</li>
+                        <li>Query instance metadata (IMDSv1 and IMDSv2) via Instance Connect</li>
+                        <li>Modify security group rules and observe the effect on connectivity</li>
+                        <li>Create, attach, format, and mount an EBS volume; create a snapshot</li>
                     </ul>
                 </div>
                 <aside class="notes">
-                    This lab brings together everything we covered in this module. Participants will explore the default VPC and its components, then launch an EC2 instance with a security group and user data script. This hands-on experience reinforces the relationship between VPCs, subnets, security groups, and EC2 instances.
+                    This is a 45-minute lab. Participants will explore the default VPC, launch an EC2 instance, query instance metadata, modify security groups live to see their effect, and work hands-on with EBS volumes and snapshots. This reinforces VPC, EC2, security groups, and EBS concepts.
                 </aside>
             </section>
 

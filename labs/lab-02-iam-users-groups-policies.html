@@ -98,7 +98,7 @@
     <h1>Lab 2: IAM Users, Groups, and Policies</h1>
 
     <div class="lab-meta">
-        <p><strong>Duration:</strong> 15 minutes</p>
+        <p><strong>Duration:</strong> 45 minutes</p>
         <p><strong>Level:</strong> Introductory</p>
         <p><strong>Prerequisites:</strong> Completed Lab 1; AWS console access with IAM administrative permissions</p>
     </div>
@@ -106,11 +106,14 @@
     <div class="objective-box">
         <h3>Lab Objectives</h3>
         <ul>
-            <li>Create an IAM user group with specific permissions</li>
-            <li>Create an IAM user and add them to the group</li>
-            <li>Attach AWS managed policies to the group</li>
-            <li>Create a custom inline policy</li>
+            <li>Create IAM user groups with different permission levels</li>
+            <li>Create an IAM user and add them to a group</li>
+            <li>Attach AWS managed policies to groups</li>
+            <li>Create custom inline and standalone IAM policies</li>
+            <li>Write a resource-level policy that restricts access to specific S3 buckets</li>
             <li>Test the user's permissions by signing in as the new user</li>
+            <li>Use the IAM Policy Simulator to validate policy behavior</li>
+            <li>Generate and review IAM Credential Reports and Access Analyzer findings</li>
         </ul>
     </div>
 
@@ -224,23 +227,216 @@
         </ul>
     </div>
 
-    <h2>Part E: Clean Up</h2>
+    <div class="step">
+        <p><span class="step-number">14</span> Sign out of the <code>lab-user-01</code> session and return to your administrator session for the remaining parts.</p>
+    </div>
+
+    <h2>Part E: Create a Second Group with Different Permissions</h2>
 
     <div class="step">
-        <p><span class="step-number">14</span> Sign out of the <code>lab-user-01</code> session. Return to your administrator session.</p>
+        <p><span class="step-number">15</span> In the IAM console, click <strong>User groups</strong> in the left navigation pane, then click <strong>Create group</strong>.</p>
     </div>
 
     <div class="step">
-        <p><span class="step-number">15</span> Delete the resources created in this lab:</p>
+        <p><span class="step-number">16</span> Configure the group:</p>
         <ul>
-            <li>Delete user <code>lab-user-01</code></li>
-            <li>Delete group <code>cloud-pract-developers</code></li>
+            <li><strong>Group name:</strong> <code>cloud-pract-admins</code></li>
+            <li>In the <strong>Attach permissions policies</strong> section, search for and select <code>AdministratorAccess</code></li>
+            <li>Click <strong>Create user group</strong></li>
+        </ul>
+    </div>
+
+    <div class="warning-box">
+        <h3>Important: The Danger of AdministratorAccess</h3>
+        <p>The <code>AdministratorAccess</code> policy grants unrestricted access to every AWS service and resource in the account. In a production environment, this policy should be assigned to as few users as possible. A compromised account with admin access can lead to data breaches, resource deletion, or significant unexpected charges. Always prefer granting the minimum permissions required for each role.</p>
+    </div>
+
+    <h2>Part F: Create a Custom IAM Policy from Scratch</h2>
+
+    <div class="step">
+        <p><span class="step-number">17</span> In the IAM console, click <strong>Policies</strong> in the left navigation pane, then click <strong>Create policy</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">18</span> Click the <strong>JSON</strong> tab and replace the default content with the following policy. This policy allows all S3 actions, but <em>only</em> on buckets whose names begin with <code>cloud-pract-lab-</code>:</p>
+        <pre>{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowS3OnSpecificBuckets",
+            "Effect": "Allow",
+            "Action": "s3:*",
+            "Resource": [
+                "arn:aws:s3:::cloud-pract-lab-*",
+                "arn:aws:s3:::cloud-pract-lab-*/*"
+            ]
+        },
+        {
+            "Sid": "AllowBucketListing",
+            "Effect": "Allow",
+            "Action": "s3:ListAllMyBuckets",
+            "Resource": "*"
+        }
+    ]
+}</pre>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">19</span> Click <strong>Next</strong>. On the Review and create page:</p>
+        <ul>
+            <li><strong>Policy name:</strong> <code>custom-s3-bucket-restrict</code></li>
+            <li><strong>Description:</strong> Allows full S3 access only on buckets starting with cloud-pract-lab-</li>
+            <li>Click <strong>Create policy</strong></li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">20</span> Now attach this policy to the developers group while removing the broader S3 policy. Navigate to <strong>User groups</strong> and click on <code>cloud-pract-developers</code>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">21</span> On the <strong>Permissions</strong> tab, find <code>AmazonS3ReadOnlyAccess</code>. Select it and click <strong>Remove</strong>. Confirm the removal.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">22</span> Click <strong>Add permissions</strong> &gt; <strong>Attach policies</strong>. Search for <code>custom-s3-bucket-restrict</code>, select it, and click <strong>Attach policies</strong>.</p>
+    </div>
+
+    <div class="warning-box">
+        <h3>Resource-Level vs. Service-Level Permissions</h3>
+        <p>The original <code>AmazonS3ReadOnlyAccess</code> policy granted read access to <em>all</em> S3 buckets in the account (service-level). The new <code>custom-s3-bucket-restrict</code> policy restricts actions to specific bucket ARNs (resource-level). Resource-level policies are a best practice because they limit the blast radius if credentials are compromised.</p>
+    </div>
+
+    <h2>Part G: Use the IAM Policy Simulator</h2>
+
+    <div class="step">
+        <p><span class="step-number">23</span> In the IAM console, scroll down in the left navigation pane and click <strong>Policy Simulator</strong> (or navigate directly to <a href="https://policysim.aws.amazon.com/">https://policysim.aws.amazon.com/</a>).</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">24</span> In the <strong>Users, Groups, and Roles</strong> panel on the left, expand <strong>Users</strong> and select <code>lab-user-01</code>. The simulator will load all policies attached to this user (directly and through groups).</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">25</span> Test S3 access to a matching bucket:</p>
+        <ul>
+            <li>From the <strong>Select service</strong> dropdown, choose <strong>S3</strong></li>
+            <li>Select the action <code>GetObject</code></li>
+            <li>Expand <strong>Simulation Settings</strong> and set the <strong>Resource ARN</strong> to <code>arn:aws:s3:::cloud-pract-lab-test/file.txt</code></li>
+            <li>Click <strong>Run Simulation</strong></li>
+            <li>Expected result: <strong>Allowed</strong></li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">26</span> Test S3 access to a non-matching bucket:</p>
+        <ul>
+            <li>Keep the service as <strong>S3</strong> and the action as <code>GetObject</code></li>
+            <li>Change the <strong>Resource ARN</strong> to <code>arn:aws:s3:::other-bucket/file.txt</code></li>
+            <li>Click <strong>Run Simulation</strong></li>
+            <li>Expected result: <strong>Denied</strong> — the resource does not match the policy's ARN pattern</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">27</span> Test EC2 terminate access:</p>
+        <ul>
+            <li>From the <strong>Select service</strong> dropdown, choose <strong>EC2</strong></li>
+            <li>Select the action <code>TerminateInstances</code></li>
+            <li>Click <strong>Run Simulation</strong></li>
+            <li>Expected result: <strong>Denied</strong> — the user only has <code>AmazonEC2ReadOnlyAccess</code></li>
+        </ul>
+    </div>
+
+    <div class="success-box">
+        <h3>Why the Policy Simulator Matters</h3>
+        <p>The IAM Policy Simulator lets you test the effective permissions of users, groups, and roles <em>without</em> performing real API calls. This is invaluable for troubleshooting "Access Denied" errors, validating new policies before deployment, and auditing existing permissions. It evaluates all attached policies (managed, inline, group-inherited) together, just as AWS does at runtime.</p>
+    </div>
+
+    <h2>Part H: Explore IAM Credential Report and Access Analyzer</h2>
+
+    <div class="step">
+        <p><span class="step-number">28</span> In the IAM console, click <strong>Credential report</strong> in the left navigation pane.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">29</span> Click <strong>Download report</strong>. Open the downloaded CSV file in a spreadsheet application or text editor. Review the columns and answer these questions:</p>
+        <ul>
+            <li>Which users have console passwords enabled?</li>
+            <li>Which users have MFA enabled? (Look at the <code>mfa_active</code> column)</li>
+            <li>Which users have access keys? Are any access keys unused or old?</li>
+            <li>When was each user's password or access key last used?</li>
+        </ul>
+    </div>
+
+    <div class="warning-box">
+        <h3>Security Best Practice</h3>
+        <p>The credential report is a key auditing tool. In production, you should regularly review it to identify users without MFA, unused credentials that should be removed, and access keys that have not been rotated. AWS recommends rotating access keys every 90 days.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">30</span> In the IAM console, click <strong>Access Analyzer</strong> in the left navigation pane.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">31</span> If an analyzer already exists, click on it. For each finding, note the <strong>Resource</strong> (which AWS resource is shared), the <strong>External principal</strong> (who has access), and the <strong>Access level</strong> (Read, Write, or Full). These findings identify resources shared with external entities.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">32</span> If no analyzer exists, create one:</p>
+        <ul>
+            <li>Click <strong>Create analyzer</strong></li>
+            <li><strong>Analyzer name:</strong> <code>cloud-pract-analyzer</code></li>
+            <li><strong>Zone of trust:</strong> Current account</li>
+            <li>Click <strong>Create analyzer</strong></li>
+            <li>Wait a moment for the analyzer to scan your account, then review any findings that appear</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">33</span> Check how many findings the Access Analyzer produced and what resource types are involved. Common finding types include: S3 buckets with public access, IAM roles with cross-account trust policies, or KMS keys shared externally. If no findings appear, that means no resources in this account are shared externally.</p>
+    </div>
+
+    <h2>Part I: Clean Up</h2>
+
+    <div class="step">
+        <p><span class="step-number">34</span> Delete the IAM user:</p>
+        <ul>
+            <li>Navigate to <strong>IAM</strong> &gt; <strong>Users</strong></li>
+            <li>Select <code>lab-user-01</code> and click <strong>Delete</strong>. Confirm the deletion.</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">35</span> Delete the custom policy:</p>
+        <ul>
+            <li>Navigate to <strong>IAM</strong> &gt; <strong>Policies</strong></li>
+            <li>Search for <code>custom-s3-bucket-restrict</code></li>
+            <li>If the policy is still attached to a group, detach it first by clicking the policy, going to <strong>Entities attached</strong>, and detaching it from <code>cloud-pract-developers</code></li>
+            <li>Then select the policy and click <strong>Delete</strong>. Confirm the deletion.</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">36</span> Delete the user groups:</p>
+        <ul>
+            <li>Navigate to <strong>IAM</strong> &gt; <strong>User groups</strong></li>
+            <li>Select <code>cloud-pract-developers</code> and click <strong>Delete</strong>. Confirm the deletion.</li>
+            <li>Select <code>cloud-pract-admins</code> and click <strong>Delete</strong>. Confirm the deletion.</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">37</span> If you created an Access Analyzer in Part H:</p>
+        <ul>
+            <li>Navigate to <strong>IAM</strong> &gt; <strong>Access Analyzer</strong></li>
+            <li>Select the <code>cloud-pract-analyzer</code> and click <strong>Delete</strong>. Confirm the deletion.</li>
         </ul>
     </div>
 
     <div class="success-box">
         <h3>Lab Complete</h3>
-        <p>You have successfully created IAM groups and users, attached managed and custom policies, and tested the principle of least privilege by verifying that the user can only perform authorized actions.</p>
+        <p>You have successfully created IAM groups with different permission levels, built custom policies with resource-level restrictions, tested permissions both manually and with the IAM Policy Simulator, and explored IAM security auditing tools including Credential Reports and Access Analyzer. These skills are essential for managing secure access in any AWS environment.</p>
     </div>
 
     <h2>Discussion Questions</h2>
@@ -248,6 +444,8 @@
         <li>Why is it better to attach policies to groups rather than directly to individual users?</li>
         <li>What happens when a Deny and an Allow statement conflict for the same action?</li>
         <li>How does this exercise demonstrate the principle of least privilege?</li>
+        <li>How can the IAM Policy Simulator help prevent security incidents before they happen? In what scenarios would you use it instead of testing with actual API calls?</li>
+        <li>What information from the IAM Credential Report would concern you most during a security audit, and what actions would you take to remediate those findings?</li>
     </ol>
 </body>
 </html>

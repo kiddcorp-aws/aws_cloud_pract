@@ -101,7 +101,7 @@
     <h1>Lab 1: Exploring the AWS Management Console</h1>
 
     <div class="lab-meta">
-        <p><strong>Duration:</strong> 15 minutes</p>
+        <p><strong>Duration:</strong> 45 minutes</p>
         <p><strong>Level:</strong> Introductory</p>
         <p><strong>Prerequisites:</strong> AWS account credentials provided by your instructor</p>
     </div>
@@ -114,6 +114,9 @@
             <li>Explore the Region selector and understand service availability</li>
 
             <li>Review your account's billing dashboard</li>
+            <li>Use CloudShell to query AWS services via the CLI</li>
+            <li>Work with Resource Groups and Tags</li>
+            <li>Explore AWS Support and Documentation resources</li>
         </ul>
     </div>
 
@@ -132,7 +135,7 @@
     </div>
 
     <div class="step">
-        <p><span class="step-number">3</span> Once signed in, take a moment to explore the console home page. Note the following areas:</p>
+        <p><span class="step-number">3</span> Once signed in, take a moment to explore the console home page. Confirm you can see the search bar at the top, your account name in the top-right corner, and the Region selector dropdown next to it. Note the following areas:</p>
         <ul>
             <li><strong>Search bar</strong> at the top — type a service name to quickly navigate</li>
             <li><strong>Recently visited services</strong> — shows your most-used services</li>
@@ -149,7 +152,7 @@
     </div>
 
     <div class="step">
-        <p><span class="step-number">5</span> Use the search bar to find and navigate to each of the following services. For each one, briefly note what it does:</p>
+        <p><span class="step-number">5</span> Use the search bar to find and navigate to each of the following services. For each one, check whether the Region selector in the top-right shows a specific Region (regional service) or says "Global" (global service). Record your findings.</p>
         <ul>
             <li><strong>EC2</strong> — Elastic Compute Cloud</li>
             <li><strong>S3</strong> — Simple Storage Service</li>
@@ -175,11 +178,11 @@
     </div>
 
     <div class="step">
-        <p><span class="step-number">9</span> Explore the Billing Dashboard. Note:</p>
+        <p><span class="step-number">9</span> Explore the Billing Dashboard. Complete the following:</p>
         <ul>
-            <li>Month-to-date costs</li>
-            <li>Cost breakdown by service</li>
-            <li>Free Tier usage tracking</li>
+            <li>Record the current month-to-date cost</li>
+            <li>Identify the top service by cost</li>
+            <li>Check what percentage of Free Tier usage has been consumed</li>
         </ul>
     </div>
 
@@ -198,9 +201,124 @@
         </ul>
     </div>
 
+    <h2>Part E: Explore Services with CloudShell</h2>
+
+    <div class="step">
+        <p><span class="step-number">12</span> Return to <strong>CloudShell</strong> (click the terminal icon in the top navigation bar if you closed it). Run the following command to list the VPCs in your account:</p>
+        <ul>
+            <li><code>aws ec2 describe-vpcs --output table</code></li>
+        </ul>
+        <p>Note the VPC IDs and CIDR blocks displayed. Every AWS account comes with a default VPC in each region.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">13</span> List the IAM users configured in your account:</p>
+        <ul>
+            <li><code>aws iam list-users --output table</code></li>
+        </ul>
+        <p>You should see at least the user you are currently signed in as. Note the <strong>UserName</strong> and <strong>CreateDate</strong> columns.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">14</span> List the S3 bucket names in the account using a JMESPath query:</p>
+        <ul>
+            <li><code>aws s3api list-buckets --query "Buckets[].Name"</code></li>
+        </ul>
+        <p>Compare this output to the <code>aws s3 ls</code> command you ran earlier. The <code>--query</code> parameter uses JMESPath to filter JSON output — a useful technique you will use throughout this course.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">15</span> List the Availability Zones in the <strong>us-east-1</strong> region:</p>
+        <ul>
+            <li><code>aws ec2 describe-availability-zones --region us-east-1 --output table</code></li>
+        </ul>
+        <p>Note how many Availability Zones are available and their zone names (e.g., <code>us-east-1a</code>, <code>us-east-1b</code>, etc.).</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">16</span> Now compare by listing the Availability Zones in a different region:</p>
+        <ul>
+            <li><code>aws ec2 describe-availability-zones --region us-west-2 --output table</code></li>
+        </ul>
+        <p>Compare the number of Availability Zones and their naming convention with the us-east-1 output. Different regions have different numbers of AZs, which affects how you design for high availability.</p>
+    </div>
+
+    <h2>Part F: Resource Groups and Tagging</h2>
+
+    <div class="step">
+        <p><span class="step-number">17</span> In the console search bar, type <strong>Resource Groups</strong> and select <strong>Resource Groups & Tag Editor</strong>. This service helps you organize and find AWS resources using tags.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">18</span> In the left navigation pane, click <strong>Tag Editor</strong>. Configure the search with the following settings:</p>
+        <ul>
+            <li><strong>Regions:</strong> Select <code>All regions</code></li>
+            <li><strong>Resource types:</strong> Select <code>All supported resource types</code></li>
+        </ul>
+        <p>Click <strong>Search resources</strong>. Review the results — these are all the taggable resources currently in your account. Note the resource types and any existing tags.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">19</span> Navigate to <strong>S3</strong> in a new tab. If you have any S3 buckets, click on one. If not, navigate to <strong>VPC</strong> &gt; <strong>Your VPCs</strong> and click on the default VPC. Click the <strong>Tags</strong> tab and click <strong>Manage tags</strong> (or <strong>Add/Edit tags</strong>). Add a tag:</p>
+        <ul>
+            <li><strong>Key:</strong> <code>Environment</code></li>
+            <li><strong>Value:</strong> <code>Lab</code></li>
+        </ul>
+        <p>Click <strong>Save</strong> to apply the tag.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">20</span> Return to <strong>Tag Editor</strong>. This time, search for resources with a specific tag. Configure the search:</p>
+        <ul>
+            <li><strong>Regions:</strong> Select <code>All regions</code></li>
+            <li><strong>Resource types:</strong> Select <code>All supported resource types</code></li>
+            <li><strong>Tags:</strong> Add a tag filter with Key = <code>Environment</code> and Value = <code>Lab</code></li>
+        </ul>
+        <p>Click <strong>Search resources</strong>. You should see only the resource you just tagged. This demonstrates how tags let you filter and organize resources across your entire AWS account.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">21</span> Add a second tag to the same resource: Key = <code>Owner</code>, Value = <code>your-name</code>. Then return to <strong>Tag Editor</strong> and search by tag Key = <code>Owner</code>. Verify your resource appears. Tags are used in practice for:</p>
+        <ul>
+            <li><strong>Cost allocation</strong> — track spending by project, team, or environment</li>
+            <li><strong>Automation</strong> — scripts can target resources by tag</li>
+            <li><strong>Access control</strong> — IAM policies can restrict actions based on resource tags</li>
+            <li><strong>Organization</strong> — quickly find and group related resources across services and regions</li>
+        </ul>
+    </div>
+
+    <h2>Part G: Explore AWS Support and Documentation</h2>
+
+    <div class="step">
+        <p><span class="step-number">22</span> Click the <strong>?</strong> (question mark) icon in the top navigation bar, or use the search bar to navigate to <strong>Support Center</strong>. Note which support plan is active (e.g., Basic).</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">23</span> Click <strong>Create case</strong> to see the case types available (<strong>Account and billing</strong>, <strong>Technical</strong>), then click <strong>Cancel</strong> without creating a case. Review what is included with the Basic support plan:</p>
+        <ul>
+            <li>Access to documentation and whitepapers</li>
+            <li>AWS Trusted Advisor (limited checks)</li>
+            <li>AWS Personal Health Dashboard</li>
+            <li>Community forums</li>
+        </ul>
+        <p>In production environments, organizations often upgrade to <strong>Developer</strong>, <strong>Business</strong>, or <strong>Enterprise</strong> support for faster response times and technical account management.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">24</span> Open the AWS Documentation by navigating to <a href="https://docs.aws.amazon.com" target="_blank">docs.aws.amazon.com</a> (or click <strong>Documentation</strong> from the Support menu). Search for <strong>S3</strong> and browse the Amazon S3 User Guide. Note how documentation is organized into sections like Getting Started, User Guide, API Reference, and CLI Reference.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">25</span> Find the <strong>Amazon S3 FAQ</strong> page by navigating to <a href="https://aws.amazon.com/s3/faqs/" target="_blank">aws.amazon.com/s3/faqs/</a>. FAQ pages are an excellent resource for understanding service capabilities, limits, and pricing — and they are frequently referenced in the AWS Cloud Practitioner exam.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">26</span> Navigate to the <strong>AWS Service Health Dashboard</strong> by going to <a href="https://health.aws.amazon.com/health/status" target="_blank">health.aws.amazon.com/health/status</a> (or search for <strong>Health Dashboard</strong> in the console). Check whether all services show a green checkmark for the <strong>us-east-1</strong> region. Click on any service name to see its event history. The Health Dashboard provides real-time visibility into service availability and is the first place to check when you suspect an AWS service disruption.</p>
+    </div>
+
     <div class="success-box">
         <h3>Lab Complete</h3>
-        <p>You have successfully navigated the AWS Management Console, explored key services, reviewed regions, and used CloudShell. These skills form the foundation for all subsequent labs in this course.</p>
+        <p>You have successfully navigated the AWS Management Console, explored key services, reviewed regions, used CloudShell to query AWS resources via the CLI, organized resources with tags, and explored AWS Support and Documentation. These skills form the foundation for all subsequent labs in this course.</p>
     </div>
 
     <h2>Discussion Questions</h2>
@@ -208,6 +326,8 @@
         <li>Why is it important to check which region you are working in before creating resources?</li>
         <li>What is the difference between a global service (like IAM) and a regional service (like EC2)?</li>
         <li>When would you use CloudShell vs. the graphical console?</li>
+        <li>How could your organization use tagging to manage costs across multiple projects and environments?</li>
+        <li>What level of AWS Support plan would you recommend for a production workload, and why?</li>
     </ol>
 </body>
 </html>

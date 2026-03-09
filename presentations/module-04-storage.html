@@ -546,15 +546,9 @@
                             <td>99.9%</td>
                         </tr>
                         <tr class="fragment">
-                            <td><strong>Glacier Flexible Retrieval</strong></td>
-                            <td>Archive, minutes to hours OK</td>
-                            <td>1 min to 12 hrs</td>
-                            <td>99.99%</td>
-                        </tr>
-                        <tr class="fragment">
-                            <td><strong>Glacier Deep Archive</strong></td>
-                            <td>Long-term archive, rarely accessed</td>
-                            <td>12 to 48 hrs</td>
+                            <td><strong>Glacier Flexible / Deep Archive</strong></td>
+                            <td>Archives — minutes to hours or long-term</td>
+                            <td>1 min to 48 hrs</td>
                             <td>99.99%</td>
                         </tr>
                     </tbody>
@@ -616,8 +610,7 @@
                         </ul>
                     </div>
                 </div>
-                <p class="key-point fragment">Lifecycle policies are the primary mechanism for optimizing S3 storage costs over time.</p>
-                <aside class="notes">Lifecycle policies allow you to define rules that automatically transition objects to cheaper storage classes as they age, or delete them entirely. You can apply rules to all objects in a bucket or filter by prefix or tags. A common pattern is: Standard for the first 30 days, then IA, then Glacier, then Deep Archive. Combine with versioning to also expire old versions.</aside>
+                <aside class="notes">Lifecycle policies are the primary mechanism for optimizing S3 storage costs over time. They allow you to define rules that automatically transition objects to cheaper storage classes as they age, or delete them entirely. You can apply rules to all objects in a bucket or filter by prefix or tags. A common pattern is: Standard for the first 30 days, then IA, then Glacier, then Deep Archive. Combine with versioning to also expire old versions.</aside>
             </section>
 
             <!-- S3 Security -->
@@ -681,24 +674,18 @@
             <!-- S3 Use Cases -->
             <section>
                 <h2>S3 Use Cases</h2>
-                <div class="two-columns">
-                    <div class="card fragment">
-                        <h4>Backup and Restore</h4>
-                        <p style="font-size:0.7em;">Store backups with versioning and lifecycle policies. Use cross-region replication for disaster recovery.</p>
-                    </div>
-                    <div class="card fragment">
-                        <h4>Static Website Hosting</h4>
-                        <p style="font-size:0.7em;">Host static HTML, CSS, and JavaScript directly from an S3 bucket. Often paired with CloudFront for global delivery.</p>
-                    </div>
-                    <div class="card fragment">
-                        <h4>Data Lake</h4>
-                        <p style="font-size:0.7em;">Central repository for structured and unstructured data at any scale. Query directly with Athena, Redshift Spectrum, or EMR.</p>
-                    </div>
-                    <div class="card fragment">
-                        <h4>Disaster Recovery</h4>
-                        <p style="font-size:0.7em;">Cross-region replication ensures data availability even if an entire region goes down. Combined with S3 Object Lock for compliance.</p>
-                    </div>
-                </div>
+                <table style="font-size: 0.65em; margin-top: 15px;">
+                    <thead>
+                        <tr><th>Use Case</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment"><td><strong>Backup and Restore</strong></td><td>Store backups with versioning and lifecycle policies; cross-region replication for DR</td></tr>
+                        <tr class="fragment"><td><strong>Static Website Hosting</strong></td><td>Host HTML, CSS, and JS directly from a bucket; pair with CloudFront for global delivery</td></tr>
+                        <tr class="fragment"><td><strong>Data Lake</strong></td><td>Central repository for data at any scale; query with Athena, Redshift Spectrum, or EMR</td></tr>
+                        <tr class="fragment"><td><strong>Disaster Recovery</strong></td><td>Cross-region replication ensures availability; S3 Object Lock for compliance</td></tr>
+                        <tr class="fragment"><td><strong>Presigned URLs</strong></td><td>Generate time-limited URLs for temporary access to private objects without making them public</td></tr>
+                    </tbody>
+                </table>
                 <aside class="notes">S3 is incredibly versatile. Backup and restore is the most common use case. Static website hosting is popular for single-page applications and marketing sites. Data lakes on S3 form the foundation of modern analytics — services like Athena let you query data in place without loading it into a database. For disaster recovery, cross-region replication keeps a copy of your data in another region automatically.</aside>
             </section>
 
@@ -986,14 +973,13 @@
                 <div class="lab-description">
                     <p>In this lab, you will:</p>
                     <ul>
-                        <li>Create an S3 bucket with default encryption and Block Public Access</li>
-                        <li>Upload objects and organize them with prefixes (folders)</li>
-                        <li>Enable versioning and upload a modified file to observe version behavior</li>
-                        <li>Configure static website hosting with a public bucket policy</li>
-                        <li>Clean up by emptying and deleting the bucket</li>
+                        <li>Create buckets, upload objects, enable versioning, and host a static website</li>
+                        <li>Use the AWS CLI for S3 operations: cp, sync, ls, and bucket management</li>
+                        <li>Configure lifecycle rules to transition objects across storage classes</li>
+                        <li>Compare SSE-S3 and SSE-KMS encryption; generate and test presigned URLs</li>
                     </ul>
                 </div>
-                <aside class="notes">This lab gives participants hands-on experience with S3. They will create a bucket, upload objects, enable versioning, configure static website hosting, and work with bucket policies. Allow approximately 15 minutes for this lab. Encourage participants to explore the S3 console and review the properties and permissions tabs for each bucket.</aside>
+                <aside class="notes">This is a 45-minute lab. Participants will work with S3 via both the console and CLI, configure versioning and lifecycle rules, compare encryption options, and generate presigned URLs for temporary object access. This reinforces S3 concepts including storage classes, security, and cost optimization.</aside>
             </section>
 
             <!-- Key Takeaways -->

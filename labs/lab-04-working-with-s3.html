@@ -98,7 +98,7 @@
     <h1>Lab 4: Working with S3 Buckets and Objects</h1>
 
     <div class="lab-meta">
-        <p><strong>Duration:</strong> 15 minutes</p>
+        <p><strong>Duration:</strong> 45 minutes</p>
         <p><strong>Level:</strong> Introductory</p>
         <p><strong>Prerequisites:</strong> Completed Labs 1-3; AWS console access with S3 permissions</p>
     </div>
@@ -111,6 +111,10 @@
             <li>Enable versioning and observe version behavior</li>
             <li>Configure a bucket policy for public read access</li>
             <li>Enable static website hosting</li>
+            <li>Manage S3 buckets and objects using the AWS CLI</li>
+            <li>Configure lifecycle rules to automate storage transitions</li>
+            <li>Explore encryption options and storage classes</li>
+            <li>Generate and test presigned URLs for temporary access</li>
             <li>Clean up all resources</li>
         </ul>
     </div>
@@ -118,7 +122,7 @@
     <h2>Part A: Create an S3 Bucket</h2>
 
     <div class="step">
-        <p><span class="step-number">1</span> Navigate to <strong>S3</strong> in the AWS Management Console.</p>
+        <p><span class="step-number">1</span> In the AWS Management Console, type <strong>S3</strong> in the search bar at the top and click <strong>S3</strong> from the results.</p>
     </div>
 
     <div class="step">
@@ -150,10 +154,20 @@
     &lt;p&gt;This page is hosted on S3 static website hosting.&lt;/p&gt;
 &lt;/body&gt;
 &lt;/html&gt;</pre>
+        <p>You can create this file using any text editor (Notepad, TextEdit, VS Code) and save it to your Desktop.</p>
     </div>
 
     <div class="step">
-        <p><span class="step-number">5</span> Upload <code>index.html</code> to the bucket. Also create a text file called <code>error.html</code> with a simple "Page not found" message and upload it.</p>
+        <p><span class="step-number">5</span> Create a second file called <code>error.html</code> with the following content:</p>
+        <pre>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Error&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;404 — Page Not Found&lt;/h1&gt;
+    &lt;p&gt;The requested page does not exist.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+        <p>Upload both <code>index.html</code> and <code>error.html</code> to the bucket.</p>
     </div>
 
     <div class="step">
@@ -210,23 +224,154 @@
         <p><span class="step-number">13</span> Open the <strong>Bucket website endpoint</strong> URL in a new browser tab. You should see your index.html page served from S3.</p>
     </div>
 
-    <h2>Part E: Clean Up</h2>
+    <h2>Part E: S3 Operations with AWS CLI</h2>
+
+    <div class="step">
+        <p><span class="step-number">14</span> Open <strong>CloudShell</strong> by clicking the terminal icon in the top navigation bar of the AWS Console. Wait for the shell to initialize (you will see a command prompt). Alternatively, if your EC2 instance from Lab 3 is still running, you can use EC2 Instance Connect.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">15</span> Create a second S3 bucket using the CLI:</p>
+        <pre>aws s3 mb s3://cloud-pract-cli-&lt;your-initials&gt;-&lt;random&gt;</pre>
+        <p>Replace <code>&lt;your-initials&gt;</code> and <code>&lt;random&gt;</code> with your own values. Confirm the bucket was created successfully.</p>
+    </div>
 
     <div class="warning-box">
-        <strong>Important:</strong> You must empty the bucket before you can delete it.
+        <strong>Note:</strong> In all CLI commands below, replace <code>&lt;cli-bucket&gt;</code> with the full name of the bucket you just created (e.g., <code>cloud-pract-cli-jk-42857</code>). Replace <code>&lt;first-bucket&gt;</code> with the name of the bucket you created in Part A.
     </div>
 
     <div class="step">
-        <p><span class="step-number">14</span> Go back to the bucket, select all objects, and click <strong>Delete</strong>. Since versioning is enabled, you need to toggle <strong>Show versions</strong> and delete all versions as well.</p>
+        <p><span class="step-number">16</span> Create a local file and upload it to your CLI bucket:</p>
+        <pre>echo "uploaded via CLI" > cli-test.txt
+aws s3 cp cli-test.txt s3://&lt;cli-bucket&gt;/</pre>
     </div>
 
     <div class="step">
-        <p><span class="step-number">15</span> Once the bucket is empty, go back to the S3 bucket list, select your bucket, and click <strong>Delete</strong>. Type the bucket name to confirm.</p>
+        <p><span class="step-number">17</span> List the objects in your CLI bucket:</p>
+        <pre>aws s3 ls s3://&lt;cli-bucket&gt;/</pre>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">18</span> Copy an object between your two buckets:</p>
+        <pre>aws s3 cp s3://&lt;cli-bucket&gt;/cli-test.txt s3://&lt;first-bucket&gt;/cli-copy.txt</pre>
+        <p>Verify the copied object appears in your first bucket using the console or CLI.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">19</span> Sync a local directory to S3. First, create a directory with a few files:</p>
+        <pre>mkdir testdir && echo "file1" > testdir/a.txt && echo "file2" > testdir/b.txt
+aws s3 sync testdir/ s3://&lt;cli-bucket&gt;/testdir/</pre>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">20</span> List objects with a prefix to see only the synced directory contents:</p>
+        <pre>aws s3 ls s3://&lt;cli-bucket&gt;/testdir/</pre>
+    </div>
+
+    <h2>Part F: Configure a Lifecycle Rule</h2>
+
+    <div class="step">
+        <p><span class="step-number">21</span> Go back to your <strong>first S3 bucket</strong> in the AWS console. Navigate to the <strong>Management</strong> tab and click <strong>Create lifecycle rule</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">22</span> Configure the lifecycle rule:</p>
+        <ul>
+            <li><strong>Lifecycle rule name:</strong> <code>archive-old-objects</code></li>
+            <li><strong>Choose a rule scope:</strong> Apply to all objects in the bucket</li>
+            <li>Check the acknowledgement box</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">23</span> Under <strong>Lifecycle rule actions</strong>, check the following:</p>
+        <ul>
+            <li><strong>Transition current versions of objects between storage classes</strong></li>
+            <li><strong>Expire current versions of objects</strong></li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">24</span> Configure the transitions for current versions:</p>
+        <ul>
+            <li>Add transition: Move to <strong>Standard-IA</strong> after <strong>30</strong> days</li>
+            <li>Add transition: Move to <strong>Glacier Flexible Retrieval</strong> after <strong>90</strong> days</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">25</span> Configure expiration: Set current versions to expire after <strong>365</strong> days. Click <strong>Create rule</strong>.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">26</span> On the <strong>Management</strong> tab, click on your lifecycle rule name (<code>archive-old-objects</code>). Verify that the rule shows transitions to Standard-IA at 30 days and Glacier at 90 days, with expiration at 365 days. This automates cost optimization without manual intervention.</p>
+    </div>
+
+    <h2>Part G: Explore S3 Encryption and Storage Classes</h2>
+
+    <div class="step">
+        <p><span class="step-number">27</span> In your first bucket, click on one of your existing objects (e.g., <code>index.html</code>). Scroll to <strong>Server-side encryption settings</strong>. Note that it shows <strong>SSE-S3</strong> (Amazon S3 managed keys) — this is the default encryption.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">28</span> Upload a new object (create a small text file called <code>kms-test.txt</code>). During upload, expand the <strong>Properties</strong> section. Under <strong>Server-side encryption</strong>, select <strong>Specify an encryption key</strong>, choose <strong>AWS Key Management Service key (SSE-KMS)</strong>, and select the default <strong>aws/s3</strong> key. Complete the upload.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">29</span> Compare the encryption settings between your original object and the KMS-encrypted object by clicking on each and checking their properties. Note the different encryption types.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">30</span> Upload another object (create <code>ia-test.txt</code>). During upload, expand <strong>Properties</strong> and change the <strong>Storage class</strong> to <strong>S3 Standard-IA</strong>. Complete the upload.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">31</span> Click on <code>ia-test.txt</code> and view its properties. Compare the storage class with your other objects. Discuss with the class: when would you choose Standard-IA vs. Standard vs. Glacier for different workloads?</p>
+    </div>
+
+    <h2>Part H: Generate a Presigned URL</h2>
+
+    <div class="step">
+        <p><span class="step-number">32</span> Return to <strong>CloudShell</strong>. Generate a presigned URL for one of your objects that expires in 300 seconds (5 minutes):</p>
+        <pre>aws s3 presign s3://&lt;first-bucket&gt;/index.html --expires-in 300</pre>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">33</span> Copy the generated URL and open it in a new browser tab. Try opening it in an incognito/private window as well. The page should load successfully even without AWS credentials, because the presigned URL contains temporary authorization.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">34</span> To see expiration in action, generate a URL with a very short lifetime:</p>
+        <pre>aws s3 presign s3://&lt;first-bucket&gt;/index.html --expires-in 60</pre>
+        <p>Open it immediately (should work), then wait 60 seconds and try the same URL again — it should return an <strong>Access Denied</strong> error.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">35</span> Compare the presigned URL structure with a normal S3 URL. Notice the query parameters that include the signature and expiration. Presigned URLs provide temporary, time-limited access to private S3 objects without making them public or sharing AWS credentials.</p>
+    </div>
+
+    <h2>Part I: Clean Up</h2>
+
+    <div class="warning-box">
+        <strong>Important:</strong> You must empty each bucket before you can delete it. For versioned buckets, you must delete all object versions.
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">36</span> Go to your <strong>first bucket</strong> in the console. Toggle <strong>Show versions</strong>, select all objects and versions, and click <strong>Delete</strong>. Confirm the deletion.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">37</span> Once the bucket is empty, go back to the S3 bucket list, select your first bucket, and click <strong>Delete</strong>. Type the bucket name to confirm.</p>
+    </div>
+
+    <div class="step">
+        <p><span class="step-number">38</span> Delete the CLI bucket using CloudShell. The <code>--force</code> flag empties the bucket and deletes it in one command:</p>
+        <pre>aws s3 rb s3://&lt;cli-bucket&gt; --force</pre>
     </div>
 
     <div class="success-box">
         <h3>Lab Complete</h3>
-        <p>You have created an S3 bucket, uploaded objects, enabled versioning, configured static website hosting with a bucket policy, and cleaned up all resources.</p>
+        <p>You have created S3 buckets via console and CLI, uploaded objects, enabled versioning, configured static website hosting with a bucket policy, managed objects with the AWS CLI, configured lifecycle rules, explored encryption and storage classes, generated presigned URLs, and cleaned up all resources.</p>
     </div>
 
     <h2>Discussion Questions</h2>
@@ -235,6 +380,8 @@
         <li>How does versioning protect against accidental deletion or overwrite?</li>
         <li>What are the security implications of making a bucket publicly accessible?</li>
         <li>How could you use S3 lifecycle policies to reduce storage costs over time?</li>
+        <li>How would you design a lifecycle policy for a company that needs to keep compliance data for 7 years but rarely accesses it after 90 days?</li>
+        <li>In what scenarios would presigned URLs be preferable to making objects public or using IAM-based access?</li>
     </ol>
 </body>
 </html>
