@@ -384,14 +384,8 @@
         </table>
     </div>
 
-    <div class="step">
-        <p><span class="step-number">25</span> <strong>Discussion:</strong> Consider the following with your instructor or lab partner:</p>
-        <ul>
-            <li>At what request volume does the serverless architecture become more expensive than EC2?</li>
-            <li>What are the non-cost advantages of serverless (e.g., no patching, auto-scaling to zero)?</li>
-            <li>When would 2x smaller instances be preferable to 1x larger instance, even if costs are similar?</li>
-            <li>How would adding Reserved Instances or Savings Plans change the EC2 comparison?</li>
-        </ul>
+    <div class="info-box">
+        <strong>Think About It:</strong> At what request volume does serverless become more expensive than EC2? What are the non-cost advantages of serverless (no patching, auto-scaling to zero)? How would Reserved Instances or Savings Plans change the EC2 comparison?
     </div>
 
     <h2>Part G: Cost Allocation Tags</h2>
@@ -401,11 +395,11 @@
     </div>
 
     <div class="step">
-        <p><span class="step-number">26</span> Navigate to <strong>Billing and Cost Management</strong> &gt; <strong>Cost allocation tags</strong> in the left navigation.</p>
+        <p><span class="step-number">25</span> Navigate to <strong>Billing and Cost Management</strong> &gt; <strong>Cost allocation tags</strong> in the left navigation.</p>
     </div>
 
     <div class="step">
-        <p><span class="step-number">27</span> Review the two types of cost allocation tags:</p>
+        <p><span class="step-number">26</span> Review the two types of cost allocation tags:</p>
         <ul>
             <li><strong>AWS-generated tags:</strong> Automatically created by AWS (e.g., <code>aws:createdBy</code>). These track which IAM user or role created a resource.</li>
             <li><strong>User-defined tags:</strong> Tags you applied to resources in earlier labs (e.g., <code>Environment=Lab</code>, <code>Name=my-instance</code>).</li>
@@ -417,18 +411,11 @@
     </div>
 
     <div class="step">
-        <p><span class="step-number">28</span> Navigate to <strong>Cost Explorer</strong>. In the grouping options, look for <strong>Tag</strong> as a group-by dimension. If you have activated tags with associated cost data, try grouping by a tag such as <code>Environment</code> or <code>Name</code>.</p>
+        <p><span class="step-number">27</span> Navigate to <strong>Cost Explorer</strong>. In the grouping options, look for <strong>Tag</strong> as a group-by dimension. If you have activated tags with associated cost data, try grouping by a tag such as <code>Environment</code> or <code>Name</code>.</p>
     </div>
 
-    <div class="step">
-        <p><span class="step-number">29</span> <strong>Discussion:</strong> Consider how an organization would use a tagging strategy in practice:</p>
-        <ul>
-            <li><strong>Project</strong> — track costs per application or initiative (e.g., <code>Project=WebApp</code>)</li>
-            <li><strong>Team</strong> — attribute costs to the team responsible (e.g., <code>Team=Backend</code>)</li>
-            <li><strong>Environment</strong> — separate development, staging, and production costs (e.g., <code>Environment=Production</code>)</li>
-            <li><strong>CostCenter</strong> — map costs to internal accounting codes</li>
-        </ul>
-        <p>A well-enforced tagging policy is one of the most important cost management practices in AWS. Many organizations use AWS Organizations Service Control Policies (SCPs) or tag policies to enforce mandatory tags on all resources.</p>
+    <div class="info-box">
+        <strong>Tagging Best Practice:</strong> Organizations typically tag resources with <code>Project</code>, <code>Team</code>, <code>Environment</code>, and <code>CostCenter</code> to track costs. Many enforce mandatory tags using AWS Organizations tag policies.
     </div>
 
     <h2>Part H: Create a Usage-Based Budget</h2>
@@ -438,15 +425,15 @@
     </div>
 
     <div class="step">
-        <p><span class="step-number">30</span> Navigate to <strong>Billing and Cost Management</strong> &gt; <strong>Budgets</strong>.</p>
+        <p><span class="step-number">28</span> Navigate to <strong>Billing and Cost Management</strong> &gt; <strong>Budgets</strong>.</p>
     </div>
 
     <div class="step">
-        <p><span class="step-number">31</span> Click <strong>Create a budget</strong> and select <strong>Customize (advanced)</strong> &gt; <strong>Usage budget</strong>. Click <strong>Next</strong>.</p>
+        <p><span class="step-number">29</span> Click <strong>Create a budget</strong> and select <strong>Customize (advanced)</strong> &gt; <strong>Usage budget</strong>. Click <strong>Next</strong>.</p>
     </div>
 
     <div class="step">
-        <p><span class="step-number">32</span> Configure the usage budget:</p>
+        <p><span class="step-number">30</span> Configure the usage budget:</p>
         <ul>
             <li><strong>Budget name:</strong> <code>lab-ec2-hours-budget</code></li>
             <li><strong>Period:</strong> Monthly</li>
@@ -458,7 +445,7 @@
     </div>
 
     <div class="step">
-        <p><span class="step-number">33</span> Add an alert threshold:</p>
+        <p><span class="step-number">31</span> Add an alert threshold:</p>
         <ul>
             <li><strong>Threshold:</strong> 80% of budgeted amount (Actual usage)</li>
             <li><strong>Email recipients:</strong> Enter your email address</li>
@@ -467,26 +454,26 @@
     </div>
 
     <div class="step">
-        <p><span class="step-number">34</span> Review the <strong>Budgets dashboard</strong>. You should now see both budgets:</p>
+        <p><span class="step-number">32</span> Review the <strong>Budgets dashboard</strong>. You should now see both budgets:</p>
         <ul>
             <li><code>lab-monthly-budget</code> — tracks dollar spend (from Part C)</li>
             <li><code>lab-ec2-hours-budget</code> — tracks EC2 running hours (just created)</li>
         </ul>
-        <p><strong>Discussion:</strong> When would a usage budget be more useful than a cost budget? Consider a scenario where you are within Free Tier — cost is $0, but usage is climbing toward the Free Tier limit. A cost budget would never trigger, but a usage budget would alert you before you start incurring charges.</p>
+        <p><strong>Key insight:</strong> A usage budget alerts you when usage climbs toward Free Tier limits even when cost is $0, whereas a cost budget would never trigger in that scenario.</p>
     </div>
 
     <h2>Part I: Explore AWS Support Plan Comparison</h2>
 
     <div class="step">
-        <p><span class="step-number">35</span> In the AWS Console, click the <strong>?</strong> (question mark) icon in the top-right navigation bar, or search for <strong>Support Center</strong> in the console search bar.</p>
+        <p><span class="step-number">33</span> In the AWS Console, click the <strong>?</strong> (question mark) icon in the top-right navigation bar, or search for <strong>Support Center</strong> in the console search bar.</p>
     </div>
 
     <div class="step">
-        <p><span class="step-number">36</span> Identify your current support plan (this is most likely the <strong>Basic</strong> plan for lab accounts). Check whether you have access to <strong>Trusted Advisor</strong> checks, <strong>technical support cases</strong>, and <strong>response time guarantees</strong> at this tier.</p>
+        <p><span class="step-number">34</span> Identify your current support plan (this is most likely the <strong>Basic</strong> plan for lab accounts). Check whether you have access to <strong>Trusted Advisor</strong> checks, <strong>technical support cases</strong>, and <strong>response time guarantees</strong> at this tier.</p>
     </div>
 
     <div class="step">
-        <p><span class="step-number">37</span> Navigate to the support plan comparison page (click <strong>View all plans</strong> or look for a link to compare plans). Review the four support tiers and fill in the following comparison table:</p>
+        <p><span class="step-number">35</span> Navigate to the support plan comparison page (click <strong>View all plans</strong> or look for a link to compare plans). Review the four support tiers and fill in the following comparison table:</p>
         <table>
             <thead>
                 <tr>
@@ -530,24 +517,18 @@
         </table>
     </div>
 
-    <div class="step">
-        <p><span class="step-number">38</span> <strong>Discussion:</strong> Which support plan would you recommend for each of the following scenarios?</p>
-        <ul>
-            <li><strong>A startup experimenting with AWS</strong> — low budget, non-critical workloads, team is learning</li>
-            <li><strong>A mid-size company running production workloads</strong> — needs 24/7 support, uses many AWS services, cannot afford extended downtime</li>
-            <li><strong>A large enterprise with mission-critical applications</strong> — requires a designated Technical Account Manager (TAM), proactive guidance, and 15-minute response for system-down events</li>
-        </ul>
-        <p>Note how the cost of a support plan must be weighed against the cost of downtime for your business.</p>
+    <div class="info-box">
+        <strong>Think About It:</strong> A startup experimenting → Basic or Developer. A mid-size company with production workloads → Business. A large enterprise with mission-critical apps needing a TAM → Enterprise. The cost of a support plan must be weighed against the cost of downtime.
     </div>
 
     <h2>Part J: Review the AWS Free Tier in Detail</h2>
 
     <div class="step">
-        <p><span class="step-number">39</span> Navigate to <strong>Billing and Cost Management</strong> &gt; <strong>Free Tier</strong> in the left navigation.</p>
+        <p><span class="step-number">36</span> Navigate to <strong>Billing and Cost Management</strong> &gt; <strong>Free Tier</strong> in the left navigation.</p>
     </div>
 
     <div class="step">
-        <p><span class="step-number">40</span> Review the Free Tier dashboard. AWS offers three categories of Free Tier benefits. Identify examples of each:</p>
+        <p><span class="step-number">37</span> Review the Free Tier dashboard. AWS offers three categories of Free Tier benefits. Identify examples of each:</p>
         <table>
             <thead>
                 <tr>
@@ -577,7 +558,7 @@
     </div>
 
     <div class="step">
-        <p><span class="step-number">41</span> For each service you used in the previous labs (EC2, S3, RDS, VPC, IAM, CloudWatch), find its Free Tier allowance on this page. Record the following:</p>
+        <p><span class="step-number">38</span> For each service you used in the previous labs (EC2, S3, RDS, VPC, IAM, CloudWatch), find its Free Tier allowance on this page. Record the following:</p>
         <table>
             <thead>
                 <tr>
@@ -599,21 +580,14 @@
         <p>To find these values, navigate to <strong>Billing and Cost Management</strong> &gt; <strong>Free Tier</strong> in the left navigation. Each service shows a bar chart with current usage percentage and the monthly allowance.</p>
     </div>
 
-    <div class="step">
-        <p><span class="step-number">42</span> <strong>Discussion:</strong> How do you avoid accidental charges after the Free Tier period ends?</p>
-        <ul>
-            <li>Set up <strong>usage budgets</strong> (as you did in Part H) to alert before exceeding Free Tier limits</li>
-            <li>Enable <strong>Free Tier usage alerts</strong> in Billing Preferences (Billing &gt; Preferences &gt; check "Receive Free Tier Usage Alerts")</li>
-            <li>Regularly review the <strong>Free Tier dashboard</strong> to monitor consumption</li>
-            <li>Terminate or delete resources you are no longer using — stopped EC2 instances still incur EBS storage charges</li>
-            <li>Be aware that some services (like NAT Gateways and Elastic IPs not attached to running instances) are <em>not</em> part of the Free Tier and incur charges immediately</li>
-        </ul>
+    <div class="info-box">
+        <strong>Avoiding Charges:</strong> Set up usage budgets, enable Free Tier usage alerts (Billing &gt; Preferences), review the Free Tier dashboard regularly, terminate unused resources (stopped EC2 still incurs EBS charges), and note that NAT Gateways and unattached Elastic IPs are not part of the Free Tier.
     </div>
 
     <h2>Part K: Clean Up</h2>
 
     <div class="step">
-        <p><span class="step-number">43</span> Delete both budgets created in this lab:</p>
+        <p><span class="step-number">39</span> Delete both budgets created in this lab:</p>
         <ul>
             <li>Navigate to <strong>Billing and Cost Management</strong> &gt; <strong>Budgets</strong></li>
             <li>Select <code>lab-monthly-budget</code> and click <strong>Delete</strong></li>
@@ -622,7 +596,7 @@
     </div>
 
     <div class="step">
-        <p><span class="step-number">44</span> If you activated any cost allocation tags in Part G, those do not need to be deactivated for cleanup — they do not incur charges. However, in a production environment you would manage tag activation carefully to keep reports clean.</p>
+        <p><span class="step-number">40</span> If you activated any cost allocation tags in Part G, those do not need to be deactivated for cleanup — they do not incur charges. However, in a production environment you would manage tag activation carefully to keep reports clean.</p>
     </div>
 
     <div class="success-box">

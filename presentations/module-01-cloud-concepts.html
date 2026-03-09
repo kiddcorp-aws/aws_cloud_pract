@@ -716,6 +716,25 @@
                 </aside>
             </section>
 
+            <!-- Cloud Architecture Design Principles -->
+            <section>
+                <h2>Cloud Architecture Design Principles</h2>
+                <table style="font-size: 0.7em; margin-top: 15px;">
+                    <thead>
+                        <tr><th>Principle</th><th>What It Means</th><th>AWS Example</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment fade-up"><td><strong>Design for failure</strong></td><td>Assume components will fail; build redundancy</td><td>Multi-AZ deployments, health checks</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Decouple components</strong></td><td>Build independent components that communicate via APIs or queues</td><td>SQS, SNS, API Gateway, microservices</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Implement elasticity</strong></td><td>Scale resources up/down automatically based on demand</td><td>Auto Scaling, Lambda, DynamoDB on-demand</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Think parallel</strong></td><td>Distribute workloads across multiple resources simultaneously</td><td>Multiple EC2 instances behind a load balancer</td></tr>
+                    </tbody>
+                </table>
+                <aside class="notes">
+                    These four design principles distinguish cloud architectures from traditional data center thinking. "Design for failure" means you expect hardware to fail and architect for automatic recovery. "Decouple components" means using messaging services like SQS so one component's failure does not cascade. "Implement elasticity" means letting the infrastructure scale with demand rather than over-provisioning. "Think parallel" means distributing work across many small resources rather than scaling up a single large resource. AWS Migration Hub is also worth knowing — it provides a single place to track migration progress across AWS migration tools like Application Migration Service and Database Migration Service.
+                </aside>
+            </section>
+
             <!-- ===================== SECTION: Shared Responsibility Model ===================== -->
             <section data-background="linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)" class="section-divider">
                 <h2>Shared Responsibility Model</h2>

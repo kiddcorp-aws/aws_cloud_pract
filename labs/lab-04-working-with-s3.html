@@ -128,7 +128,7 @@
     <div class="step">
         <p><span class="step-number">2</span> Click <strong>Create bucket</strong> and configure:</p>
         <ul>
-            <li><strong>Bucket name:</strong> <code>cloud-pract-lab-&lt;your-initials&gt;-&lt;random-number&gt;</code> (bucket names must be globally unique)</li>
+            <li><strong>Bucket name:</strong> <code>cloud-pract-lab-&lt;your-initials&gt;-&lt;random&gt;</code> (bucket names must be globally unique)</li>
             <li><strong>Region:</strong> US East (N. Virginia) us-east-1</li>
             <li><strong>Object Ownership:</strong> ACLs disabled (recommended)</li>
             <li><strong>Block Public Access:</strong> Leave all checked for now (we will change this later)</li>
@@ -205,7 +205,7 @@
     </div>
 
     <div class="step">
-        <p><span class="step-number">12</span> Still on the <strong>Permissions</strong> tab, scroll to <strong>Bucket policy</strong> and click <strong>Edit</strong>. Paste the following policy (replace <code>YOUR-BUCKET-NAME</code>):</p>
+        <p><span class="step-number">12</span> Still on the <strong>Permissions</strong> tab, scroll to <strong>Bucket policy</strong> and click <strong>Edit</strong>. Paste the following policy (replace <code>&lt;first-bucket&gt;</code> with your bucket name):</p>
         <pre>{
     "Version": "2012-10-17",
     "Statement": [
@@ -214,7 +214,7 @@
             "Effect": "Allow",
             "Principal": "*",
             "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::YOUR-BUCKET-NAME/*"
+            "Resource": "arn:aws:s3:::&lt;first-bucket&gt;/*"
         }
     ]
 }</pre>
@@ -326,7 +326,7 @@ aws s3 sync testdir/ s3://&lt;cli-bucket&gt;/testdir/</pre>
     </div>
 
     <div class="step">
-        <p><span class="step-number">31</span> Click on <code>ia-test.txt</code> and view its properties. Compare the storage class with your other objects. Discuss with the class: when would you choose Standard-IA vs. Standard vs. Glacier for different workloads?</p>
+        <p><span class="step-number">31</span> Click on <code>ia-test.txt</code> and view its properties. Confirm the <strong>Storage class</strong> shows <strong>Standard-IA</strong>. Compare this with your other objects, which should show <strong>Standard</strong>.</p>
     </div>
 
     <h2>Part H: Generate a Presigned URL</h2>

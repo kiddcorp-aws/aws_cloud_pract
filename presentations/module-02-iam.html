@@ -624,9 +624,8 @@
                         </div>
                     </div>
                 </div>
-                <p class="key-point fragment">"When in doubt, leave it out."</p>
                 <aside class="notes">
-                    Least privilege is the single most important security principle in IAM. Many organizations make the mistake of granting AdministratorAccess broadly. This creates enormous risk. Instead, start with no permissions and add only what is needed. IAM Access Analyzer can generate policies based on actual usage, helping you right-size permissions. This principle is also heavily tested on the Cloud Practitioner exam.
+                    "When in doubt, leave it out." Least privilege is the single most important security principle in IAM. Many organizations make the mistake of granting AdministratorAccess broadly. This creates enormous risk. Instead, start with no permissions and add only what is needed. IAM Access Analyzer can generate policies based on actual usage, helping you right-size permissions. This principle is also heavily tested on the Cloud Practitioner exam.
                 </aside>
             </section>
 
@@ -917,9 +916,8 @@
                         </div>
                     </div>
                 </div>
-                <p class="key-point fragment">IAM Identity Center is the recommended approach for managing workforce access to AWS accounts and applications.</p>
                 <aside class="notes">
-                    IAM Identity Center, formerly AWS SSO, is the recommended way to manage human access to AWS in an organization. It integrates with AWS Organizations and lets you define permission sets that map to IAM roles in each account. Users get a single portal where they can see all accounts and applications they have access to. For the exam, remember that this is the successor to AWS SSO and the preferred solution for workforce identity management.
+                    IAM Identity Center is the recommended approach for managing workforce access to AWS accounts and applications. Formerly AWS SSO, it is the recommended way to manage human access to AWS in an organization. It integrates with AWS Organizations and lets you define permission sets that map to IAM roles in each account. Users get a single portal where they can see all accounts and applications they have access to. For the exam, remember that this is the successor to AWS SSO and the preferred solution for workforce identity management.
                 </aside>
             </section>
 
@@ -953,11 +951,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="highlight-box fragment">
-                    <p><strong>User Pools = WHO you are (authentication) | Identity Pools = WHAT you can do (authorization/AWS access)</strong></p>
-                </div>
                 <aside class="notes">
-                    Amazon Cognito is the go-to service for adding authentication and authorization to web and mobile applications. It is distinct from IAM Identity Center, which is designed for workforce access to the AWS console and AWS accounts. Cognito is purpose-built for application end-users. User Pools handle the authentication side, managing user directories and returning JWTs after sign-in. Identity Pools handle the authorization side, vending temporary AWS credentials so that application users can interact with AWS services directly. The two components can be used independently or together.
+                    User Pools = WHO you are (authentication). Identity Pools = WHAT you can do (authorization/AWS access). Amazon Cognito is the go-to service for adding authentication and authorization to web and mobile applications. It is distinct from IAM Identity Center, which is designed for workforce access to the AWS console and AWS accounts. Cognito is purpose-built for application end-users. User Pools handle the authentication side, managing user directories and returning JWTs after sign-in. Identity Pools handle the authorization side, vending temporary AWS credentials so that application users can interact with AWS services directly. The two components can be used independently or together.
                 </aside>
             </section>
 
@@ -982,11 +977,86 @@
                         <p>Natively integrated with S3, EBS, RDS, Lambda, and 100+ AWS services.</p>
                     </div>
                 </div>
-                <div class="highlight-box success fragment">
-                    <p><strong>IAM + KMS:</strong> Access to encryption keys is controlled through IAM policies and KMS key policies working together.</p>
+                <aside class="notes">
+                    IAM + KMS: Access to encryption keys is controlled through IAM policies and KMS key policies working together. KMS ties closely to IAM because access to encryption keys is governed by IAM policies and KMS key policies. AWS managed keys are created automatically when you enable encryption on a service. Customer managed keys give you full control, including the ability to define who can use and administer the key. For the Cloud Practitioner exam, you should understand that KMS provides managed encryption and integrates across AWS services.
+                </aside>
+            </section>
+
+            <!-- IAM Auditing Tools -->
+            <section>
+                <h2>IAM Auditing Tools</h2>
+                <div class="two-columns">
+                    <div class="card fragment">
+                        <h4>IAM Policy Simulator</h4>
+                        <ul>
+                            <li>Test IAM policies before applying them</li>
+                            <li>Select a user, group, or role and simulate API calls</li>
+                            <li>Shows whether each action would be <strong>Allowed</strong> or <strong>Denied</strong></li>
+                            <li>Helps validate least-privilege configurations</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment">
+                        <h4>IAM Credential Report</h4>
+                        <ul>
+                            <li>Account-wide CSV report of all IAM users</li>
+                            <li>Shows password and access key status</li>
+                            <li>Includes MFA enabled/disabled, key age, last used</li>
+                            <li>Essential for security audits and compliance</li>
+                        </ul>
+                    </div>
                 </div>
                 <aside class="notes">
-                    KMS ties closely to IAM because access to encryption keys is governed by IAM policies and KMS key policies. AWS managed keys are created automatically when you enable encryption on a service. Customer managed keys give you full control, including the ability to define who can use and administer the key. For the Cloud Practitioner exam, you should understand that KMS provides managed encryption and integrates across AWS services.
+                    The Policy Simulator is a powerful tool for testing permissions without affecting live resources. You can simulate any API call against any user, group, or role to see if it would be allowed or denied. The Credential Report provides a snapshot of all IAM users and their credential status — it is downloadable as a CSV and useful for identifying inactive users, users without MFA, or old access keys that should be rotated. In the lab, students will use both tools.
+                </aside>
+            </section>
+
+            <!-- AWS Compliance & Artifact -->
+            <section>
+                <h2>Compliance and AWS Artifact</h2>
+                <div class="two-columns">
+                    <div class="card fragment">
+                        <h4>Compliance Programs</h4>
+                        <ul>
+                            <li><strong>SOC 1/2/3</strong> -- audit/security controls</li>
+                            <li><strong>PCI-DSS</strong> -- payment card data</li>
+                            <li><strong>HIPAA</strong> -- healthcare data</li>
+                            <li><strong>FedRAMP</strong> -- US federal government</li>
+                            <li><strong>ISO 27001</strong> -- information security</li>
+                        </ul>
+                    </div>
+                    <div class="card fragment">
+                        <h4>AWS Artifact</h4>
+                        <ul>
+                            <li>Self-service portal for compliance reports</li>
+                            <li>Download SOC reports, PCI attestations, ISO certs</li>
+                            <li>Accept AWS agreements (BAA, NDA)</li>
+                            <li>No cost -- available to all AWS customers</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    AWS maintains compliance certifications across dozens of frameworks. AWS Artifact is a free self-service portal where you can download audit reports and compliance documentation. For HIPAA, you must sign a Business Associate Addendum (BAA) through Artifact. For the exam, know that Artifact is where you get compliance documents, and that AWS penetration testing is allowed on certain services (EC2, RDS, Lambda, etc.) without prior approval — but DDoS testing, port flooding, and DNS zone walking are prohibited.
+                </aside>
+            </section>
+
+            <!-- AWS Security Services -->
+            <section>
+                <h2>AWS Security Services</h2>
+                <table style="font-size: 0.6em; margin-top: 10px;">
+                    <thead>
+                        <tr><th>Service</th><th>Purpose</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment fade-up"><td><strong>AWS Shield</strong></td><td>DDoS protection — Standard (free, automatic) and Advanced (paid, 24/7 response team)</td></tr>
+                        <tr class="fragment fade-up"><td><strong>AWS WAF</strong></td><td>Web Application Firewall — filter HTTP/S traffic with rules (SQL injection, XSS, IP blocking)</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Amazon GuardDuty</strong></td><td>Intelligent threat detection — analyzes CloudTrail, VPC Flow Logs, DNS logs using ML</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Amazon Inspector</strong></td><td>Automated vulnerability scanning for EC2 instances, containers, and Lambda functions</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Amazon Macie</strong></td><td>Discovers and protects sensitive data (PII, credentials) in S3 using ML</td></tr>
+                        <tr class="fragment fade-up"><td><strong>AWS Security Hub</strong></td><td>Centralized security findings dashboard — aggregates from GuardDuty, Inspector, Macie, and more</td></tr>
+                    </tbody>
+                </table>
+                <aside class="notes">
+                    These six services form the core AWS security toolbox beyond IAM. Shield Standard is automatically enabled for all AWS customers at no cost. Shield Advanced adds dedicated DDoS response and cost protection. WAF integrates with CloudFront and ALB. GuardDuty is a continuous threat detection service. Inspector scans for software vulnerabilities. Macie uses ML to classify sensitive data in S3. Security Hub aggregates findings from all these services into one dashboard. Amazon Detective helps investigate security findings by analyzing log data. VPC Flow Logs capture IP traffic information for network interfaces in your VPC — useful for troubleshooting connectivity and monitoring traffic patterns. AWS Secrets Manager stores, rotates, and manages secrets like database credentials and API keys.
                 </aside>
             </section>
 

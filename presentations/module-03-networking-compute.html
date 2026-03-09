@@ -1042,6 +1042,45 @@
                 </aside>
             </section>
 
+            <!-- Container & Additional Compute Services -->
+            <section>
+                <h2>Container &amp; Additional Compute</h2>
+                <table style="font-size: 0.65em; margin-top: 10px;">
+                    <thead>
+                        <tr><th>Service</th><th>What It Does</th><th>When to Use</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment fade-up"><td><strong>Amazon ECS</strong></td><td>Run Docker containers on AWS-managed infrastructure</td><td>Containerized microservices with AWS integration</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Amazon EKS</strong></td><td>Managed Kubernetes service</td><td>Teams already using Kubernetes</td></tr>
+                        <tr class="fragment fade-up"><td><strong>AWS Fargate</strong></td><td>Serverless compute for containers — no EC2 management</td><td>Containers without managing servers</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Amazon Lightsail</strong></td><td>Simple VPS with fixed monthly pricing</td><td>Small websites, dev environments</td></tr>
+                        <tr class="fragment fade-up"><td><strong>AWS Batch</strong></td><td>Run batch computing jobs at any scale</td><td>Large-scale data processing jobs</td></tr>
+                    </tbody>
+                </table>
+                <aside class="notes">
+                    ECS and EKS both run containers but differ in orchestration. ECS uses AWS-native orchestration while EKS uses open-source Kubernetes. Fargate removes the need to manage EC2 instances for either ECS or EKS — you just define CPU and memory. Lightsail is the simplest way to get started with a virtual server at a predictable price. AWS Batch dynamically provisions compute resources for batch workloads. For the exam, know EC2 = full control, Lambda = event-driven serverless, ECS/EKS = containers, Fargate = serverless containers. AWS CDK (Cloud Development Kit) lets you define infrastructure using programming languages like Python or TypeScript — it generates CloudFormation templates. AWS Systems Manager provides operational tools like Session Manager (SSH without opening ports), Parameter Store (configuration data), and Patch Manager.
+                </aside>
+            </section>
+
+            <!-- Edge & Hybrid Infrastructure -->
+            <section>
+                <h2>Edge and Hybrid Infrastructure</h2>
+                <table style="font-size: 0.7em; margin-top: 15px;">
+                    <thead>
+                        <tr><th>Service</th><th>Purpose</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment fade-up"><td><strong>AWS Outposts</strong></td><td>AWS infrastructure and services running in your on-premises data center</td></tr>
+                        <tr class="fragment fade-up"><td><strong>AWS Local Zones</strong></td><td>AWS infrastructure in metro areas close to users for single-digit ms latency</td></tr>
+                        <tr class="fragment fade-up"><td><strong>AWS Wavelength</strong></td><td>AWS compute embedded in 5G telecom networks for ultra-low latency</td></tr>
+                        <tr class="fragment fade-up"><td><strong>AWS Global Accelerator</strong></td><td>Routes traffic through AWS global network for improved performance and availability</td></tr>
+                    </tbody>
+                </table>
+                <aside class="notes">
+                    These services extend AWS beyond traditional Regions. Outposts brings full AWS racks into your data center for hybrid workloads with strict data residency requirements. Local Zones place compute and storage in large metro areas for latency-sensitive applications like gaming or video rendering. Wavelength embeds AWS in telecom 5G networks for mobile edge computing. Global Accelerator uses the AWS backbone network instead of the public internet, providing static anycast IPs and automatic failover across Regions. For the exam, know that Outposts = on-premises, Local Zones = metro areas, Wavelength = 5G edge, Global Accelerator = performance routing.
+                </aside>
+            </section>
+
             <!-- Lab Callout -->
             <section data-background-color="#1a365d" class="lab-callout">
                 <div class="lab-badge">Hands-On Lab</div>

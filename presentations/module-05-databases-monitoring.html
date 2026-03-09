@@ -658,9 +658,8 @@
                         </ul>
                     </div>
                 </div>
-                <p class="key-point fragment">Use ElastiCache to reduce database load and accelerate application performance.</p>
                 <aside class="notes">
-                    ElastiCache sits between your application and database, caching frequently accessed data. Redis is the more feature-rich option with persistence and replication. Memcached is simpler and better for pure caching scenarios. Common use cases include session stores, leaderboards, and real-time analytics.
+                    Use ElastiCache to reduce database load and accelerate application performance. ElastiCache sits between your application and database, caching frequently accessed data. Redis is the more feature-rich option with persistence and replication. Memcached is simpler and better for pure caching scenarios. Common use cases include session stores, leaderboards, and real-time analytics.
                 </aside>
             </section>
 
@@ -1083,6 +1082,46 @@
                 </table>
                 <aside class="notes">
                     This is a useful comparison for the exam. CloudFormation gives you complete control but requires more expertise. Beanstalk abstracts away infrastructure concerns for web developers. Both services are free -- you only pay for the underlying resources they create. An interesting detail: Beanstalk uses CloudFormation under the hood.
+                </aside>
+            </section>
+
+            <!-- Purpose-Built Databases -->
+            <section>
+                <h2>Additional Database Services</h2>
+                <table style="font-size: 0.7em; margin-top: 15px;">
+                    <thead>
+                        <tr><th>Service</th><th>Type</th><th>Use Case</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment fade-up"><td><strong>Amazon Neptune</strong></td><td>Graph database</td><td>Social networks, fraud detection, knowledge graphs</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Amazon DocumentDB</strong></td><td>Document database (MongoDB-compatible)</td><td>Content management, catalogs, user profiles</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Amazon QLDB</strong></td><td>Ledger database</td><td>Immutable, cryptographically verifiable transaction logs</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Amazon Keyspaces</strong></td><td>Wide-column (Cassandra-compatible)</td><td>High-throughput IoT and time-series data</td></tr>
+                    </tbody>
+                </table>
+                <aside class="notes">
+                    AWS offers purpose-built databases optimized for specific data models and access patterns. Neptune handles highly connected datasets where relationships matter — like social graphs and recommendation engines. DocumentDB provides MongoDB compatibility for JSON document workloads. QLDB provides an immutable, transparent ledger — every change is cryptographically verifiable. For the exam, match the database service to the data model: relational = RDS/Aurora, key-value = DynamoDB, graph = Neptune, document = DocumentDB, ledger = QLDB, data warehouse = Redshift, caching = ElastiCache.
+                </aside>
+            </section>
+
+            <!-- AI/ML and Analytics Services -->
+            <section>
+                <h2>AI/ML and Analytics Services</h2>
+                <table style="font-size: 0.6em; margin-top: 10px;">
+                    <thead>
+                        <tr><th>Service</th><th>Purpose</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment fade-up"><td><strong>Amazon SageMaker</strong></td><td>Build, train, and deploy machine learning models at scale</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Amazon Rekognition</strong></td><td>Image and video analysis (faces, objects, text, content moderation)</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Amazon Comprehend</strong></td><td>Natural language processing — sentiment, entities, key phrases</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Amazon Lex</strong></td><td>Conversational AI — build chatbots (powers Alexa)</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Amazon Polly / Translate / Textract</strong></td><td>Text-to-speech / Language translation / Extract text from documents</td></tr>
+                        <tr class="fragment fade-up"><td><strong>Amazon Athena</strong></td><td>Serverless SQL queries on S3 data — no infrastructure to manage</td></tr>
+                    </tbody>
+                </table>
+                <aside class="notes">
+                    AWS AI/ML services fall into two categories. SageMaker is for teams that build custom ML models. The other services are pre-trained AI services you can call via API without ML expertise. Rekognition handles image/video, Comprehend handles text analysis, Lex builds chatbots, Polly converts text to speech, Translate handles language translation, and Textract extracts text and data from scanned documents. On the analytics side, Athena lets you run SQL directly against data in S3 — pay per query. Amazon Kinesis processes real-time streaming data. AWS Glue is a serverless ETL (extract, transform, load) service. Amazon QuickSight is a business intelligence dashboard service. Amazon EMR runs big data frameworks like Apache Spark and Hadoop. For the exam, match the service to the use case.
                 </aside>
             </section>
 
